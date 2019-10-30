@@ -1,7 +1,235 @@
 <!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            My Title
+        </title>
+        <meta name="Description" content="Put your description here.">
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Organisation",
+          "url": "http://chicagomathstutor.droppages.com",
+          "name": "Chicago",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "123helpmestudy@gmail.com",
+            "contactType": "Customer service"
+          }
+        }
+        </script>
+        <style>
+            body{
+                margin:0%;
+                font-family:sans-serif;
+                background-color:grey;
+            }
+            .body .h1{
+                margin-top:0%;
+                text-align:center;
+                color:black;
+                font-size:150%;
+                background-color:white;
+                position:absolute;
+                width:100%;
+                height:15%;
+            }
+            .body .h2_a{
+                text-align:center;
+                color:black;
+                font-size:150%;
+                background-color:blue;
+            }
+            .body .h2_b{
+                text-align:center;
+                color:black;
+                font-size:150%;
+                background-color:yellow;
+                padding-top:0.5%;
+            }
+            .body .h2_c{
+                text-align:center;
+                color:black;
+                font-size:150%;
+                background-color:purple;
+                padding-top:0.5%;
+            }
+            .body p{
+                text-align:justify;
+                font-size:75%;
+                margin-left:20%;
+                margin-right:20%;
+            }
+            .bannerpane{
+                padding-top:0.5%;
+                display:block;
+                position:fixed;
+                width:40%;
+                height:100%;
+                top:0;
+                left:-100%;
+                right:0;
+                bottom:0;
+                background-color:skyblue;
+                z-index:2;
+                margin:0px;
+                opacity:0.9;
+                transition:2s;
+            }
+            .bannerpane p{
+                padding-left:4%;
+                transition: 0.4s;
+                margin-top:0%;
+                margin-bottom:4%;
+                cursor:pointer;
+            }
+            .bannerpane p:hover{
+                padding-left:6%;
+            }
+            .container{
+                padding-left:1%;
+                display:block;
+                position:fixed;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+                z-index:3;
+                cursor:pointer;
+            }
+            .bar1,.bar2,.bar3{
+                width:35px;
+                height:5px;
+                background-color:black;
+                margin:6px 0;
+                transition:0.4s;
+            }
+            .change .bar1{
+              -webkit-transform: rotate(-45deg) translate(-8px, 8px);
+              transform: rotate(-45deg) translate(-8px, 8px);
+            }
+            .change .bar2{
+                opacity: 0;
+            }
+            .change .bar3{
+              -webkit-transform: rotate(45deg) translate(-8px, -8px);
+              transform: rotate(45deg) translate(-8px, -8px);
+            }
+            .placeholder{
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="bannerpane" class="bannerpane">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <p>Value 1</p><!-- Home -->
+            <p>Value 2</p><!-- About -->
+            <p>Value 3</p><!-- Help Board -->
+            <p>Value 4</p><!-- Tutors -->
+            <p>Value 5a</p><!-- Maths -->
+            <p>Value 5b</p><!-- Statistics -->
+            <p>Value 5c</p><!-- Physics -->
+            <p>Value 5d</p><!-- Chemsitry -->
+            <p>Value 5e</p><!-- Biology -->
+            <p>Value 6</p><!-- Social Media -->
+        </div>
+        <main>
+            <div class="body">
+                <div class="container" onclick="myFunction(this)">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+                <div class="placeholder">
+                    <p id="p1">no</p>
+                    <p id="p2"></p>
+                </div>
+                <div class="h1">
+                    <h1>Heading 1</h1>
+                </div>
+                <br>
+                <div class="h2_a">
+                    <br>
+                    <br>
+                    <br>
+                    <h2>
+                        Heading 2
+                    </h2>
+                    <p>
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                    </p>
+                </div>
+                <div class="h2_b">
+                    <h2>
+                        Heading 2
+                    </h2>
+                    <p>
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                    </p>
+                </div>
+                <div class="h2_c">
+                    <h2>
+                        Heading 2
+                    </h2>
+                    <p>
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                        Lorem ipsum. Lorem ipsum.
+                    </p>
+                </div>
+                <div class="footer">
+                    <p>
+                        Place content here
+                    </p>
+                </div>
+            </div>
+        </main>
+        <script>
+            function myFunction(x){
+                x.classList.toggle("change");
+                var nav = document.getElementById("p1").innerHTML;
+                if (nav=="no"){
+                    document.getElementById("bannerpane").style.left="0";
+                    document.getElementById("p1").innerHTML="yes";
+                }else{
+                    document.getElementById("bannerpane").style.left="-100%";
+                    document.getElementById("p1").innerHTML="no";
+                }
+            }
+        </script>
+    </body>
 </html>
