@@ -6,6 +6,7 @@
             My Title
         </title>
         <meta name="Description" content="Put your description here.">
+        <meta name="theme-color" content="#00AAFF" />
         <script type="application/ld+json">
         {
           "@context": "https://schema.org",
@@ -23,37 +24,79 @@
             body{
                 margin:0%;
                 font-family:sans-serif;
-                background-color:grey;
+                background-color:black;
+                padding:0px;
             }
             .body .h1{
                 margin-top:0%;
+                margin-bottom:0%;
+                padding-left:0%;
+                padding-right:0%;
+                padding-top:3%;
+                padding-bottom:3%;
                 text-align:center;
-                color:black;
-                font-size:150%;
-                background-color:white;
-                position:absolute;
+                color:white;
+                font-size:100%;
+                background-image:url(https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1MObN2awVJFHbwsOlSjY3GvTt50wVM5up);
+                background-position: center;
+                background-color:black;
                 width:100%;
-                height:15%;
+                height:20%;
+            }
+            .body .h1 h1{
+                border-radius:20px;
+                margin-top:0%;
+                margin-bottom:0%;
+            }
+            .body .h1 h1 span{
+                border: solid white 5px;
+                border-radius:15px;
+                padding:10px;
             }
             .body .h2_a{
                 text-align:center;
                 color:black;
                 font-size:150%;
-                background-color:blue;
+                background-color:rgba(230,240,240);
+            }
+            .body .h2_a div{
+                margin-left:10%;
+                margin-right:10%;
+                background-color:rgba(255,255,255);
+                border-radius:20px;
             }
             .body .h2_b{
                 text-align:center;
                 color:black;
                 font-size:150%;
-                background-color:yellow;
-                padding-top:0.5%;
+                background-color:black;
+                padding-top:1%;
+                padding-bottom:4%;
+                background-image:url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5);
+                background-position:center;
+            }
+            .body .h2_b div{
+                margin-left:10%;
+                margin-right:10%;
+                padding:5%;
+                background-color:rgba(255,255,255,0.7);
+                border-radius:20px;
             }
             .body .h2_c{
                 text-align:center;
                 color:black;
                 font-size:150%;
-                background-color:purple;
+                background-color:rgba(240,240,240);
                 padding-top:0.5%;
+            }
+            .body .h2_d{
+                text-align:center;
+                color:black;
+                font-size:150%;
+                background-color:black;
+                padding-top:0.5%;
+                background-image:url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5);
+                background-position: center;
             }
             .body p{
                 text-align:justify;
@@ -63,35 +106,48 @@
             }
             .body .footer{
                 background-color:black;
+                color:white;
+                font-style:italic;
             }
             .bannerpane{
                 padding-top:0.5%;
+                text-align: center;
                 display:block;
                 position:fixed;
-                width:40%;
+                width:20%;
                 height:100%;
                 top:0;
                 left:-100%;
                 right:0;
                 bottom:0;
-                background-color:skyblue;
+                background-color:darkslategrey;
+                background-image:url(https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1UgBkxd-EurZLhpkSntmPQIC2_FmLZavI);
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
                 z-index:2;
                 margin:0px;
-                opacity:0.9;
-                transition:2s;
+                opacity:0.95;
+                transition:1.4s;
             }
             .bannerpane p{
-                padding-left:5%;
                 transition: 0.4s;
+                text-decoration:none;
                 margin-top:0%;
                 margin-bottom:4%;
+                font-size:150%;
                 cursor:pointer;
+                color:white;
             }
-            .bannerpane p:hover{
-                padding-left:7%;
+            .bannerpane p span{
+                transition: 0.2s;
+                border-bottom:solid white 0px;
+            }
+            .bannerpane p span:hover{
+                border-bottom:solid white 2px;
             }
             .container{
-                padding-left:0.7%;
+                padding-left:0.6%;
+                padding-top:0.5%;
                 display:block;
                 position:fixed;
                 top:0;
@@ -106,7 +162,7 @@
             .bar1,.bar2,.bar3{
                 width:35px;
                 height:5px;
-                background-color:black;
+                background-color:white;
                 margin:6px 0;
                 transition:0.4s;
             }
@@ -133,76 +189,107 @@
             <br>
             <br>
             <br>
-            <p>Value 1</p><!-- Home -->
-            <p>Value 2</p><!-- About -->
-            <p>Value 3</p><!-- Help Board -->
-            <p>Value 4</p><!-- Tutors -->
-            <p>Value 5a</p><!-- Maths -->
-            <p>Value 5b</p><!-- Statistics -->
-            <p>Value 5c</p><!-- Physics -->
-            <p>Value 5d</p><!-- Chemsitry -->
-            <p>Value 5e</p><!-- Biology -->
-            <p>Value 6</p><!-- Social Media -->
+            <p><span><b>Home</b></span></p><!-- Home -->
+            <p><span><b>Subjects</b></span></p><!-- Subjects -->
+            <p><span><b>Facebook</b></span></p><!-- Facebook -->
+            <p><span><b>Login</b></span></p><!-- Help Board -->
+            <!--<p><b>Value 4</b></p><!-- Tutors -->
+            <!--<p><b>Value 5a</b></p><!-- Maths -->
+            <!--<p><b>Value 5b</b></p><!-- Statistics -->
+            <!--<p><b>Value 5c</b></p><!-- Physics -->
+            <!--<p><b>Value 5d</b></p><!-- Chemsitry -->
+            <!--<p><b>Value 5e</b></p><!-- Biology -->
+            <!--<p><b>Value 6</b></p><!-- Social Media -->
         </div>
         <main>
+            <div class="container" onclick="myFunction(this)">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
             <div class="body">
-                <div class="container" onclick="myFunction(this)">
-                    <div class="bar1"></div>
-                    <div class="bar2"></div>
-                    <div class="bar3"></div>
-                </div>
                 <div class="placeholder">
                     <p id="p1">no</p>
                     <p id="p2"></p>
                 </div>
                 <div class="h1">
-                    <h1>Heading 1</h1>
+                    <br><h1><span>123 Help Me Study</span></h1><br>
                 </div>
-                <br>
                 <div class="h2_a">
                     <br>
                     <br>
+                    <div>
+                        <br>
+                        <img style="border-radius: 50%;" src="https://ik.imagekit.io/123helpmestudy/tr:h-80,w-80/uc?export=view&id=1JVre2Brix35Hy-BH2Sw-53xGLHg2dk4e">
+                        <p style="text-align:center; font-style:italic;color:grey;">"Your future success is our tutors priority"</p>
+                        <h2 style="font-size:95%;">
+                            <b>Your Personal Tutor</b>
+                        </h2>
+                        <a href="www.google.com"><button style="border:solid 1px;color:rgba(230,230,230);background-color:rgba(40,40,40);border-radius:5px;height:40px;width:200px;"><b>Subscribe</b></button></a>
+                        <p style="text-align:center;">
+                            £4.95 per week
+                        </p>
+                        <p style="text-align:center;font-size:50%;">
+                            All payments are processed by PayPal.
+                            <br>
+                            We accept <b>credit</b> and <b>debit</b> card.
+                        </p>
+                        <br>
+                        <p style="text-align:center;margin-bottom:1%;">
+                            We are really proud of our 5 star reviews on
+                        </p>
+                        <a href="https://uk.trustpilot.com/review/123helpmestudy.droppages.com"><img style="max-height:60px;" src="https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1dbJoi-DPX0qKdFkM_wcL2iVzJxiPgwOm"></a>
+                        <br>
+                        <h3 style="font-size:90%;margin-bottom: 0%;">
+                            How our platform works
+                        </h3>
+                        <img style="max-width:60%;" src="https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1L6yUtFl14ZulIfdXJxnyX3hRPzj7nHVo">
+                        <br>
+                        <br>
+                    </div>
                     <br>
-                    <br>
-                    <br>
-                    <h2>
-                        Heading 2
-                    </h2>
-                    <p>
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                    </p>
                     <br><!-- Delete to create banner -->
                 </div>
                 <div class="h2_b">
-                    <h2>
-                        Heading 2
-                    </h2>
-                    <p>
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                        Lorem ipsum. Lorem ipsum.
-                    </p>
-                    <br><!-- Delete to create banner -->
+                    <br>
+                    <div>
+                        <h2 style="font-size:95%;margin-top:0%;">
+                            How We Work
+                        </h2>
+                        <ol style="font-size:75%;text-align:left;">
+                            <li>Purchase a subscription to our tutor-network and <b>get assigned a personal tutor for £4.95 a week</b>.</li>
+                            <li><b>Login to our online Help Board and post your question</b>. This then triggers <b>all our tutors</b> to get a message and they will rush to answer your question!</li>
+                            <li>Post as many questions as you would like!</li>
+                        </ol>
+                        <br>
+                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
+                            Is your subject not listed? Do not worry, we will still answer it. Our tutors have taught everything, at every level.
+                        </p>
+                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
+                            Need 1-2-1 help? Book an <a style="color:black;" href="">online lesson</a> with us to focus on problem questions.
+                        </p>
+                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
+                            We also have a feature rich library of relevant homework exercises, model answer to exams and much more. Our homework exercises have been designed with each question to be similar to questions which have come up in past exam papers. Our experience and feedback tells us that mark schemes provided by exam boards can be extremely unhelpful and vague. Let us give you the best opportunity to prepare for you end-of-year examinations.
+                        </p>
+                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
+                            Should you have a specific past paper question that requires a thorough explanation, post it on our <a style="color:black;" href="">Help Board</a>, with a picture, and we will respond to your post as soon as we can.
+                        </p>
+                        <br>
+                    </div>
                 </div>
                 <div class="h2_c">
+                    <h2>
+                        Our aim is to answer
+                        <br>
+                        all your questions
+                    </h2>
+                    <p>
+                    </p>
+                    <img style="border-radius: 10px;width:75%;" src="https://ik.imagekit.io/123helpmestudy/tr:h-500,w-800/uc?export=view&id=1oaiSGXXaus2v9H1SCtoc4bhZ-iqZXZQf">
+                    <br>
+                    <br><!-- Delete to create banner -->
+                </div>
+                <div class="h2_d">
                     <h2>
                         Heading 2
                     </h2>
@@ -222,8 +309,11 @@
                     <br><!-- Delete to create banner -->
                 </div>
                 <div class="footer">
+                    <br>
                     <p>
-                        Place content here
+                        Established In August 2019
+                        <br>
+                        Trading As "123 Help Me Study"
                     </p>
                     <br><!-- Delete to create banner -->
                 </div>
