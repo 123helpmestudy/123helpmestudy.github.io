@@ -28,6 +28,9 @@
                 background-color:black;
                 padding:0px;
             }
+            button:hover{
+                cursor:pointer;
+            }
             .body .h1{
                 margin-top:0%;
                 margin-bottom:0%;
@@ -188,6 +191,32 @@
             .placeholder{
                 display:none;
             }
+            .logindiv h4 {
+                margin-bottom: 2px;
+            }
+            .loginform input {
+                border: solid 2px;
+                border-color: grey;
+                box-shadow:1px 2px 1px #888888;
+                border-bottom-color: black;
+                border-top-color: white;
+                border-left-color: white;
+                border-right-color: white;
+                font-size: 15px;
+                height: 30px;
+                width: 200px;
+                text-align: center;
+            }
+            .loginform input.submit {
+                border: solid 2px;
+                border-radius: 10px;
+                height: 40px;
+                width: 200px;
+            }
+            .loginform input.submit:hover {
+                cursor: pointer;
+                background-color: dodgerblue;
+            }
         </style>
     </head>
     <body>
@@ -200,7 +229,7 @@
             <a style="text-decoration:none;" href="/index.html" target="_parent"><p><span><b>Home</b></span></p></a><!-- Home -->
             <a style="text-decoration:none;" href="/subjects/subjects.html" target="_parent"><p><span><b>Subjects</b></span></p></a><!-- Subjects -->
             <a style="text-decoration:none;" href="https://www.facebook.com/123helpmestudy" target="_blank"><p><span><b>Facebook</b></span></p></a><!-- Facebook -->
-            <a style="text-decoration:none;" href="login/login.html"><p><span><b>Login</b></span></p></a><!-- Help Board -->
+            <a style="text-decoration:none;" href="login/login.html" target="_parent"><p><span><b>Login</b></span></p></a><!-- Help Board -->
             <!--<p><b>Value 4</b></p><!-- Tutors -->
             <!--<p><b>Value 5a</b></p><!-- Maths -->
             <!--<p><b>Value 5b</b></p><!-- Statistics -->
@@ -231,89 +260,23 @@
                         <img style="border-radius: 50%;" src="https://ik.imagekit.io/123helpmestudy/tr:h-80,w-80/uc?export=view&id=1JVre2Brix35Hy-BH2Sw-53xGLHg2dk4e" alt="123 Help Me Study Logo">
                         <p style="text-align:center; font-style:italic;color:rgba(50,50,50);">"Your future success is our tutors priority"</p>
                         <h2 style="font-size:95%;">
-                            <b>Your Personal Online Tutor</b>
+                            <b>Login</b>
                         </h2>
-                        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QMSVK9WHC9ZRQ" target="_blank"><button style="border:solid 1px;color:rgba(230,230,230);background-color:rgba(40,40,40);border-radius:5px;height:40px;width:200px;"><b>Subscribe</b></button></a>
-                        <p style="text-align:center;">
-                            £4.95 per week
-                        </p>
-                        <p style="text-align:center;font-size:50%;">
-                            All payments are processed by PayPal.
+                        <div class="logindiv">
+                        <form class="loginform" action="https://script.google.com/macros/s/AKfycbyfumRpQP2izTPSReqW_n__etUoOZJIlDK7xT7LGka-shO4bHQ/exec" method="get" target="_parent">
+                          <h4>Email</h4>
+                          <input type="hidden" name="message" value="SGVsbG8gMTIzIEhlbHAgTWUgU3R1ZHkgRW50aHVzaWFzdCwgICAgICAgICAgICAgICAgIEkgY2FsbCB5b3UgYW4gZW50aHVzaWFzdCBiZWNhdXNlIHlvdSBoYXZlIHNwZW50IHRoZSB0aW1lIGRlY29kaW5nIHRoaXMgbWVzc2FnZS4gSXQgaXMgbm90IGFuIG9idmlvdXMgZWFzdGVyIGVnZywgYnV0IGl0IGlzIG9uZSB0aGF0IGlzIHNjYXR0ZXJlZCB0aHJvdWdob3V0IG91ciBwcm9ncmFtLiAgICAgICAgICAgICAgICAgU2luY2UgeW91IGhhdmUgZm91bmQgdGhpcyBtZXNzYWdlLCBJIHdvdWxkIGxpa2UgdG8gb2ZmZXIgeW91IGEgam9iLiBGZWVsIGZyZWUgdG8gY29udGFjdCBtZSBvbiBtYXJjZWwubXVsZGVyc0Bob3RtYWlsLmNvbSAgICAgICAgICAgICAgICAgSGFwcHkgY29kaW5nISwgICAgICAgICAgICAgICAgIE1hcmNlbCBGb3VuZGVyIG9mIDEyMyBIZWxwIE1lIFN0dWR5">
+                          <input type="text" name="email" placeholder="Email">
+                          <br>
+                          <h4>Password</h4>
+                          <input type="password" name="password" placeholder="Password">
+                          <br><br><br>
+                          <input class="submit" type="submit" value="Login">
+                        </form>
                             <br>
-                            We accept <b>credit</b> and <b>debit</b> card.
-                        </p>
+                        </div>
+                        <p><a href="mailto:123helpmestudy@gmail.com?Subject=Forgotten%20password">Forgot Your Password?</a>
                         <br>
-                        <p style="text-align:center;margin-bottom:1%;">
-                            We are really proud of our 5 star reviews on
-                        </p>
-                        <a href="https://uk.trustpilot.com/review/123helpmestudy.droppages.com"><img style="max-height:60px;" src="https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1dbJoi-DPX0qKdFkM_wcL2iVzJxiPgwOm" alt="123 Help Me Study Trustpilot"></a>
-                        <br>
-                        <h3 style="font-size:90%;margin-bottom: 0%;">
-                            How our platform works
-                        </h3>
-                        <img style="max-width:60%;" src="https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1L6yUtFl14ZulIfdXJxnyX3hRPzj7nHVo" alt="123 Help Me Study: Subscribe; Post; Answer">
-                        <br>
-                        <br>
-                    </div>
-                    <br>
-                    <br><!-- Delete to create banner -->
-                </div>
-                <div class="h2_b">
-                    <br>
-                    <div>
-                        <h2 style="font-size:95%;margin-top:0%;">
-                            How We Work
-                        </h2>
-                        <ol style="font-size:75%;text-align:left;">
-                            <li style="margin-bottom:1%;">Purchase a subscription to our tutor-network and <b>get assigned a personal tutor for £4.95 a week</b>.</li>
-                            <li style="margin-bottom:1%;"><b>Login to our online Help Board and post your question</b>. This then triggers <b>all our tutors</b> to get a message and they will rush to answer your question!</li>
-                            <li style="margin-bottom:1%;">Post as many questions as you would like!</li>
-                        </ol>
-                        <br>
-                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
-                            Is your subject not listed? Do not worry, we will still answer it. Our tutors have taught everything, at every level.
-                        </p>
-                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
-                            Need 1-2-1 help? Book an <a style="color:black;" href="https://fb.com/book/123helpmestudy/" target="_blank">online lesson</a> with us to focus on problem questions.
-                        </p>
-                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
-                            We also have a feature rich library of relevant homework exercises, model answer to exams and much more. Our homework exercises have been designed with each question to be similar to questions which have come up in past exam papers. Our experience and feedback tells us that mark schemes provided by exam boards can be extremely unhelpful and vague. Let us give you the best opportunity to prepare for you end-of-year examinations.
-                        </p>
-                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
-                            Should you have a specific past paper question that requires a thorough explanation, post it on our <a style="color:black;" href="login/login.html" target="_parent">Help Board</a>, with a picture, and we will respond to your post as soon as we can.
-                        </p>
-                    </div>
-                </div>
-                <div class="h2_c">
-                    <h2>
-                        Our aim is to answer
-                        <br>
-                        all your questions
-                    </h2>
-                    <p>
-                    </p>
-                    <img style="border-radius: 10px;width:50%;" src="https://ik.imagekit.io/123helpmestudy/tr:h-500,w-800/uc?export=view&id=1oaiSGXXaus2v9H1SCtoc4bhZ-iqZXZQf" alt="123 Help Me Study: Recommends Students Ask Questions">
-                    <br>
-                    <br><!-- Delete to create banner -->
-                </div>
-                <div class="h2_d">
-                    <br>
-                    <div>
-                        <h2 style="font-size:95%;margin-top:0%;">
-                            Start a conversation with us
-                        </h2>
-                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
-                            Ask us anything. We pride ourselves on bringing experience and expertise to you. We are always waiting to hear from you via email. Click Email us! to speak directly to the team.
-                        </p>
-                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
-                            123 Help Me Study is here to support you through your journey. Our selected tutors have successfully helped 40 or more students pass their exams with a grade 6 to 9. Our students gain a passion for the subjects taught and go on to pursue them in college or university. Our helpful material has been sourced and produced to aid you while you prepare for your end of year examinations. A lot of care and precision has gone into designing lessons that give you confidence in answering national curriculum style questions. We do this to afford you the best opportunity in life by giving you the confidence and understanding you need to tackle any subject.
-                        </p>
-                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
-                            We will continue to grow our support network to help all students in KS2, GCSE and A Levels. Please feel free to look through our directly supported subjects page. However, as a tutoring support network we have experience with all primary subjects in the national curriculum, therefore send us an email and we will be happy to help with anything.
-                        </p>
-                        <p style="font-size:75%;text-align:justify;margin-left:2.5%;margin-right:2.5%;">
-                            The team of professionals at 123 Help Me Study produce, maintain and service requests for the material that we provide you. We pride ourselves on using the best techniques, descriptions and tools to answer homework and exam questions. We have a long history of helping GCSE and A Level students prepare for their exams. Our team of long-term Southampton tutors provide insight into the answers they give their one-to-one students, by grouping these techniques and getting our tutors to write template answers and descriptions to each question in historical exams. We use our combined knowledge of teaching and creating questions to support you in your journey, whether by helping you answer homework questions or past paper exam questions.
-                        </p>
                     </div>
                     <br>
                     <br><!-- Delete to create banner -->
