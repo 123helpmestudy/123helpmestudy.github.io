@@ -262,8 +262,8 @@
             </div>
             <div class="body">
                 <div class="placeholder">
-                    <p id="p1">no</p>
-                    <p id="p2"></p>
+                    <p id="p1">no</p> <!-- For banner pane navigation -->
+                    <p id="p2">no</p> <!-- For Image element loads -->
                 </div>
                 <div id="h1_class" class="h1">
                     <br><h1><span>123 Help Me Study</span></h1><br>
@@ -549,15 +549,23 @@
                 document.getElementById("h1_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1MObN2awVJFHbwsOlSjY3GvTt50wVM5up)";
             }
             window.addEventListener('scroll', function(e) {
-                document.getElementById("process_flow_img").src = "https://ik.imagekit.io/123helpmestudy/tr:w-500/uc?export=view&id=1L6yUtFl14ZulIfdXJxnyX3hRPzj7nHVo";
-                document.getElementById("h2_b_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5)";
-                document.getElementById("h2_d_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=15AgKEYLiSfllUEdC9BqwMt9vT6bQHL9f)";
-                document.getElementById("h2_c_img").src = "https://ik.imagekit.io/123helpmestudy/tr:h-500,w-800/uc?export=view&id=1oaiSGXXaus2v9H1SCtoc4bhZ-iqZXZQf";
+                var nav = document.getElementById("p2").innerHTML;
+                if (nav=="no"){
+                    document.getElementById("process_flow_img").src = "https://ik.imagekit.io/123helpmestudy/tr:w-500/uc?export=view&id=1L6yUtFl14ZulIfdXJxnyX3hRPzj7nHVo";
+                    document.getElementById("h2_b_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5)";
+                    document.getElementById("h2_d_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=15AgKEYLiSfllUEdC9BqwMt9vT6bQHL9f)";
+                    document.getElementById("h2_c_img").src = "https://ik.imagekit.io/123helpmestudy/tr:h-500,w-800/uc?export=view&id=1oaiSGXXaus2v9H1SCtoc4bhZ-iqZXZQf";
+                    document.getElementById("p2").innerHTML="yes";
+                }
             })window.addEventListener('touchmove', function(e) {
-                document.getElementById("process_flow_img").src = "https://ik.imagekit.io/123helpmestudy/tr:w-500/uc?export=view&id=1L6yUtFl14ZulIfdXJxnyX3hRPzj7nHVo";
-                document.getElementById("h2_b_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5)";
-                document.getElementById("h2_d_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=15AgKEYLiSfllUEdC9BqwMt9vT6bQHL9f)";
-                document.getElementById("h2_c_img").src = "https://ik.imagekit.io/123helpmestudy/tr:h-500,w-800/uc?export=view&id=1oaiSGXXaus2v9H1SCtoc4bhZ-iqZXZQf";
+                var nav = document.getElementById("p2").innerHTML;
+                if (nav=="no"){
+                    document.getElementById("process_flow_img").src = "https://ik.imagekit.io/123helpmestudy/tr:w-500/uc?export=view&id=1L6yUtFl14ZulIfdXJxnyX3hRPzj7nHVo";
+                    document.getElementById("h2_b_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5)";
+                    document.getElementById("h2_d_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=15AgKEYLiSfllUEdC9BqwMt9vT6bQHL9f)";
+                    document.getElementById("h2_c_img").src = "https://ik.imagekit.io/123helpmestudy/tr:h-500,w-800/uc?export=view&id=1oaiSGXXaus2v9H1SCtoc4bhZ-iqZXZQf";
+                    document.getElementById("p2").innerHTML="yes";
+                }
             })
         </script>
     </body>
