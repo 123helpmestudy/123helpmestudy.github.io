@@ -182,6 +182,19 @@
             .bannerpane p span:hover{
                 border-bottom:solid white 2px;
             }
+            .phone{
+                z-index:4;
+                text-align:right;
+                color:black;
+                background-color:rgba(65,131,215,0.99);
+                border:solid 1px rgba(65,131,215,1);
+                border-radius:10px;
+                display:block;
+                position:fixed;
+                padding:15px;
+                margin-top:10px;
+                right:1%;
+            }
             .link{
                 color:rgba(0,0,0);
             }
@@ -211,7 +224,7 @@
             .bar1,.bar2,.bar3{
                 width:35px;
                 height:5px;
-                background-color:white;
+                background-color:rgb(192,192,192);
                 margin:6px 0;
                 transition:0.4s;
             }
@@ -236,6 +249,11 @@
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NH3D9DG"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
+        <div class="container" onclick="myFunction(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
         <div id="bannerpane" class="bannerpane">
             <br>
             <br>
@@ -246,20 +264,17 @@
             <a style="text-decoration:none;" href="/subjects/subjects.html" target="_parent"><p><span><b>Subjects</b></span></p></a><!-- Subjects -->
             <a style="text-decoration:none;" href="https://www.facebook.com/123helpmestudy" target="_blank" rel="noreferrer noopener"><p><span><b>Facebook</b></span></p></a><!-- Facebook -->
             <a style="text-decoration:none;" href="/login/login.html" target="_parent"><p><span><b>Login</b></span></p></a><!-- Help Board -->
-            <!--<p><b>Value 4</b></p><!-- Tutors -->
-            <!--<p><b>Value 5a</b></p><!-- Maths -->
-            <!--<p><b>Value 5b</b></p><!-- Statistics -->
-            <!--<p><b>Value 5c</b></p><!-- Physics -->
-            <!--<p><b>Value 5d</b></p><!-- Chemsitry -->
-            <!--<p><b>Value 5e</b></p><!-- Biology -->
-            <!--<p><b>Value 6</b></p><!-- Social Media -->
         </div>
-        <main>
-            <div class="container" onclick="myFunction(this)">
-                <div class="bar1"></div>
-                <div class="bar2"></div>
-                <div class="bar3"></div>
+        <a href="tel:07493696970">
+            <div class="phone">
+                <span style="padding-right:6px;">📞</span> 
+                <span class="link2"> 
+                    <b><span>Call Us: </span></b>
+                    <b><span>0749 369 6970</span></b> 
+                </span>
             </div>
+        </a>
+        <main>
             <div class="body">
                 <div class="placeholder">
                     <p id="p1">no</p> <!-- For banner pane navigation -->
