@@ -11,7 +11,6 @@
         <meta name="author" content="123 Help Me Study">
         <meta name="theme-color" content="#00AAFF" />
         <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
-        <link rel="preload" href="https://www.google-analytics.com">
         <style>
             body{
                 margin:0%;
@@ -207,13 +206,6 @@
             <a style="text-decoration:none;" href="/subjects/subjects.html" target="_parent"><p><span><b>Subjects</b></span></p></a><!-- Subjects -->
             <a style="text-decoration:none;" href="https://www.facebook.com/123helpmestudy" target="_blank"><p><span><b>Facebook</b></span></p></a><!-- Facebook -->
             <a style="text-decoration:none;" href="/login/login.html" target="_parent"><p><span><b>Login</b></span></p></a><!-- Help Board -->
-            <!--<p><b>Value 4</b></p><!-- Tutors -->
-            <!--<p><b>Value 5a</b></p><!-- Maths -->
-            <!--<p><b>Value 5b</b></p><!-- Statistics -->
-            <!--<p><b>Value 5c</b></p><!-- Physics -->
-            <!--<p><b>Value 5d</b></p><!-- Chemsitry -->
-            <!--<p><b>Value 5e</b></p><!-- Biology -->
-            <!--<p><b>Value 6</b></p><!-- Social Media -->
         </div>
         <main>
             <div class="container" onclick="myFunction(this)">
@@ -225,6 +217,7 @@
                 <div class="placeholder">
                     <p id="p1">no</p>
                     <p id="p2"></p>
+                    <p id="p3">0</p>
                 </div>
                 <div class="h1">
                     <br><h1><span>123 Help Me Study</span></h1><br>
@@ -263,7 +256,7 @@
                         <p style="font-size:95%;text-align:center;">
                             <span><sup id="first">2</sup>&frasl;<sub id="second">2</sub></span> - 
                             <span><sup id="third">2</sup>&frasl;<sub id="fourth">2</sub></span>
-                            = <sup><input id="response_value1" style="width:60px;text-align:center;"></sup> &frasl; <sub><input id="response_value2" style="width:60px;text-align:center;"></sub>
+                            = <sup><input type="number" id="response_value1" style="width:60px;text-align:center;"></sup> &frasl; <sub><input type="number" id="response_value2" style="width:60px;text-align:center;"></sub>
                         </p>
                         <button id="check_button" onclick="check_this()" style="border:solid 1px;color:rgba(230,230,230);background-color:rgba(40,40,40);border-radius:5px;height:40px;width:200px;">
                             Check
@@ -273,6 +266,23 @@
                             <span id="response_check"></span>
                         </p>
                         <br>
+                        <div style="border:solid 1px;border-color:rgba(100,100,100);"></div>
+                        <br>
+                        <form id="question_form" action="https://script.google.com/macros/s/AKfycbyCNJN7WOv6TtujaCgEiF1-HjItaUopH_1J7aUpq9mbX9ZF5tfg/exec" method="get" style="display:none;">
+                            <span style="font-size:75%;">Email:</span><br>
+                            <input style="text-align:center;" id="email_value" placeholder="Email" name="email"><br>
+                            <span style="font-size:75%;">First Name / Alias:</span><br>
+                            <input style="text-align:center;" id="alias_value" placeholder="First Name / Alias" name="name"><br><br>
+                            <input style="display:none;" value="Maths" name="subject">
+                            <input style="display:none;" value="Fractions Subtracting" name="topic">
+                            <input style="display:none;" value="https://www.123helpmestudy.com/subjects/games/maths-games/maths-exercises-fractions-subtracting.html" name="url">
+                            <input style="display:none;" id="response_form_value" value="" name="response">
+                        </form>
+                        <button id="submit_score_button" onclick="submit_score_this()" style="border:solid 1px;color:rgba(230,230,230);background-color:rgba(40,40,40);border-radius:5px;height:40px;width:200px;">
+                            Submit Score
+                        </button>
+                        <p id="responses" style="text-align:center;font-size:50%;">
+                        </p>
                         <br>
                     </div>
                     <br>
@@ -375,6 +385,16 @@
                 document.getElementById("third").innerHTML = third;
                 document.getElementById("fourth").innerHTML = fourth;
             }
+            function createQuestionHistory(old_question_number) {
+                var x = document.getElementById("first").innerHTML;
+                var y = document.getElementById("second").innerHTML;
+                var answer = parseInt(x) + parseInt(y);
+                var current_question_number = document.getElementById("question_number").innerHTML;
+                var current_question_number = parseInt(current_question_number) - 1;
+                var old_question_number = current_question_number;
+                var mode = document.getElementById("mode").innerHTML;
+                document.getElementById("responses").innerHTML = "Question " + old_question_number.toString() + ": (" + mode.trim() + ") " + x + " + " + y + " = " + answer.toString() + "<br>" + document.getElementById("responses").innerHTML;
+            }
             function check_this(){
                 var a = document.getElementById("first").innerHTML;
                 var b = document.getElementById("second").innerHTML;
@@ -391,8 +411,10 @@
                     document.getElementById("response_check").innerHTML = "Correct!";
                     document.getElementById("response_check").style.color = "green";
                     var current_question_number = document.getElementById("question_number").innerHTML;
+                    var old_question_number = current_question_number;
                     var current_question_number = parseInt(current_question_number) + 1;
                     document.getElementById("question_number").innerHTML = current_question_number;
+                    createQuestionHistory();
                     setNewNumber();
                 } else {
                    document.getElementById("response_check").innerHTML = "Please try again 😊";
@@ -400,6 +422,30 @@
                 }
                 document.getElementById("response_value1").value = '';
                 document.getElementById("response_value2").value = '';
+            }
+            function submit_score_this() {
+                var placeholder_value = document.getElementById("p3").innerHTML;
+                var placeholder_value = parseInt(placeholder_value);
+                if (placeholder_value == 0) {
+                    document.getElementById("question_form").style.display = "inline";
+                    document.getElementById("p3").innerHTML = 1;
+                } else if (placeholder_value > 0) {
+                    var response = document.getElementById("responses").innerHTML;
+                    var email = document.getElementById("email_value").value;
+                    var alias = document.getElementById("alias_value").value;
+                    if (email != '' && alias != '') {
+                        if (response.length < 2500) {
+                            document.getElementById("response_form_value").value = response;
+                            document.getElementById("question_form").submit();
+                        } else {
+                            response = response.substring(1,2499);
+                            document.getElementById("response_form_value").value = response;
+                            document.getElementById("question_form").submit();
+                        } 
+                    } else {
+                        alert("Please enter both an email & first name (alias) before you press the submit button.")
+                    }         
+                }
             }
             setNewNumber();
         </script>
