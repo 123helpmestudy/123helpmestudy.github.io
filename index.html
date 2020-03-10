@@ -12,10 +12,11 @@
         <meta name="author" content="123 Help Me Study">
         <meta name="theme-color" content="#00AAFF" />
         <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
-        <link rel="preconnect" href="https://www.googletagmanager.com/gtm.js" as="script">
+        <link rel="preconnect" href="https://www.googletagmanager.com/gtm.js" as="GoogleTagManager">
+        <link rel="preconnect" href="https://www.google-analytics.com" as="GoogleAnalytics">
         <!-- End SEO -->
         <!-- Google Tag Manager -->
-        <script>
+        <script async>
             (function(w,d,s,l,i){
                     w[l]=w[l]||[];
                     w[l].push({
@@ -298,6 +299,13 @@
                             <br>
                             suits your needs below:
                         </p>
+                        <p id="help_message" style="text-align:center;margin-top:3px;margin-bottom:0px;font-size:75%;">
+                            <i>Your first <span style="text-decoration:underline;"><b>additional</b></span> online lesson is free</i>
+                            <br>
+                            <i>Click on our options</i>
+                            <br>
+                            <span style="font-size:150%;">👇</span>
+                        </p>
                         <button style="border:solid 1px;border-color:rgba(255,215,0,1);color:rgba(0,0,0,1);background-color:rgba(255,215,0,1);border-radius:5px;height:40px;width:100%;max-width:300px;margin-bottom:0px;font-size:75%;" onclick="buttonDisplay(1)">
                             <b>Gold</b>
                         </button>
@@ -323,7 +331,7 @@
                                         Access to our online homework
                                     </li>
                                     <li>
-                                        Automatically get entered into a £10.00 Amazon voucher draw every six months
+                                        A <span style="text-decoration:underline;">free</span> lesson every time you refer a friend
                                     </li>
                                 </ul>
                                 <p style="text-align:center;font-size:50%;">
@@ -566,20 +574,28 @@
             window.addEventListener('scroll', function(e) {
                 var nav = document.getElementById("p2").innerHTML;
                 if (nav=="no"){
+                    /*Image Loading*/
                     document.getElementById("process_flow_img").src = "https://ik.imagekit.io/123helpmestudy/tr:w-500/uc?export=view&id=1L6yUtFl14ZulIfdXJxnyX3hRPzj7nHVo";
                     document.getElementById("h2_b_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5)";
                     document.getElementById("h2_d_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=15AgKEYLiSfllUEdC9BqwMt9vT6bQHL9f)";
                     document.getElementById("h2_c_img").src = "https://ik.imagekit.io/123helpmestudy/tr:h-500,w-800/uc?export=view&id=1oaiSGXXaus2v9H1SCtoc4bhZ-iqZXZQf";
+                    /*Hide Helpful Messaging*/
+                    document.getElementById("help_message").style.display = "none";
+                    /*Mix Counter*/
                     document.getElementById("p2").innerHTML="yes";
                 }
             });
             window.addEventListener('touchstart', function(e) {
                 var nav = document.getElementById("p2").innerHTML;
                 if (nav=="no"){
+                    /*Image Loading*/
                     document.getElementById("process_flow_img").src = "https://ik.imagekit.io/123helpmestudy/tr:w-500/uc?export=view&id=1L6yUtFl14ZulIfdXJxnyX3hRPzj7nHVo";
                     document.getElementById("h2_b_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5)";
                     document.getElementById("h2_d_class").style.backgroundImage = "url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=15AgKEYLiSfllUEdC9BqwMt9vT6bQHL9f)";
                     document.getElementById("h2_c_img").src = "https://ik.imagekit.io/123helpmestudy/tr:h-500,w-800/uc?export=view&id=1oaiSGXXaus2v9H1SCtoc4bhZ-iqZXZQf";
+                    /*Hide Helpful Messaging*/
+                    document.getElementById("help_message").style.display = "none";
+                    /*Mix Counter*/
                     document.getElementById("p2").innerHTML="yes";
                 }
             });
