@@ -237,7 +237,7 @@
             <br>
             <a style="text-decoration:none;" href="/index.html" target="_parent"><p><span><b>Home</b></span></p></a><!-- Home -->
             <a style="text-decoration:none;" href="/subjects/subjects.html" target="_parent"><p><span><b>Subjects</b></span></p></a><!-- Subjects -->
-            <a style="text-decoration:none;" href="https://www.facebook.com/123helpmestudy" target="_blank"><p><span><b>Facebook</b></span></p></a><!-- Facebook -->
+            <a style="text-decoration:none;" href="https://www.facebook.com/123helpmestudy" target="_blank" rel="noreferrer noopener"><p><span><b>Facebook</b></span></p></a><!-- Facebook -->
             <a style="text-decoration:none;" href="/login/login.html" target="_parent"><p><span><b>Login</b></span></p></a><!-- Help Board -->
         </div>
         <main>
@@ -246,7 +246,14 @@
                 <div class="bar2"></div>
                 <div class="bar3"></div>
             </div>
-            <div class="body">
+            <div style="display:none;">
+                <form id="loginform" action="https://script.google.com/macros/s/AKfycbyfumRpQP2izTPSReqW_n__etUoOZJIlDK7xT7LGka-shO4bHQ/exec" method="get">
+                    <input type="hidden" name="message" value="SGVsbG8gMTIzIEhlbHAgTWUgU3R1ZHkgRW50aHVzaWFzdCwgICAgICAgICAgICAgICAgIEkgY2FsbCB5b3UgYW4gZW50aHVzaWFzdCBiZWNhdXNlIHlvdSBoYXZlIHNwZW50IHRoZSB0aW1lIGRlY29kaW5nIHRoaXMgbWVzc2FnZS4gSXQgaXMgbm90IGFuIG9idmlvdXMgZWFzdGVyIGVnZywgYnV0IGl0IGlzIG9uZSB0aGF0IGlzIHNjYXR0ZXJlZCB0aHJvdWdob3V0IG91ciBwcm9ncmFtLiAgICAgICAgICAgICAgICAgU2luY2UgeW91IGhhdmUgZm91bmQgdGhpcyBtZXNzYWdlLCBJIHdvdWxkIGxpa2UgdG8gb2ZmZXIgeW91IGEgam9iLiBGZWVsIGZyZWUgdG8gY29udGFjdCBtZSBvbiBtYXJjZWwubXVsZGVyc0Bob3RtYWlsLmNvbSAgICAgICAgICAgICAgICAgSGFwcHkgY29kaW5nISwgICAgICAgICAgICAgICAgIE1hcmNlbCBGb3VuZGVyIG9mIDEyMyBIZWxwIE1lIFN0dWR5">
+                    <input id="email_value" type="text" name="email" placeholder="Email">
+                    <input id="password_value" type="password" name="password" placeholder="Password">
+                </form>
+            </div>
+            <div class="body" id="clear">
                 <div class="placeholder">
                     <p id="p1">no</p>
                     <p id="p2"></p>
@@ -261,21 +268,21 @@
                         <br>
                         <img style="border-radius: 50%;" src="https://ik.imagekit.io/123helpmestudy/tr:h-80,w-80/uc?export=view&id=1JVre2Brix35Hy-BH2Sw-53xGLHg2dk4e" alt="123 Help Me Study Logo">
                         <p style="text-align:center; font-style:italic;color:rgba(50,50,50);">"Your future success is our tutors priority"</p>
-                        <!--
                         <h2 style="font-size:95%;">
                             <b>Login</b>
                         </h2>
                         <div class="logindiv">
-                            <form class="loginform" action="https://script.google.com/macros/s/AKfycbyfumRpQP2izTPSReqW_n__etUoOZJIlDK7xT7LGka-shO4bHQ/exec" method="get" target="_top">
-                                <input type="hidden" name="message" value="SGVsbG8gMTIzIEhlbHAgTWUgU3R1ZHkgRW50aHVzaWFzdCwgICAgICAgICAgICAgICAgIEkgY2FsbCB5b3UgYW4gZW50aHVzaWFzdCBiZWNhdXNlIHlvdSBoYXZlIHNwZW50IHRoZSB0aW1lIGRlY29kaW5nIHRoaXMgbWVzc2FnZS4gSXQgaXMgbm90IGFuIG9idmlvdXMgZWFzdGVyIGVnZywgYnV0IGl0IGlzIG9uZSB0aGF0IGlzIHNjYXR0ZXJlZCB0aHJvdWdob3V0IG91ciBwcm9ncmFtLiAgICAgICAgICAgICAgICAgU2luY2UgeW91IGhhdmUgZm91bmQgdGhpcyBtZXNzYWdlLCBJIHdvdWxkIGxpa2UgdG8gb2ZmZXIgeW91IGEgam9iLiBGZWVsIGZyZWUgdG8gY29udGFjdCBtZSBvbiBtYXJjZWwubXVsZGVyc0Bob3RtYWlsLmNvbSAgICAgICAgICAgICAgICAgSGFwcHkgY29kaW5nISwgICAgICAgICAgICAgICAgIE1hcmNlbCBGb3VuZGVyIG9mIDEyMyBIZWxwIE1lIFN0dWR5">
-                                <input type="text" name="email" placeholder="Email">
+                            <form class="loginform">
+                                <input id="email_enter" type="text" name="email" placeholder="Email">
                                 <br>
                                 <br>
-                                <input type="password" name="password" placeholder="Password">
+                                <input id="password_enter" type="password" name="password" placeholder="Password">
                                 <br>
                                 <br>
                                 <br>
-                                <input class="submit" type="submit" value="Login">
+                                <input class="submit" onclick="submitThis();" value="Login">
+                                
+                                
                             </form>
                         <br>
                         </div>
@@ -284,11 +291,6 @@
                                 Forgot Your Password?
                             </p>
                         </a>
-                        -->
-                        <br>
-                        <h2 style="font-size:95%;">
-                            <b>TEMPORARILY UNAVAILABLE</b>
-                        </h2>
                         <br>
                         <br>
                         <br>
@@ -305,6 +307,7 @@
                         <br>
                         <br>
                         <a class="link2" href="/legal/privacy-policy.html" target="_parent">Privacy Policy</a>
+                        <br>
                         <a class="link2" href="/legal/terms-and-conditions.html" target="_parent">Terms & Conditions</a>
                     </p>
                     <br><!-- Delete to create banner -->
@@ -322,6 +325,13 @@
                     document.getElementById("bannerpane").style.left="-100%";
                     document.getElementById("p1").innerHTML="no";
                 }
+            }
+            function submitThis(){
+                document.getElementById("email_value").value = document.getElementById("email_enter").value;
+                document.getElementById("password_value").value = document.getElementById("password_enter").value;
+                document.getElementById("clear").style.backgroundColor = "rgb(255,255,255)";
+                document.getElementById("clear").innerHTML = '<div style="text-align: center;border:solid 1px;border-color:white;color:white;padding-top:12.5%;margin: 0px;"><p>HERE</p></div><div style="text-align:center;"><img src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/page_loading_gif_lpsbRVAxMjR.gif" alt="Loading..."><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>';
+                document.getElementById("loginform").submit();
             }
         </script>
     </body>
