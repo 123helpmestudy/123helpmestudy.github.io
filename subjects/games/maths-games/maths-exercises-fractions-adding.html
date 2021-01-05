@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            123 Help Me Study - Exercises
+        </title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Maths is our primary topic that we teach / cover. We teach all topics: mathematics, combined science, chemistry, physics, biology, business, accounting and much more. We cover AQA, Edexcel, CIE, OCR and much more.">
+        <meta name="keywords" content="southampton maths, mathematics, biology, 123 Help Me Study, maths past papers">
+        <meta name="author" content="123 Help Me Study">
+        <meta name="theme-color" content="#00AAFF" />
+        <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
+        <style>
+            body{
+                margin:0%;
+                font-family:sans-serif;
+                background-color:black;
+                padding:0px;
+            }
+            button:hover{
+                cursor:pointer;
+            }
+            .body .h1{
+                margin-top:0%;
+                margin-bottom:0%;
+                padding-left:0%;
+                padding-right:0%;
+                padding-top:3%;
+                padding-bottom:3%;
+                text-align:center;
+                color:white;
+                font-size:100%;
+                background-image:url(https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1MObN2awVJFHbwsOlSjY3GvTt50wVM5up);
+                background-position: center;
+                background-color:black;
+                width:100%;
+                height:20%;
+            }
+            .body .h1 h1{
+                border-radius:20px;
+                margin-top:0%;
+                margin-bottom:0%;
+            }
+            .body .h1 h1 span{
+                border: solid white 5px;
+                border-radius:15px;
+                padding:10px;
+            }
+            .body .h2_a{
+                text-align:center;
+                color:black;
+                font-size:150%;
+                background-color:rgba(230,240,240);
+            }
+            .body .h2_a div{
+                margin-left:10%;
+                margin-right:10%;
+                background-color:rgba(255,255,255);
+                border-radius:20px;
+            }
+            .body .h2_b{
+                text-align:center;
+                color:black;
+                font-size:150%;
+                background-color:black;
+                padding-top:1%;
+                padding-bottom:4%;
+                background-image:url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5);
+                background-position:center;
+            }
+            .body .h2_b div{
+                margin-left:10%;
+                margin-right:10%;
+                padding:5%;
+                background-color:rgba(255,255,255,0.7);
+                border-radius:20px;
+            }
+            .body .h2_c{
+                text-align:center;
+                color:black;
+                font-size:150%;
+                background-color:rgba(240,240,240);
+                padding-top:0.5%;
+            }
+            .body .h2_d{
+                text-align:center;
+                color:black;
+                font-size:150%;
+                background-color:black;
+                padding-top:0.5%;
+                background-image:url(https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=15AgKEYLiSfllUEdC9BqwMt9vT6bQHL9f);
+                background-position: center;
+            }
+            .body .h2_d div{
+                margin-left:10%;
+                margin-right:10%;
+                padding:5%;
+                background-color:rgba(255,255,255,0.8);
+                border-radius:20px;
+            }
+            .body p{
+                text-align:justify;
+                font-size:75%;
+                margin-left:20%;
+                margin-right:20%;
+            }
+            .body .footer{
+                background-color:black;
+                color:white;
+                font-style:italic;
+            }
+            .bannerpane{
+                padding-top:0.5%;
+                text-align: center;
+                display:block;
+                position:fixed;
+                width:40%;
+                height:100%;
+                top:0;
+                left:-100%;
+                right:0;
+                bottom:0;
+                background-color:darkslategrey;
+                background-image:url(https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1UgBkxd-EurZLhpkSntmPQIC2_FmLZavI);
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                z-index:2;
+                margin:0px;
+                opacity:0.95;
+                transition:1.4s;
+            }
+            .bannerpane p{
+                transition: 0.4s;
+                text-decoration:none;
+                margin-top:0%;
+                margin-bottom:4%;
+                font-size:150%;
+                cursor:pointer;
+                color:white;
+            }
+            .bannerpane p span{
+                transition: 0.2s;
+                border-bottom:solid white 0px;
+            }
+            .bannerpane p span:hover{
+                border-bottom:solid white 2px;
+            }
+            .link{
+                color:rgba(0,0,0);
+            }
+            .link:hover{
+                color:rgba(100,100,100);
+            }
+            .link2{
+                color:rgba(250,250,250);
+            }
+            .link2:hover{
+                color:rgba(100,100,100);
+            }
+            .container{
+                padding-left:0.6%;
+                padding-top:0.5%;
+                display:block;
+                position:fixed;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+                z-index:3;
+                cursor:pointer;
+                width:3%;
+                height:4%;
+            }
+            .bar1,.bar2,.bar3{
+                width:35px;
+                height:5px;
+                background-color:white;
+                margin:6px 0;
+                transition:0.4s;
+            }
+            .change .bar1{
+              -webkit-transform: rotate(-45deg) translate(-8px, 8px);
+              transform: rotate(-45deg) translate(-8px, 8px);
+            }
+            .change .bar2{
+                opacity: 0;
+            }
+            .change .bar3{
+              -webkit-transform: rotate(45deg) translate(-8px, -8px);
+              transform: rotate(45deg) translate(-8px, -8px);
+            }
+            .placeholder{
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="bannerpane" class="bannerpane">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <a style="text-decoration:none;" href="/index.html" target="_parent"><p><span><b>Home</b></span></p></a><!-- Home -->
+            <a style="text-decoration:none;" href="/subjects/subjects.html" target="_parent"><p><span><b>Subjects</b></span></p></a><!-- Subjects -->
+            <a style="text-decoration:none;" href="https://www.facebook.com/123helpmestudy" target="_blank"><p><span><b>Facebook</b></span></p></a><!-- Facebook -->
+            <a style="text-decoration:none;" href="/login/login.html" target="_parent"><p><span><b>Login</b></span></p></a><!-- Help Board -->
+        </div>
+        <main>
+            <div class="container" onclick="myFunction(this)">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+            <div class="body">
+                <div class="placeholder">
+                    <p id="p1">no</p>
+                    <p id="p2"></p>
+                    <p id="p3">0</p>
+                </div>
+                <div class="h1">
+                    <br><h1><span>123 Help Me Study</span></h1><br>
+                </div>
+                <div class="h2_a">
+                    <br>
+                    <div>
+                        <br>
+                        <img style="border-radius: 50%;" src="https://ik.imagekit.io/123helpmestudy/tr:h-80,w-80/uc?export=view&id=1JVre2Brix35Hy-BH2Sw-53xGLHg2dk4e" alt="123 Help Me Study Logo">
+                        <p style="text-align:center; font-style:italic;color:rgba(50,50,50);">"Your future success is our tutors priority"</p>
+                        <br>
+                        <h2 style="font-size:95%;margin-top:0%;text-decoration:underline;margin-bottom:0px;">
+                            Fractions (Adding)
+                        </h2>
+                        <p style="font-size:50%;text-align:center;margin-top:0px;margin-bottom:20px;">
+                            <i>Unsimplified</i>
+                        </p>
+                        <div>
+                            <button id="easy_mode" onclick="setMode('easy');"  style="border:solid 3px black;color:rgba(230,230,230);background-color:rgba(40,40,200);border-radius:5px;height:40px;width:100px;">
+                                Easy
+                            </button>
+                            <button id="medium_mode" onclick="setMode('medium');"  style="border:solid 1px;color:rgba(230,230,230);background-color:rgba(40,200,40);border-radius:5px;height:40px;width:100px;">
+                                Medium
+                            </button>
+                            <button id="hard_mode" onclick="setMode('hard');"  style="border:solid 1px;color:rgba(230,230,230);background-color:rgba(200,40,40);border-radius:5px;height:40px;width:100px;">
+                                Hard
+                            </button>
+                        </div>
+                        <span id="mode" style="display:none;">
+                            easy
+                        </span>
+                        <br>
+                        <p style="text-align:center;">
+                            <b>Question: <span id="question_number">1</span></b>
+                        </p>
+                        <p style="font-size:95%;text-align:center;">
+                            <span><sup id="first">2</sup>&frasl;<sub id="second">2</sub></span> + 
+                            <span><sup id="third">2</sup>&frasl;<sub id="fourth">2</sub></span>
+                            = <sup><input type="number" id="response_value1" style="width:60px;text-align:center;"></sup> &frasl; <sub><input type="number" id="response_value2" style="width:60px;text-align:center;"></sub>
+                        </p>
+                        <button id="check_button" onclick="check_this()" style="border:solid 1px;color:rgba(230,230,230);background-color:rgba(40,40,40);border-radius:5px;height:40px;width:200px;">
+                            Check
+                        </button>
+                        <br>
+                        <p style="text-align:center;">
+                            <span id="response_check"></span>
+                        </p>
+                        <br>
+                        <div style="border:solid 1px;border-color:rgba(100,100,100);"></div>
+                        <br>
+                        <form id="question_form" action="https://script.google.com/macros/s/AKfycbyCNJN7WOv6TtujaCgEiF1-HjItaUopH_1J7aUpq9mbX9ZF5tfg/exec" method="get" style="display:none;">
+                            <span style="font-size:75%;">Email:</span><br>
+                            <input style="text-align:center;" id="email_value" placeholder="Email" name="email"><br>
+                            <span style="font-size:75%;">First Name / Alias:</span><br>
+                            <input style="text-align:center;" id="alias_value" placeholder="First Name / Alias" name="name"><br><br>
+                            <input style="display:none;" value="Maths" name="subject">
+                            <input style="display:none;" value="Fractions Adding" name="topic">
+                            <input style="display:none;" value="https://www.123helpmestudy.com/subjects/games/maths-games/maths-exercises-fractions-adding.html" name="url">
+                            <input style="display:none;" id="response_form_value" value="" name="response">
+                        </form>
+                        <button id="submit_score_button" onclick="submit_score_this()" style="border:solid 1px;color:rgba(230,230,230);background-color:rgba(40,40,40);border-radius:5px;height:40px;width:200px;">
+                            Submit Score
+                        </button>
+                        <p id="responses" style="text-align:center;font-size:50%;">
+                        </p>
+                        <br>
+                    </div>
+                    <br>
+                </div>
+                <br>
+                <div class="footer">
+                    <br>
+                    <p>
+                        Established In August 2019
+                        <br>
+                        Trading As "123 Help Me Study"
+                        <br>
+                        <br>
+                        <a class="link2" href="/legal/privacy-policy.html" target="_parent">Privacy Policy</a>
+                        <a class="link2" href="/legal/terms-and-conditions.html" target="_parent">Terms & Conditions</a>
+                    </p>
+                    <br><!-- Delete to create banner -->
+                </div>
+            </div>
+        </main>
+        <script>
+            function myFunction(x){
+                x.classList.toggle("change");
+                var nav = document.getElementById("p1").innerHTML;
+                if (nav=="no"){
+                    document.getElementById("bannerpane").style.left="0";
+                    document.getElementById("p1").innerHTML="yes";
+                }else{
+                    document.getElementById("bannerpane").style.left="-100%";
+                    document.getElementById("p1").innerHTML="no";
+                }
+            }
+        </script>
+        <script>
+            var input = document.getElementById("response_value");
+            input.addEventListener("keyup", function(event) {
+              if (event.keyCode === 13) {
+               event.preventDefault();
+               document.getElementById("check_button").click();
+              }
+            });
+            function setMode(x) {
+                document.getElementById("mode").innerHTML = x.trim();
+                if (x.trim() == "easy") {
+                    document.getElementById("easy_mode").style.border = "solid 3px black";
+                    document.getElementById("medium_mode").style.border = "solid 1px";
+                    document.getElementById("hard_mode").style.border = "solid 1px";
+                } else if (x.trim() == "medium") {
+                    document.getElementById("easy_mode").style.border = "solid 1px";
+                    document.getElementById("medium_mode").style.border = "solid 3px black";
+                    document.getElementById("hard_mode").style.border = "solid 1px";
+                } else if (x.trim() == "hard") {
+                    document.getElementById("easy_mode").style.border = "solid 1px";
+                    document.getElementById("medium_mode").style.border = "solid 1px";
+                    document.getElementById("hard_mode").style.border = "solid 3px black";
+                }
+                setNewNumber();
+            }
+            function setNewNumber() {
+                var mode = document.getElementById("mode").innerHTML;
+                if (mode.trim() == "easy") {
+                    var difficulty = 10;
+                } else if (mode.trim() == "medium") {
+                    var difficulty = 100;
+                } else if (mode.trim() == "hard") {
+                    var difficulty = 1000;
+                }
+                var first = Math.floor(Math.random() * difficulty);
+                var second = Math.floor(Math.random() * difficulty);
+                var third = Math.floor(Math.random() * difficulty);
+                var fourth = Math.floor(Math.random() * difficulty);
+                if (first == 0) {
+                    first = 1;
+                } else if (second == 0) {
+                    second = 1;
+                } else if (third == 0) {
+                    third = 1;
+                } else if (fourth == 0) {
+                    fourth = 1;
+                }
+                if (mode.trim() == "easy") {
+                    if (first > second) {
+                        var holder = first;
+                        first = second;
+                        second = holder;
+                    }
+                    if (third > fourth) {
+                        var holder = third;
+                        third = fourth;
+                        fourth = holder;
+                    }
+                }
+                document.getElementById("first").innerHTML = first;
+                document.getElementById("second").innerHTML = second;
+                document.getElementById("third").innerHTML = third;
+                document.getElementById("fourth").innerHTML = fourth;
+            }
+            function createQuestionHistory(old_question_number) {
+                var x = document.getElementById("first").innerHTML;
+                var y = document.getElementById("second").innerHTML;
+                var answer = parseInt(x) + parseInt(y);
+                var current_question_number = document.getElementById("question_number").innerHTML;
+                var current_question_number = parseInt(current_question_number) - 1;
+                var old_question_number = current_question_number;
+                var mode = document.getElementById("mode").innerHTML;
+                document.getElementById("responses").innerHTML = "Question " + old_question_number.toString() + ": (" + mode.trim() + ") " + x + " + " + y + " = " + answer.toString() + "<br>" + document.getElementById("responses").innerHTML;
+            }
+            function check_this(){
+                var a = document.getElementById("first").innerHTML;
+                var b = document.getElementById("second").innerHTML;
+                var c = document.getElementById("third").innerHTML;
+                var d = document.getElementById("fourth").innerHTML;
+                var bd = parseInt(b) * parseInt(d);
+                var ad = parseInt(a) * parseInt(d);
+                var cb = parseInt(b) * parseInt(c);
+                var answer1 = ad + cb;
+                var answer2 = bd;
+                var userResponse1 = document.getElementById("response_value1").value;
+                var userResponse2 = document.getElementById("response_value2").value;
+                if(userResponse1 == answer1 && userResponse2 == answer2){
+                    document.getElementById("response_check").innerHTML = "Correct!";
+                    document.getElementById("response_check").style.color = "green";
+                    var current_question_number = document.getElementById("question_number").innerHTML;
+                    var old_question_number = current_question_number;
+                    var current_question_number = parseInt(current_question_number) + 1;
+                    document.getElementById("question_number").innerHTML = current_question_number;
+                    createQuestionHistory();
+                    setNewNumber();
+                } else {
+                   document.getElementById("response_check").innerHTML = "Please try again 😊";
+                   document.getElementById("response_check").style.color = "red";
+                }
+                document.getElementById("response_value1").value = '';
+                document.getElementById("response_value2").value = '';
+            }
+            function submit_score_this() {
+                var placeholder_value = document.getElementById("p3").innerHTML;
+                var placeholder_value = parseInt(placeholder_value);
+                if (placeholder_value == 0) {
+                    document.getElementById("question_form").style.display = "inline";
+                    document.getElementById("p3").innerHTML = 1;
+                } else if (placeholder_value > 0) {
+                    var response = document.getElementById("responses").innerHTML;
+                    var email = document.getElementById("email_value").value;
+                    var alias = document.getElementById("alias_value").value;
+                    if (email != '' && alias != '') {
+                        if (response.length < 2500) {
+                            document.getElementById("response_form_value").value = response;
+                            document.getElementById("question_form").submit();
+                        } else {
+                            response = response.substring(1,2499);
+                            document.getElementById("response_form_value").value = response;
+                            document.getElementById("question_form").submit();
+                        } 
+                    } else {
+                        alert("Please enter both an email & first name (alias) before you press the submit button.")
+                    }         
+                }
+            }
+            setNewNumber();
+        </script>
+    </body>
+</html>
