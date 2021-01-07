@@ -431,6 +431,7 @@ function main(arg, base) {
     has_unique_id();
     /* Website pages */
     if (arg == '/index.html') {
+        if (base == '/') {base = ''}
         index_page(base);
     }
     if (arg == '/information/about-us.html') {
