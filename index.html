@@ -90,7 +90,7 @@
                                 <img class="img-fluid mb-3 circle-img-profile-list" alt="123 Help Me Study Logo" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
                                 <p class="font-italic">"Your future success is our tutors' priority"</p>
                                 <h3 class="text-center mb-5">Find a dedicated tutor in a matter of seconds</h3>
-                                <div class="card max-card mx-auto">
+                                <div id="getting-started-card" class="card max-card mx-auto">
                                     <div class="card-body text-left">
                                         <h3 class="text-center">Getting Started</h3>
                                         <p class="mt-2">What subject are you looking for?</p>
@@ -112,7 +112,16 @@
                                             <button onclick="index_to_tutor_page_submit();" class="btn btn-success">Submit</button>
                                         </div>
                                     </div>
-                                </div>                    
+                                </div>
+                                <div id="api-fail-email-button" class="text-center hidden-el">
+                                    <p class="font-italic">Our system is currently down for maintenance. Please click the button below to send us an email.</p>
+                                    <a href="mailto: 123helpmestudy@gmail.com">
+                                        <div class="mb-3">
+                                            <button class="btn btn-success">Send Email</button>
+                                        </div>
+                                    </a>
+                                    <p class="font-italic">Alternatively, feel free to call or Skype us using the buttons below.</p>
+                                </div>                  
                             </div>
                     </div>
                 </div>
@@ -312,6 +321,7 @@
             -->
         </div>
         <script type="text/javascript">main('/index.html', window.location.pathname);</script>
+        <script type="text/javascript">index_page_test_api();</script>
         <script type="text/javascript">index_page_load_page();</script>
         <script type="text/javascript">validate_user_interaction_page_load();</script>
         <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

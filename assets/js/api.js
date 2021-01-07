@@ -1,5 +1,5 @@
-var BASE_URL = 'http://127.0.0.1:8000';
-//var BASE_URL = 'http://34.70.168.206:9898';
+//var BASE_URL = 'http://127.0.0.1:8000';
+var BASE_URL = 'http://34.70.168.206:9898';
 
 async function api_call(path, headers, method, payload) {
     var url = BASE_URL+path;
@@ -26,6 +26,33 @@ async function api_call(path, headers, method, payload) {
         'status': response.status, 
         'response': json_response
     };
+}
+
+async function index_page_test_api() {
+    var path = ('/api/status');
+    var headers = {};
+    var method = 'GET';
+    var payload = {};
+    /* For simplifying page */
+    try {
+        /* Execute API */
+        var response = await api_call(
+            path, 
+            headers, 
+            method,
+            payload
+        );
+        if (response['status'] == 200) {
+        } else {}
+        //console.log(response['status']);
+        //console.log(response['response']);
+    } catch(e) {
+        //console.log(e);
+        document.getElementById('navigation-bar').style.display = 'none';
+        document.getElementById('getting-started-card').style.display = 'none';
+        document.getElementById('request-contact-form').style.display = 'none';
+        document.getElementById('api-fail-email-button').style.display = 'block';
+    }
 }
 
 async function index_page_load_page() {
