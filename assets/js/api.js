@@ -1,5 +1,5 @@
 //var BASE_URL = 'http://127.0.0.1:8000';
-var BASE_URL = 'http://34.70.168.206:9898';
+var BASE_URL = 'https://34.67.64.27:443';
 
 async function api_call(path, headers, method, payload) {
     var url = BASE_URL+path;
