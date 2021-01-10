@@ -1,5 +1,5 @@
-//var BASE_URL = 'http://127.0.0.1:8000';
-var BASE_URL = 'https://api.123helpmestudy.com';
+var BASE_URL = 'http://127.0.0.1:8000';
+//var BASE_URL = 'https://api.123helpmestudy.com';
 
 async function api_call(path, headers, method, payload) {
     var url = BASE_URL+path;
@@ -585,8 +585,8 @@ async function tutor_profile_page_load_page() {
             }
             if (attributes[i]['attribute'] == 'highest_qualification') {
                 document.getElementById('highest-qualification').value = attributes[i]['value'];
-                console.log(attributes[i]['value']);
-                console.log(document.getElementById('highest-qualification').value);
+                //console.log(attributes[i]['value']);
+                //console.log(document.getElementById('highest-qualification').value);
             }
             if (attributes[i]['attribute'] == 'qualification_support_document') {
                 if (attributes[i]['value'] == 'confirmed') {
@@ -824,7 +824,6 @@ async function tutor_subject_display_tutors_load_page(id) {
     if (response['status'] == 200) {
         var tutors = response['response']['data'];
         document.getElementById('tutor-list').innerHTML = '';
-        console.log(tutors);
         if (tutors.length == 0) {
             document.getElementById('tutor-list').innerHTML = `
             <br><br><br><br>
@@ -838,7 +837,6 @@ async function tutor_subject_display_tutors_load_page(id) {
         for (var i = 0; i < tutors.length; i++) {
             var miles_button = '';
             if ('distance_miles' in tutors[i]) {
-                console.log('Miles given');
                 miles_button = `<button class="btn btn-success">`+tutors[i]['distance_miles']+` miles away</button>`;
             }
             var html = `
@@ -1326,8 +1324,8 @@ async function messages_page_load_page() {
         var base = (window.location.pathname).toString().replace('/application/user/messages.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['status']);
+    //console.log(response['response']);
 }
 
 async function messages_page_submit_page(id) {
@@ -1354,8 +1352,8 @@ async function messages_page_submit_page(id) {
         var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['status']);
+    //console.log(response['response']);
 }
 
 async function message_thread_page_load_page(id) {
@@ -1426,8 +1424,8 @@ async function message_thread_page_load_page(id) {
         var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['status']);
+    //console.log(response['response']);
 }
 
 async function message_thread_send_message_page_submit_page() {
@@ -1467,8 +1465,8 @@ async function message_thread_send_message_page_submit_page() {
         var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['status']);
+    //console.log(response['response']);
 }
 
 async function message_thread_book_lesson_submit_page() {
@@ -1550,8 +1548,8 @@ async function message_thread_book_lesson_submit_page() {
         var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['status']);
+    //console.log(response['response']);
 }
 
 

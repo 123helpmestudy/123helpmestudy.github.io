@@ -239,9 +239,15 @@ function set_tutor_page_subject_options() {
     <option>Unit Award Scheme</option>
     <option>Urdu</option>  
    `;
-   document.getElementById('subject-options-1').innerHTML = html;
-   document.getElementById('subject-options-2').innerHTML = html;
-   document.getElementById('subject-options-3').innerHTML = html;
+   if (document.getElementById('subject-options-1')) {
+    document.getElementById('subject-options-1').innerHTML = html;
+   }
+   if (document.getElementById('subject-options-2')) {
+    document.getElementById('subject-options-2').innerHTML = html;
+   }
+   if (document.getElementById('subject-options-3')) {
+    document.getElementById('subject-options-3').innerHTML = html;
+   }
 }
 
 function tutor_page_set_input_string_length(input_id, output_id) {
@@ -273,9 +279,22 @@ function tutor_subject_page_toggle_options(id) {
     }
 }
 
+function customer_advertisement_page_toggle_options(id) {
+    if (id == 1) {
+        document.getElementById('advertisement-status').value = 'open';
+        document.getElementById('check-closed-status').className = "col btn m-0";
+        document.getElementById('check-open-status').className = "col btn m-0 bg-primary font-weight-bold text-white";
+    } else if (id == 2) {
+        document.getElementById('advertisement-status').value = 'closed';
+        document.getElementById('check-open-status').className = "col btn m-0";
+        document.getElementById('check-closed-status').className = "col btn m-0 bg-primary font-weight-bold text-white";
+    }
+}
+
 function index_to_tutor_page_submit() {
     var arg = '/index.html';
     var base = window.location.pathname;
+    if (base == '/') {base = ''}
     base = base.toString().replace(arg, '');
     var subject = document.getElementById('subject-list').value;
     var lesson_type = document.getElementById('lesson-location').value;
@@ -405,6 +424,13 @@ function application_tutor_profile_page(base) {
     tutor_page_set_input_string_length('background-tutor', 'background-tutor-str-len');
 }
 
+function application_customer_profile_page(base) {
+    set_application_navigation_bar(base);
+    set_contact_buttons();
+    set_tutor_page_subject_options();
+    tutor_page_set_input_string_length('about-customer', 'customer-requirements-str-len');
+}
+
 function application_remove_users_page(base) {
     set_application_navigation_bar(base);
 }
@@ -479,6 +505,9 @@ function main(arg, base) {
     }
     if (arg == '/application/user/tutor-profile.html') {
         application_tutor_profile_page(base);
+    }
+    if (arg == '/application/user/customer-profile.html') {
+        application_customer_profile_page(base);
     }
     if (arg == '/application/admin/remove-users.html') {
         application_remove_users_page(base);
