@@ -366,11 +366,43 @@ async function home_page_load_page() {
         var attributes = response['response']['data'];
         for (var i = 0; i < attributes.length; i++) {
             if (
+                attributes[i]['attribute'] == 'upcoming_lessons'
+                &&
+                attributes[i]['value'] > 0) {
+                document.getElementById('upcoming-lesson').innerHTML = (
+                    attributes[i]['value']+' upcoming lessons'
+                );
+            }
+            if (
                 attributes[i]['attribute'] == 'unread_messages'
                 &&
                 attributes[i]['value'] > 0) {
-                document.getElementById('unread-message-count').innerHTML = (
+                document.getElementById('unread-message').innerHTML = (
                     attributes[i]['value']+' unread messages'
+                );
+            }
+            if (
+                attributes[i]['attribute'] == 'tutor_profile_missing_count'
+                &&
+                attributes[i]['value'] > 0) {
+                document.getElementById('tutor-profile-missing').innerHTML = (
+                    attributes[i]['value']+' missing details'
+                );
+            }
+            if (
+                attributes[i]['attribute'] == 'customer_profile_missing_count'
+                &&
+                attributes[i]['value'] > 0) {
+                document.getElementById('customer-profile-missing').innerHTML = (
+                    attributes[i]['value']+' missing details'
+                );
+            }
+            if (
+                attributes[i]['attribute'] == 'account_details_missing_count'
+                &&
+                attributes[i]['value'] > 0) {
+                document.getElementById('account-details-missing').innerHTML = (
+                    attributes[i]['value']+' missing details'
                 );
             }
             if (attributes[i]['attribute'] == 'user_type') {
@@ -385,13 +417,16 @@ async function home_page_load_page() {
                     //document.getElementById('customer-profile').style.display = 'block';
                 }
             }
-            if (attributes[i]['attribute'] == 'permissions') {
-                if(attributes[i]['value'] == 'super') {
-                    document.getElementById('tutor-profile').style.display = 'block';
-                    document.getElementById('customer-profile').style.display = 'block';
-                    document.getElementById('remove-user').style.display = 'block';
-                    document.getElementById('sensor-user-message').style.display = 'block';
-                }
+            if (
+                attributes[i]['attribute'] == 'permissions'
+                &&
+                attributes[i]['value'] == 'super'
+            ) {
+                document.getElementById('tutor-profile').style.display = 'block';
+                document.getElementById('customer-profile').style.display = 'block';
+                document.getElementById('record-payment').style.display = 'block';
+                document.getElementById('remove-user').style.display = 'block';
+                document.getElementById('sensor-user-message').style.display = 'block';
             }
         }
     } else if (response['status'] == 401) {
@@ -627,6 +662,9 @@ async function tutor_profile_page_load_page() {
             document.getElementById('about-tutor').value.toString().length.toString()
             + ' / 500'
         );
+        localStorage.removeItem('123helpmestudy-about-tutor-1');
+        localStorage.removeItem('123helpmestudy-about-tutor-2');
+
         document.getElementById('background-tutor').value = (
             localStorage.getItem('123helpmestudy-background-tutor-1')
             + localStorage.getItem('123helpmestudy-background-tutor-2')
@@ -635,6 +673,9 @@ async function tutor_profile_page_load_page() {
             document.getElementById('background-tutor').value.toString().length.toString()
             + ' / 500'
         );
+        localStorage.removeItem('123helpmestudy-background-tutor-1');
+        localStorage.removeItem('123helpmestudy-background-tutor-2');
+
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
         window.location.assign(base+'/information/login.html');
@@ -1740,4 +1781,112 @@ async function payment_options_bacs_evidence_page_submit_form() {
     } else {}
     //console.log(response['status']);
     //console.log(response['response']);
+}
+
+async function customer_profile_page_submit_form() {
+    var email = localStorage.getItem('123helpmestudy-email');
+    var path = '/api/users/update_user_attribute';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'PUT';
+    var attributes_list = [
+        {
+            'attribute': 'customer_subject_request',
+            'value': document.getElementById('subject-options-1').value
+        },
+        {
+            'attribute': 'customer_request_detail_1',
+            'value': document.getElementById('about-customer').value.toString().substring(0, 250)
+        },
+        {
+            'attribute': 'customer_request_detail_2',
+            'value': document.getElementById('about-customer').value.toString().substring(250, 500)
+        },
+        {
+            'attribute': 'customer_advertisement_status',
+            'value': document.getElementById('advertisement-status').value
+        },
+    ];
+
+    for (var i = 0; i < attributes_list.length; i++) {
+        var payload = {
+            'email': email,
+            'attribute': attributes_list[i]['attribute'],
+            'value': attributes_list[i]['value']
+        };
+        var response = await api_call(
+            path,
+            headers,
+            method,
+            payload
+        );
+        if (response['status'] == 200) {
+            
+        } else if (response['status'] == 401) {
+            var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
+            window.location.assign(base+'/information/login.html');
+        } else {}
+        //console.log(response['status']);
+        //console.log(response['response']);
+    }
+    location.reload();
+}
+
+async function customer_profile_page_load_page() {
+    var path = ('/api/users/list_user_attributes?email='
+                +localStorage.getItem('123helpmestudy-email'));
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'GET';
+    var payload = {};
+    var response = await api_call(
+        path, 
+        headers, 
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        document.getElementById('email').innerHTML += localStorage.getItem('123helpmestudy-email');
+        var attributes = response['response']['data'];
+        for (var i = 0; i < attributes.length; i++) {
+            if (attributes[i]['attribute'] == 'customer_subject_request') {
+                document.getElementById('subject-options-1').value = attributes[i]['value'];
+            }
+            if (attributes[i]['attribute'] == 'hourly_rate') {
+                document.getElementById('about-customer').value = attributes[i]['value'];
+            }
+            if (attributes[i]['attribute'] == 'customer_request_detail_1') {
+                localStorage.setItem('123helpmestudy-customer-request-detail-1', attributes[i]['value']);
+            }
+            if (attributes[i]['attribute'] == 'customer_request_detail_2') {
+                localStorage.setItem('123helpmestudy-customer-request-detail-2', attributes[i]['value']);
+            }
+            if (attributes[i]['attribute'] == 'customer_advertisement_status') {
+                console.log(attributes[i]['value']);
+                if (attributes[i]['value'] == 'open') {
+                    document.getElementById('advertisement-status').value = 'open';
+                    document.getElementById('check-open-status').className = 'col btn m-0 bg-primary font-weight-bold text-white';
+                    document.getElementById('check-closed-status').className = 'col btn m-0';
+                }
+            }
+        }
+        document.getElementById('about-customer').value = (
+            localStorage.getItem('123helpmestudy-customer-request-detail-1')
+            + localStorage.getItem('123helpmestudy-customer-request-detail-2')
+        );
+        document.getElementById('customer-requirements-str-len').innerHTML = (
+            document.getElementById('about-customer').value.toString().length.toString()
+            + ' / 500'
+        );
+        localStorage.removeItem('123helpmestudy-customer-request-detail-1');
+        localStorage.removeItem('123helpmestudy-customer-request-detail-2');
+
+    } else if (response['status'] == 401) {
+        var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
+        window.location.assign(base+'/information/login.html');
+    } else {}
+    console.log(response['status']);
+    console.log(response['response']);
 }
