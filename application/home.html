@@ -85,6 +85,32 @@
                     <div class="col-12">
                         <div id="navigation-card" class="card bg-white max-card mx-auto">
                             <div class="card-body text-center">
+                                <div id="customer-blurb" class="text-justify px-3 hidden-el">
+                                    <p>
+                                        Welcome to your home page!
+                                    </p>
+                                    <p>
+                                        You will find plenty of useful information here
+                                        regarding messages with tutors and your upcoming 
+                                        lessons. <span id="missing-customer-details" class="hidden-el">
+                                        Please take a moment to complete any outstanding 
+                                        information requests in order to make your journey
+                                        on 123 Help Me Study effortless.</span>
+                                    </p>
+                                </div>
+                                <div id="tutor-blurb" class="text-justify px-3 hidden-el">
+                                    <p>
+                                        Welcome to your home page!
+                                    </p>
+                                    <p>
+                                        You will find plenty of useful information here
+                                        regarding messages with tutors and your upcoming 
+                                        lessons. <span id="missing-tutor-details" class="hidden-el">
+                                        Please take a moment to complete any outstanding 
+                                        information requests in order to make your journey
+                                        on 123 Help Me Study effortless.</span>
+                                    </p>
+                                </div>
                                 <div class="card mb-3 dashboard-button">
                                     <a class="strip-link" href="../application/user/lessons.html">
                                         <div class="card-body">
@@ -117,10 +143,18 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div id="record-payment" class="card mb-3 dashboard-button warning-bg hidden-el">
-                                    <a class="strip-link" href="../application/home.html">
+                                <div id="validate-user-document" class="card mb-3 dashboard-button warning-bg hidden-el">
+                                    <a class="strip-link" href="../application/admin/validate-user-document.html">
                                         <div class="card-body">
-                                            <h4 class="mb-0">Record payment (IN DEV)</h4>
+                                            <h4 class="mb-0">Validate User Document</h4>
+                                            <small class="mt-2">Only avialable to super users</small>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="record-payment" class="card mb-3 dashboard-button warning-bg hidden-el">
+                                    <a class="strip-link" href="../application/admin/record-payment.html">
+                                        <div class="card-body">
+                                            <h4 class="mb-0">Record Payment</h4>
                                             <small class="mt-2">Only avialable to super users</small>
                                         </div>
                                     </a>
@@ -134,10 +168,20 @@
                                     </a>
                                 </div>
                                 <div id="sensor-user-message" class="card mb-3 dashboard-button warning-bg hidden-el">
-                                    <a class="strip-link" href="../application/admin/sensor-user-message.html">
+                                    <a class="strip-link" href="../application/admin/sensor-user-messages.html">
                                         <div class="card-body">
-                                            <h4 class="mb-0">Sensor User Messages (IN DEV)</h4>
+                                            <h4 class="mb-0">Sensor User Messages</h4>
                                             <small class="mt-2">Only avialable to super users</small>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="tutor-resources" class="card mb-3 dashboard-button hidden-el">
+                                    <a class="strip-link" href="../application/user/tutor-resources.html">
+                                        <div class="card-body">
+                                            <h4 class="mb-0">Tutor Resources</h4>
+                                            <small class="text-success mt-2">
+                                                2 great resources
+                                            </small>
                                         </div>
                                     </a>
                                 </div>
@@ -161,6 +205,11 @@
                     </div>
                     <div class="col">
                     </div>
+                </div>
+            </div>
+            <!-- SPACER -->
+            <div class="container-fluid">
+                <div class="row py-5">
                 </div>
             </div>
             <!--

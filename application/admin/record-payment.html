@@ -13,7 +13,7 @@
         <!-- End Styling -->
         <!-- SEO -->
         <title>
-            123 Help Me Study | Lessons
+            123 Help Me Study | Record Payment
         </title>
         <meta charset="UTF-8">
         <meta name="description" content="">
@@ -84,26 +84,17 @@
                     </div>
                     <div class="col-12">
                         <div class="card bg-white max-card mx-auto">
-                            <div class="card-body text-center">
-                                <!-- TABLE SPACE -->
-                                <div class="row mb-1">
-                                    <div class="col primary-bg py-1">
-                                        <h4 class="text-center font-weight-bold text-white p-1 m-0">Pending Lessons</h4>
+                            <div id="no-outstanding-payments" class="card-body">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <p class="mb-0 font-italic">
+                                            No outstanding payments
+                                        </p>
                                     </div>
                                 </div>
-                                <div id="no-upcoming-lessons" class="row mb-1">                        
-                                    <div class="col p-0">
-                                        <div class="card dashboard-button">
-                                            <div class="card-body">
-                                                <p class="mb-0 font-italic">No upcoming lessons</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="lessons-list">
-                                    <!-- CODE BLOCK -->
-                                </div>
-                                <!-- TABLE SPACE -->
+                            </div>
+                            <div id="outstanding-bacs-payments" class="card-body hidden-el">
+                                <!-- CODE BLOCK -->
                             </div>
                         </div>
                     </div>
@@ -122,27 +113,19 @@
             ##########################################    
             -->
         </div>
-        <script type="text/javascript">main('/application/user/lessons.html', window.location.pathname);</script>
-        <script type="text/javascript">lessons_page_load_page();</script>
+        <script type="text/javascript">main('/application/admin/record-payment.html', window.location.pathname);</script>
+        <script type="text/javascript">record_payment_load_page();</script>
         <script type="text/javascript">
-            function display_change_date_time_lessons_card(id) {
+            function toggle_confirmation_box(id) {
                 if (
-                    document.getElementById('change-lesson-date-time-'+id).style.display == 'none'
+                    document.getElementById('confirmation-box-'+id).style.display == ''
                     ||
-                    document.getElementById('change-lesson-date-time-'+id).style.display == ''
+                    document.getElementById('confirmation-box-'+id).style.display == 'none'
                 ) {
-                    document.getElementById('change-lesson-date-time-'+id).style.display = 'block';
+                    document.getElementById('confirmation-box-'+id).style.display = 'block';
                 } else {
-                    document.getElementById('change-lesson-date-time-'+id).style.display = 'none';
+                    document.getElementById('confirmation-box-'+id).style.display = 'none';
                 }
-            }
-            function reset_invalid_date_time(id) {
-                var class_list = document.getElementById(id).className;
-                class_list = class_list.replace('is-invalid', '').trim();
-                document.getElementById(id).className = class_list;
-            }
-            function show_cancel_lesson_confirm(id) {
-                document.getElementById('confirm-cancel-button-'+id).style.display = 'inline';
             }
         </script>
         <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

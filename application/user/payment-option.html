@@ -83,10 +83,12 @@
                     <div class="col">
                     </div>
                     <div class="col-12">
-                        <h4>
-                            Payment Method
-                        </h4>
-                        <div id="show-back-button" class="text-right mb-1 hidden-el">
+                        <div class="max-card mx-auto mb-2">
+                            <h4 class="pl-2">
+                                Payment Method
+                            </h4>
+                        </div>
+                        <div id="show-back-button" class="max-card mx-auto text-right mb-1 hidden-el">
                             <button onclick="return_to_payment_choices();" class="btn btn-primary">Back</button>
                         </div>
                         <!-- Card payment -->
@@ -113,15 +115,15 @@
                                     Bank Transfer
                                 </p>
                                 <small>
-                                    <p class="mb-0 font-italic">
-                                        Tutor fee: £39.00
+                                    <p id="BACS-tutor-fee" class="mb-0 font-italic">
+                                        Tutor fee: £0.00
                                     </p>
-                                    <p class="mb-0 font-italic">
-                                        Admin fee: £1.95
+                                    <p id="BACS-admin-fee" class="mb-0 font-italic">
+                                        Admin fee: £0.00
                                     </p>
                                 </small>
-                                <p class="mb-0 font-weight-bold">
-                                    Total charge: £39.00
+                                <p id="BACS-total-fee" class="mb-0 font-weight-bold">
+                                    Total charge: £0.00
                                 </p>
                             </div>
                         </div>
@@ -130,7 +132,7 @@
                             <div class="card-body text-left px-5">
                                 <p>
                                     Please use the below details to transfer
-                                    the balance of <b id="charge-amount">{amount here}</b> to us at your earliest 
+                                    the balance of <b id="BACS-charge-amount">£0.00</b> to us at your earliest 
                                     convenience.
                                 </p>
                                 <p>
@@ -183,6 +185,11 @@
                     </div>
                 </div>
             </div>
+            <!-- SPACER -->
+            <div class="container-fluid">
+                <div class="row py-5">
+                </div>
+            </div>
             <!--
             ##########################################
             ########### END CODE BLOCK ###############
@@ -205,7 +212,7 @@
                     get_params[key_value[0]] = key_value[1];
                 }
                 if ('id' in get_params) {
-                    //message_thread_page_load_page(get_params['id']);
+                    payment_options_load_page(get_params['id']);
                 }
             }
             /* Display bank details */

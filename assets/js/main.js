@@ -439,6 +439,22 @@ function application_payment_options_page(base) {
     set_application_navigation_bar(base);
 }
 
+function application_sensor_user_messages_page(base) {
+    set_application_navigation_bar(base);
+}
+
+function application_tutor_resources_page(base) {
+    set_application_navigation_bar(base);
+}
+
+function application_record_payment_page(base) {
+    set_application_navigation_bar(base);
+}
+
+function application_validate_user_document_page(base) {
+    set_application_navigation_bar(base);
+}
+
 function has_unique_id() {
     var unique = localStorage.getItem('123helpmestudy-unique');
     var now = new Date();
@@ -515,4 +531,16 @@ function main(arg, base) {
     if (arg == '/application/user/payment-option.html') {
         application_remove_users_page(base);
     }
+    if (arg == '/application/admin/sensor-user-messages.html') {
+        application_sensor_user_messages_page(base);
+    }
+    if (arg == '/application/user/tutor-resources.html') {
+        application_tutor_resources_page(base);
+    }
+    if (arg == '/application/admin/record-payment.html') {
+        application_record_payment_page(base);
+    }
+    if (arg == '/application/admin/validate-user-document.html') {
+        application_validate_user_document_page(base);
+    }    
 }

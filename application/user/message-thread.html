@@ -96,7 +96,7 @@
                                 <h4>Send Message</h4>
                                 <textarea id="new-message" onclick="reset_error();" class="form-control mb-2" rows="6"></textarea>
                                 <button id="submit-new-message" onclick="message_thread_send_message_page_submit_page();" class="btn btn-primary">Send</button>
-                                <button id="show-lesson-booking-form" onclick="toggle_lesson_booking_form_on_messages_page();" class="btn btn-success">Book a lesson</button>
+                                <button id="show-lesson-booking-form" onclick="toggle_lesson_booking_form_on_messages_page();" class="btn btn-success hidden-el">Book a lesson</button>
                                 <div id="pending-send" class="text-center hidden-el">
                                     <p class="text-secondary mb-1">Sending, please wait</p>
                                     <div class="spinner-border text-info" role="status"></div>
@@ -173,7 +173,11 @@
                     </div>
                 </div>
             </div>
-            <br><br><br><br><br>
+            <!-- SPACER -->
+            <div class="container-fluid">
+                <div class="row py-5">
+                </div>
+            </div>
             <!--
             ##########################################
             ########### END CODE BLOCK ###############
