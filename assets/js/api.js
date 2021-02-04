@@ -1,5 +1,5 @@
-//var BASE_URL = 'http://127.0.0.1:8000';
-var BASE_URL = 'https://api.123helpmestudy.com';
+var BASE_URL = 'http://127.0.0.1:8000';
+//var BASE_URL = 'https://api.123helpmestudy.com';
 
 async function api_call(path, headers, method, payload) {
     var url = BASE_URL+path;
@@ -321,6 +321,7 @@ async function email_verification_submit_form() {
 }
 
 async function home_page_submit_user_type_form(user_type) {
+    console.log(user_type);
     var path = '/api/users/update_user_attribute';
     var headers = {
         'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
@@ -338,16 +339,115 @@ async function home_page_submit_user_type_form(user_type) {
         payload
     );
     if (response['status'] == 200) {
-        /* Change DOM based on message or data */
-        //response['response']
-        /* Redirect page */
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
     //console.log(response['response']);
-    location.reload();
+    if (user_type == 'tutor') {
+        document.getElementById('initialise-user-type').style.display = 'none';
+        document.getElementById('first-tutor-walkthrough').style.display = 'block';
+    } else {
+        window.location.reload();
+    }
+}
+
+async function home_page_submit_tutor_form() {
+    /* Validate tutor terms */
+    if (
+        document.getElementById('behaviour-value').value == 'disagree'
+        ||
+        document.getElementById('external-messaging-value').value == 'disagree'
+        ||
+        document.getElementById('breach-value').value == 'disagree'
+    ) {
+        document.getElementById('error-agree-terms').style.display = 'block';
+        return false;
+    } else {
+        document.getElementById('error-agree-terms').style.display = 'none';
+    }
+    document.getElementById('fourth-tutor-walkthrough').style.display = 'none';
+    document.getElementById('fifth-tutor-walkthrough').style.display = 'block';
+    /* Execute API */
+    var email = localStorage.getItem('123helpmestudy-email');
+    var path = '/api/users/update_user_attribute';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'PUT';
+    var attributes_list = [
+        {
+            'attribute': 'first_name',
+            'value': document.getElementById('first-name').value
+        },
+        {
+            'attribute': 'last_name',
+            'value': document.getElementById('last-name').value
+        },
+        {
+            'attribute': 'tutor_agreed_code_of_conduct',
+            'value': true
+        },
+        {
+            'attribute': 'tutor_agreed_no_external_comms',
+            'value': true
+        },
+        {
+            'attribute': 'tutor_agreed_breach_terms',
+            'value': true
+        },
+        {
+            'attribute': 'tutor_initial_registration_complete',
+            'value': true
+        },
+    ];
+    if (document.getElementById('bank-account-checked').checked) {
+        attributes_list.push({
+            'attribute': 'desired_payout_method',
+            'value': 'UK Bank'
+        });
+        attributes_list.push({
+            'attribute': 'bank_account_number',
+            'value': document.getElementById('acc').value
+        });
+        attributes_list.push({
+            'attribute': 'bank_sort_code',
+            'value': document.getElementById('sort').value
+        });
+    }
+    if (document.getElementById('paypal-checked').checked) {
+        attributes_list.push({
+            'attribute': 'desired_payout_method',
+            'value': 'PayPal'
+        });
+        attributes_list.push({
+            'attribute': 'paypal_email',
+            'value': document.getElementById('paypal-email').value
+        });
+    }
+    for (var i = 0; i < attributes_list.length; i++) {
+        var payload = {
+            'email': email,
+            'attribute': attributes_list[i]['attribute'],
+            'value': attributes_list[i]['value']
+        };
+        var response = await api_call(
+            path,
+            headers,
+            method,
+            payload
+        );
+        if (response['status'] == 200) {
+            
+        } else if (response['status'] == 401) {
+            var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
+            window.location.assign(base+'/information/login.html');
+        } else {}
+        //console.log(response['status']);
+        //console.log(response['response']);
+    }
+    window.location.reload();
 }
 
 async function home_page_load_page() {
@@ -416,6 +516,20 @@ async function home_page_load_page() {
                     attributes[i]['value']+' missing details'
                 );
             }
+            if (
+                attributes[i]['attribute'] == 'hours_taught'
+            ) {
+                document.getElementById('hours-taught').innerHTML = (
+                    'Hours tutored - '+attributes[i]['value']
+                );
+            }
+            if (
+                attributes[i]['attribute'] == 'earnings'
+            ) {
+                document.getElementById('earnings').innerHTML = (
+                    'Earnings Summary - £'+attributes[i]['value']
+                );
+            }
             /* Show user specific cards */
             if (attributes[i]['attribute'] == 'user_type') {
                 if (attributes[i]['value'] == 'new') {
@@ -423,7 +537,13 @@ async function home_page_load_page() {
                     document.getElementById('initialise-user-type').style.display = 'block';
                 }
                 if (attributes[i]['value'] == 'tutor') {
+                    /* For all */
+                    document.getElementById('lessons-card').style.display = 'block';
+                    document.getElementById('messages-card').style.display = 'block';
+                    document.getElementById('account-card').style.display = 'block';
+                    /* Tutor specific */
                     document.getElementById('tutor-blurb').style.display = 'block';
+                    document.getElementById('tutoring-opportunities').style.display = 'block';
                     document.getElementById('tutor-profile').style.display = 'block';
                     document.getElementById('tutor-resources').style.display = 'block';
                 }
@@ -432,6 +552,11 @@ async function home_page_load_page() {
                     ||
                     attributes[i]['value'] == 'student'
                 ) {
+                    /* For all */
+                    document.getElementById('lessons-card').style.display = 'block';
+                    document.getElementById('messages-card').style.display = 'block';
+                    document.getElementById('account-card').style.display = 'block';
+                    /* Customer specific */
                     document.getElementById('customer-blurb').style.display = 'block';
                     document.getElementById('customer-profile').style.display = 'block';
                 }
@@ -903,7 +1028,7 @@ async function tutor_subject_display_tutors_load_page(id) {
                 miles_button = `<button class="btn btn-success">`+tutors[i]['distance_miles']+` miles away</button>`;
             }
             var html = `
-            <div class="card mb-2">
+            <div class="card mb-2 shadow">
                 <div onclick="go_to_tutor_profile(`+tutors[i]['profile_id']+`);" class="card-body dashboard-button">
                     <div class="text-right">
                         `+miles_button+`
@@ -981,11 +1106,8 @@ async function profile_page_load_page(id) {
             document.getElementById('qualification-checked').innerHTML = html;
         }
         document.getElementById('hourly-rate').innerHTML = '£'+response['response']['data']['hourly_rate']+'/hr';
-        if (parseInt(response['response']['data']['hourly_rate']) <= 30) {
-            document.getElementById('service-charge').innerHTML = '<i>+ £ 2.50*</i>';
-        } else {
-            document.getElementById('service-charge').innerHTML = '<i>+ £ 3.95*</i>';
-        }
+        document.getElementById('service-charge').innerHTML = '<i>+ £ '+response['response']['data']['admin_fee']+'*</i>';
+        
         document.getElementById('qualification').innerHTML = response['response']['data']['highest_qualification'];
         document.getElementById('hours-taught').innerHTML = (
             'I have taught <b>'
@@ -1010,7 +1132,7 @@ async function profile_page_load_page(id) {
         document.getElementById('loading-card').style.display = 'none';
     } else {}
     //console.log(response['status']);
-    //console.log(response['response']);
+    console.log(response['response']);
 }
 
 function contact_us_load_page() {
@@ -1346,6 +1468,10 @@ async function messages_page_load_page() {
     );
     if (response['status'] == 200) {
         var messages = response['response']['data'];
+        if (messages.length == 0) {
+            document.getElementById('no-messages').style.display = 'block';
+            
+        }
         var a = 0;
         var row_colour = '';
         for (var i = 0; i < messages.length; i++) {
@@ -1370,7 +1496,7 @@ async function messages_page_load_page() {
                 var new_message = '*New*';
             }
             var html = `
-            <div class="row py-3`+row_colour+`">
+            <div class="shadow-sm row py-3`+row_colour+`">
                 <div class="col">
                     <p class="font-weight-bold m-0 p-0">`+new_message+`</p>
                     <p class="font-weight-bold m-0 p-0">`+messages[i]['name']+`</p>
@@ -1437,16 +1563,16 @@ async function message_thread_page_load_page(id) {
         var messages = response['response']['data']['messages'];
         for (var i = 0; i < messages.length; i++) {
             if (messages[i]['source'] == 'me') {
-                var bubble_class = 'text-left light-green-card ml-3';
+                var bubble_class = 'text-left border border-success light-green-card ml-3';
                 var from = 'me';
                 var to = messages[i]['to_name'];
             } else {
-                var bubble_class = 'text-left light-blue-card mr-3';
+                var bubble_class = 'text-left border border-info light-blue-card mr-3';
                 var from = messages[i]['from_name'];
                 var to = 'me';
             }
             var html = `
-            <div class="`+bubble_class+` mb-4 p-3">
+            <div class="`+bubble_class+` rounded shadow mb-4 p-3">
                 <p class="mb-0">From: <i>`+from+`</i></p>
                 <p class="mb-0">To: <i>`+to+`</i></p>
                 <p class="mb-0">Date: <i>`+messages[i]['date']+`</i></p>
@@ -1459,6 +1585,16 @@ async function message_thread_page_load_page(id) {
             document.getElementById('previous-messages').innerHTML += html;
         }
         /* Populate booking details */
+        var current_date = new Date();
+        if ((current_date.getHours() + 1) < 10) {
+            var hour_string = '0' + (current_date.getHours() + 1).toString();
+        } else if ((current_date.getHours() + 1) > 23) {
+            var hour_string = '0' + (current_date.getHours() - 24).toString();
+        } else {
+            var hour_string = (current_date.getHours() + 1).toString()
+        }
+        document.getElementById('lesson-date').value = current_date.toISOString().split('T')[0];
+        document.getElementById('lesson-time').value = hour_string + ':00';
         if (response['response']['data']['user_type'] == 'tutor') {
             document.getElementById('show-lesson-booking-form').style.display = 'inline';
             document.getElementById('customer-id').innerHTML = (
@@ -1594,8 +1730,7 @@ async function message_thread_book_lesson_submit_page() {
         'tutor_id': document.getElementById('tutor-id').innerHTML,
         'lesson_location': lesson_location,
         'location': '',
-        'payment_method_id': 1,
-        'total_gross': document.getElementById('tutor-rate').innerHTML
+        'lesson_fee': document.getElementById('tutor-rate').innerHTML
     };
     var response = await api_call(
         path, 
@@ -1636,13 +1771,25 @@ async function lessons_page_load_page() {
         for (var i = 0; i < lessons.length; i++) {
             // For customer payment button
             if (lessons[i]['user_type'] != 'tutor') {
-                var payment_activity = '<a href="../user/payment-option.html?id='+lessons[i]['lesson_id']+'"><button href="" class="btn btn-success">Pay now to confirm lesson</button></a>';
+                if (lessons[i]['payment_received'] != 'complete') {
+                    var payment_activity = '<a href="../user/payment-option.html?id='+lessons[i]['lesson_id']+'"><button href="" class="btn btn-success">Pay now to confirm lesson</button></a>';
+                } else {
+                    var payment_activity = `
+                    <div class="card border border-success success-bg">
+                        <div class="card-body">
+                            <p class="text-center font-weight-bold m-0">
+                                Payment successful, enjoy your lesson!
+                            </p>
+                        </div>
+                    </div>
+                    `;
+                }
             } else {
                 // For tutor payment status
-                if (lessons[i]['payment_status'] == 'pending') {
+                if (lessons[i]['payment_received'] != 'complete') {
                     var payment_activity = `
-                    <p class="text-danger mb-0">Lesson payment status: `+lessons[i]['payment_status']+`</p>
-                    <small class="text-secondary">Please do not attend this lesson until payment is confirmed, otherwise we can <b>not</b> guarentee payment to you.</small>
+                    <p class="text-danger mb-0">Lesson payment status: `+lessons[i]['payment_received']+`</p>
+                    <small class="text-secondary">Please do not attend this lesson until payment is confirmed, otherwise we can <b>not</b> guarantee payment to you.</small>
                     `;
                 }
             }
@@ -1661,10 +1808,17 @@ async function lessons_page_load_page() {
                                     <button onclick="display_change_date_time_lessons_card(`+lessons[i]['lesson_id']+`);" class="btn btn-info">Change lesson date and time</button>
                                 </div>
                                 <div id="change-lesson-date-time-`+lessons[i]['lesson_id']+`" class="mt-3 hidden-el">
-                                    <input id="lesson-date-`+lessons[i]['lesson_id']+`" onclick="reset_invalid_date_time('lesson-date-`+lessons[i]['lesson_id']+`');" class="form-control mb-2" type="date" value="`+lessons[i]['lesson_date_js']+`">
-                                    <input id="lesson-time-`+lessons[i]['lesson_id']+`" onclick="reset_invalid_date_time('lesson-time-`+lessons[i]['lesson_id']+`');" class="form-control mb-2" type="time" value="`+lessons[i]['lesson_time_js']+`">
-                                    <div class="mb-5">
+                                    <input id="lesson-date-`+lessons[i]['lesson_id']+`" onfocus="reset_invalid_date_time('lesson-date-`+lessons[i]['lesson_id']+`'); reset_error_card_date_time(`+lessons[i]['lesson_id']+`);" class="form-control mb-2" type="date" value="`+lessons[i]['lesson_date_js']+`">
+                                    <input id="lesson-time-`+lessons[i]['lesson_id']+`" onfocus="reset_invalid_date_time('lesson-time-`+lessons[i]['lesson_id']+`'); reset_error_card_date_time(`+lessons[i]['lesson_id']+`);" class="form-control mb-2" type="time" value="`+lessons[i]['lesson_time_js']+`">
+                                    <div class="mb-3">
                                         <button onclick="lessons_page_change_date_time_on_order(`+lessons[i]['lesson_id']+`);" class="btn btn-primary">Submit</button>
+                                    </div>
+                                    <div id="error-card-date-time-`+lessons[i]['lesson_id']+`" class="card border mb-3 border-danger warning-bg hidden-el">
+                                        <div class="card-body">
+                                            <p id="error-response-date-time-`+lessons[i]['lesson_id']+`" class="text-center font-weight-bold m-0">
+                                                Test
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="mt-3">
@@ -1737,7 +1891,7 @@ async function lessons_page_change_date_time_on_order(id) {
     var payload = {
         'sales_order_id': id,
         'promised_booking_date': lesson_date,
-        'start_time': lesson_time,
+        'start_time': lesson_time + ':00',
     };
     var response = await api_call(
         path, 
@@ -1749,13 +1903,99 @@ async function lessons_page_change_date_time_on_order(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/lessons.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
+    } else {
+        //console.log(response['response']);
+        document.getElementById('error-card-date-time-'+id).style.display = 'block';
+        document.getElementById('error-response-date-time-'+id).innerHTML = response['response']['message'];
+        return false;
+    }
     //console.log(response['status']);
     //console.log(response['response']);
     window.location.reload();
 }
 
+async function payment_options_change_payment_method_submit_form(id, payment_method_id) {
+    /* Execute API */
+    var path = ('/api/salesorders/change_salesorder_payment_method');
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'PUT';
+    var payload = {
+        'sales_order_id': id,
+        'payment_method_id': payment_method_id
+    };
+    var response = await api_call(
+        path, 
+        headers, 
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+    } else if (response['status'] == 401) {
+        var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
+        window.location.assign(base+'/information/login.html');
+    } else {}
+    //console.log(response['status']);
+    //console.log(response['response']);
+}
+
+async function payment_options_create_stripe_payment_intent_submit_form() {
+    /* Execute API */
+    var path = ('/api/salesorders/create_stripe_initial_payment_intent');
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'POST';
+    var payload = {
+        'customer_id': document.getElementById('customer-id').value, 
+        'amount': document.getElementById('card-total-fee-value').value
+    };
+    var response = await api_call(
+        path, 
+        headers, 
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        document.getElementById('payment-intent-client-secret').value = response['response']['data']['client_secret'];
+    } else if (response['status'] == 401) {
+        var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
+        window.location.assign(base+'/information/login.html');
+    } else {}
+    //console.log(response['status']);
+    console.log(response['response']);
+}
+
+async function record_stripe_payment_submit_page(id, reference) {
+    var path = '/api/salesorders/confirm_payment_received';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'PUT';
+    var payload = {
+        'sales_order_id': id,
+        'payment_reference': reference
+    };
+    var response = await api_call(
+        path, 
+        headers, 
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+    } else if (response['status'] == 401) {
+        //var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
+        //window.location.assign(base+'/information/login.html');
+    } else {
+    }
+    console.log(response['status']);
+    console.log(response['response']);
+    //window.location.reload();
+}
+
 async function payment_options_load_page(id) {
+    document.getElementById('sales-order-id').value = id;
     var path = (
         '/api/salesorders/list_order_details'
         +'?id='+id
@@ -1773,10 +2013,60 @@ async function payment_options_load_page(id) {
     );
     if (response['status'] == 200) {
         var order_details = response['response']['data'];
+        if (order_details['payment_received'] == 'complete') {
+            var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
+            window.location.assign(base+'/application/user/lessons.html');
+            return false;
+        }
+        /* Display cards */
+        document.getElementById('page-title').style.display = 'block';
+        document.getElementById('pay-by-card-card').style.display = 'block';
+        document.getElementById('pay-by-bank-card').style.display = 'block';
+        /* Store customer details */
+        document.getElementById('customer-id').value = order_details['customer_id'];
+        document.getElementById('customer-name').value = order_details['customer_name'];
+        /* Card Payment Details */
+        document.getElementById('card-tutor-fee').innerHTML = 'Tutor fee: £' + order_details['tutor_fee'].toFixed(2);
+        document.getElementById('card-admin-fee').innerHTML = 'Admin fee: £' + order_details['card_admin_fee'].toFixed(2);
+        document.getElementById('card-total-fee').innerHTML = 'Total charge: £' + order_details['card_total_fee'].toFixed(2);
+        document.getElementById('card-total-fee-value').value = order_details['card_total_fee'].toFixed(2);
+        /* Bank Payment Details */
         document.getElementById('BACS-tutor-fee').innerHTML = 'Tutor fee: £' + order_details['tutor_fee'].toFixed(2);
-        document.getElementById('BACS-admin-fee').innerHTML = 'Admin fee: £' + order_details['admin_fee'].toFixed(2);
-        document.getElementById('BACS-total-fee').innerHTML = 'Total charge: £' + order_details['total_fee'].toFixed(2);
-        document.getElementById('BACS-charge-amount').innerHTML = '£' + order_details['total_fee'].toFixed(2);
+        document.getElementById('BACS-admin-fee').innerHTML = 'Admin fee: £' + order_details['bacs_admin_fee'].toFixed(2);
+        document.getElementById('BACS-total-fee').innerHTML = 'Total charge: £' + order_details['bacs_total_fee'].toFixed(2);
+        document.getElementById('BACS-charge-amount').innerHTML = '£' + order_details['bacs_total_fee'].toFixed(2);
+        /* Bank details */
+        document.getElementById('account-name').innerHTML = order_details['bank_details']['account_name'];
+        document.getElementById('account-number').innerHTML = order_details['bank_details']['account_number'];
+        document.getElementById('sort-code').innerHTML = order_details['bank_details']['sort_code'];
+        document.getElementById('bank-name').innerHTML = order_details['bank_details']['bank_name'];
+        /* If stripe customer ID does not exist then create it */
+        if (order_details['stripe_customer_exists'] == false) {
+            /* New API call */
+            var path = '/api/users/create_stripe_customer';
+            var headers = {
+                'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+            };
+            var method = 'POST';
+            var payload = {
+                'customer_id': order_details['customer_id']
+            };
+            var response = await api_call(
+                path, 
+                headers, 
+                method,
+                payload
+            );
+            if (response['status'] == 200) {
+            } else if (response['status'] == 401) {
+                // Seems redundant to check it twice
+                //var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
+                //window.location.assign(base+'/information/login.html');
+            } else {}
+            console.log(response['status']);
+            console.log(response['response']);
+            /* End New API call */
+        }
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         window.location.assign(base+'/information/login.html');
@@ -2078,7 +2368,8 @@ async function record_payment_submit_page(id) {
     };
     var method = 'PUT';
     var payload = {
-        'sales_order_id': id
+        'sales_order_id': id,
+        'payment_reference': 'User checked'
     };
     var response = await api_call(
         path, 
@@ -2155,11 +2446,11 @@ async function validate_user_document_load_page() {
             document.getElementById('outstanding-documents-objects').innerHTML += html;
         }
     } else if (response['status'] == 401) {
-        var base = (window.location.pathname).toString().replace('/application/validate-user-document.html', '');
+        var base = (window.location.pathname).toString().replace('/application/admin/validate-user-document.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['response']);
 }
 
 async function validate_user_document_submit_page(id) {
@@ -2187,4 +2478,108 @@ async function validate_user_document_submit_page(id) {
     //console.log(response['status']);
     //console.log(response['response']);
     window.location.reload();
+}
+
+async function tutoring_opportunities_load_page() {
+    var path = '/api/users/list_tutoring_opportunities';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'GET';
+    var payload = {};
+    var response = await api_call(
+        path, 
+        headers, 
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        var opportunities = response['response']['data'];
+        if (opportunities.length > 0) {
+            document.getElementById('opportunities-list').innerHTML = '';
+        }
+        for (var i = 0; i < opportunities.length; i++) {
+            if (opportunities[i]['applied']) {
+                var applied_status = `
+                <div class="text-right">
+                    <button class="btn btn-success">Already Applied</button>
+                </div>
+                `;
+            } else {
+                var applied_status = '';
+            }
+            if (opportunities[i]['applications'] == 1) {
+                var applicants = opportunities[i]['applications'] + ' tutor has';
+            } else {
+                var applicants = opportunities[i]['applications'] + ' tutors have';
+            }
+            html = `
+            <div class="card mb-3">
+                <div class="card-body">
+                    `+applied_status+`
+                    <p>
+                        Subject: <b>`+opportunities[i]['subject']+`</b>
+                    </p>
+                    <p>
+                        `+opportunities[i]['message']+`
+                    </p>
+                    <p class="text-right font-italic text-secondary">
+                        `+applicants+` applied to this post
+                    </p>
+                    <textarea id="customer-advertisement-response-`+opportunities[i]['customer_id']+`" class="form-control" value="" placeholder="Respond to advert here . . ." rows="9"></textarea>
+                    <div class="mt-3">
+                        <button onclick="tutoring_opportunities_submit_page(`+opportunities[i]['customer_id']+`);" class="btn btn-primary">Send</button>
+                    </div>
+                    <div id="pending-send-`+opportunities[i]['customer_id']+`" class="text-center hidden-el">
+                        <p class="text-secondary mb-1">Sending, please wait</p>
+                        <div class="spinner-border text-info" role="status"></div>
+                    </div>
+                    <div id="error-card-`+opportunities[i]['customer_id']+`" class="card mt-3 border border-danger warning-bg hidden-el">
+                        <div class="card-body">
+                            <p id="error-response-`+opportunities[i]['customer_id']+`" class="text-center font-weight-bold m-0"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+            document.getElementById('opportunities-list').innerHTML += html;
+        }
+    } else if (response['status'] == 401) {
+        var base = (window.location.pathname).toString().replace('/application/user/tutoring-opportunities.html', '');
+        window.location.assign(base+'/information/login.html');
+    } else {}
+    console.log(response['status']);
+    console.log(response['response']);
+}
+
+async function tutoring_opportunities_submit_page(id) {
+    var path = '/api/users/respond_to_tutoring_opportunity';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'POST';
+    var payload = {
+        'customer_id': id,
+        'message': document.getElementById('customer-advertisement-response-'+id).value
+    };
+    document.getElementById('pending-send-'+id).style.display = 'block';
+    var response = await api_call(
+        path, 
+        headers, 
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        // Only reload the page when message sent is successful
+        window.location.reload();
+    } else if (response['status'] == 401) {
+        var base = (window.location.pathname).toString().replace('/application/admin/validate-user-document.html', '');
+        window.location.assign(base+'/information/login.html');
+    } else {
+        document.getElementById('pending-send-'+id).style.display = 'none';
+        document.getElementById('error-response-'+id).innerHTML = response['response']['message'];
+        document.getElementById('error-card-'+id).style.display = 'block';
+    }
+    //console.log(response['status']);
+    //console.log(response['response']);
 }

@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                             <input id="lesson-location" type="text" class="form-control hidden-el" value="online">
-                            <input id="post-zip-code" onclick="reset_invalid_input('post-zip-code');" type="text" class="form-control mt-2 hidden-el" placeholder="Postcode or ZIP code" value="">
+                            <input id="post-zip-code" onfocus="reset_invalid_input('post-zip-code');" type="text" class="form-control mt-2 hidden-el" placeholder="Postcode or ZIP code" value="">
                             <div id="error-card" class="card mt-3 border border-danger warning-bg hidden-el">
                                 <div class="card-body">
                                     <p id="error-response" class="text-center font-weight-bold m-0"></p>
@@ -121,7 +121,7 @@
                             </div>
                             <!-- COVID 19 CARD -->
                             <h2 class="my-3">What subject are you interested in?</h2>
-                            <div class="card">
+                            <div class="card shadow">
                                 <div class="card-body">
                                     <div id="subject-list">
                                         <!-- CODE BLOCK -->
@@ -158,7 +158,7 @@
                                 <button onclick="display_subjects();" class="btn btn-primary">Back To Subjects</button>
                             </div>
                             <h2 class="mb-3">Browse the tutors that cover your subject</h2>
-                            <div class="card">
+                            <div class="card shadow-sm">
                                 <div id="tutor-list" class="card-body">
                                     <!-- CODE BLOCK -->
                                 </div>

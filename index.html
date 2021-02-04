@@ -62,11 +62,6 @@
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
         <div id="main">
-            <!--
-            ##########################################
-            ########### START CODE BLOCK #############
-            ##########################################    
-            -->
             <!-- NAVBAR -->
             <div id="navigation-bar"></div>
             <!-- EASY CONTACT BUTTONS -->
@@ -90,7 +85,7 @@
                                     <img class="img-fluid mb-3 circle-img-profile-list" alt="123 Help Me Study Logo" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
                                     <p class="font-italic">"Your future success is our tutors' priority"</p>
                                     <h3 class="text-center mb-5">Find a dedicated tutor in a matter of seconds</h3>
-                                    <div id="getting-started-card" class="card max-card mx-auto">
+                                    <div id="getting-started-card" class="card max-card mx-auto shadow">
                                         <div class="card-body text-left">
                                             <h3 class="text-center">Getting Started</h3>
                                             <p class="mt-2">What subject are you looking for?</p>
@@ -107,7 +102,7 @@
                                                 </div>
                                             </div>
                                             <input id="lesson-location" type="text" class="form-control hidden-el" value="online">
-                                            <input id="post-zip-code" onclick="reset_invalid_input('post-zip-code');" type="text" class="form-control mt-2 hidden-el" placeholder="Postcode" value="">
+                                            <input id="post-zip-code" onfocus="reset_invalid_input('post-zip-code');" type="text" class="form-control mt-2 hidden-el" placeholder="Postcode" value="">
                                             <div class="text-center mt-3">
                                                 <button onclick="index_to_tutor_page_submit();" class="btn btn-success">Submit</button>
                                             </div>
@@ -169,7 +164,7 @@
                                     Many of the tutors that run and help <b>123 Help Me Study</b>
                                     have been tutoring for over 5 years. We pride ourselves
                                     on building strong lasting relationships with the families
-                                    we help. We do this becuase we want our students to 
+                                    we help. We do this because we want our students to 
                                     succeed.
                                 </p>
                                 <p>
@@ -223,29 +218,29 @@
                                 <h3 class="pb-5"><a href="./information/about-us.html" class="strip-link-black">Meet The Team<br>Behind<br>123 Help Me Study</a></h3>
                                 <div id="request-contact-form">
                                     <h3>Request a call back</h3>
-                                    <div class="pd-5 card max-card mx-auto">
+                                    <div class="pd-5 card max-card mx-auto shadow">
                                         <div class="card-body">
                                             <div class="row pb-3">
                                                 <div class="col">
-                                                    <input id="first_name" onclick="reset_invalid_input('first_name');" type="text" class="form-control" placeholder="First name">
+                                                    <input id="first_name" onfocus="reset_invalid_input('first_name');" type="text" class="form-control" placeholder="First name">
                                                 </div>
                                                 <div class="col">
-                                                    <input id="last_name" onclick="reset_invalid_input('last_name');" type="text" class="form-control" placeholder="Last name">
+                                                    <input id="last_name" onfocus="reset_invalid_input('last_name');" type="text" class="form-control" placeholder="Last name">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <input id="mobile" onclick="reset_invalid_input('mobile');" type="tel" class="form-control" placeholder="Mobile">
+                                                <input id="mobile" onfocus="reset_invalid_input('mobile');" type="tel" class="form-control" placeholder="Mobile">
                                             </div>
                                             <div class="form-group">
-                                                <input id="email" onclick="reset_invalid_input('email');" type="email" class="form-control" placeholder="Email">
+                                                <input id="email" onfocus="reset_invalid_input('email');" type="email" class="form-control" placeholder="Email">
                                                 <small class="pl-1 form-text text-muted text-left">We'll never share your details with anyone outside of our company.</small>
                                             </div>
                                             <div class="form-check mb-3 text-left">
-                                                <input type="checkbox" onclick="reset_error();" class="form-check-input" id="tick-terms-and-conditions">
+                                                <input type="checkbox" onfocus="reset_error();" class="form-check-input" id="tick-terms-and-conditions">
                                                 <label class="form-check-label">Agree to our <a href="./terms-and-conditions.html">terms and conditions</a></label>
                                             </div>
                                             <div class="form-check text-left mb-2">
-                                                <input type="checkbox" onclick="reset_error();" class="form-check-input" id="tick-privacy-policy">
+                                                <input type="checkbox" onfocus="reset_error();" class="form-check-input" id="tick-privacy-policy">
                                                 <label class="form-check-label">Agree to our <a href="./privacy-policy.html">privacy policy</a></label>
                                             </div>
                                             <div id="check-validator" class="card pb-2 text-center hidden-el">
@@ -330,11 +325,7 @@
             </div>
             <!-- FOOTER -->
             <div id="page-footer"></div>
-            <!--
-            ##########################################
-            ########### END CODE BLOCK ###############
-            ##########################################    
-            -->
+            
         </div>
         <script type="text/javascript">main('/index.html', window.location.pathname);</script>
         <script type="text/javascript">index_page_test_api();</script>

@@ -96,15 +96,15 @@
                         </div>
                         <div class="form-group">
                             <label>Email address</label>
-                            <input id="email" onclick="reset_invalid_input('email');" type="email" class="form-control">
+                            <input id="email" onfocus="reset_invalid_input('email');" type="email" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Mobile Number</label>
-                            <input id="mobile" onclick="reset_invalid_input('mobile');" type="text" class="form-control">
+                            <input id="mobile" onfocus="reset_invalid_input('mobile');" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Message</label>
-                            <textarea id="message" onclick="reset_invalid_input('message');" class="form-control" rows="7"></textarea>
+                            <textarea id="message" onfocus="reset_invalid_input('message');" class="form-control" rows="7"></textarea>
                             <p class="my-0 pt-0 pr-1 text-right"><small id="message-str-len">0 / 500</small></p>
                             <p class="my-0 pt-0 pr-1">
                                 <small>
@@ -125,14 +125,14 @@
                             </p>
                         </div>
                         <div class="form-check mb-3">
-                            <input type="checkbox" onclick="reset_error();" class="form-check-input" id="tick-terms-and-conditions">
+                            <input type="checkbox" onfocus="reset_error();" class="form-check-input" id="tick-terms-and-conditions">
                             <label class="form-check-label">Agree to our <a href="./terms-and-conditions.html">terms and conditions</a></label>
                         </div>
                         <div class="form-check mb-4">
-                            <input type="checkbox" onclick="reset_error();" class="form-check-input" id="tick-privacy-policy">
+                            <input type="checkbox" onfocus="reset_error();" class="form-check-input" id="tick-privacy-policy">
                             <label class="form-check-label">Agree to our <a href="./privacy-policy.html">privacy policy</a></label>
                         </div>
-                        <div id="check-validator" class="card pb-2 text-center hidden-el">
+                        <div id="check-validator" class="card shadow pb-2 text-center hidden-el">
                             <p id="is-a-robot" class="hidden-el">yes</p>
                             <p class="mt-2 mb-0 font-weight-bold">Are you a robot?</p>
                             <div class="text-center">

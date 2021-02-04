@@ -51,9 +51,9 @@ function set_application_navigation_bar(base) {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+                <!--<li class="nav-item">
                     <a class="nav-link font-weight-bold" href="`+base+`/index.html" target="_parent">Home</a>
-                </li>
+                </li>-->
                 <li class="nav-item">
                     <a class="nav-link font-weight-bold" href="`+base+`/application/home.html" target="_parent">Dashboard</a>
                 </li>
@@ -317,7 +317,9 @@ function index_to_tutor_page_submit() {
 }
 
 function reset_error() {
-    document.getElementById('error-card').style.display = 'none';
+    if (document.getElementById('error-card') != null) {
+        document.getElementById('error-card').style.display = 'none';    
+    }
 }
 
 function reset_invalid_input(id) {
@@ -455,6 +457,11 @@ function application_validate_user_document_page(base) {
     set_application_navigation_bar(base);
 }
 
+function application_tutoring_opportunities_page(base) {
+    set_application_navigation_bar(base);
+    set_contact_buttons();
+}
+
 function has_unique_id() {
     var unique = localStorage.getItem('123helpmestudy-unique');
     var now = new Date();
@@ -542,5 +549,8 @@ function main(arg, base) {
     }
     if (arg == '/application/admin/validate-user-document.html') {
         application_validate_user_document_page(base);
-    }    
+    }
+    if (arg == '/application/user/tutoring-opportunities.html') {
+        application_tutoring_opportunities_page(base);
+    }
 }

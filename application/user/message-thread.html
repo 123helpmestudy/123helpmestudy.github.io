@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- GDPR Compliance -->
-        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="5f9b8c19-d69c-42f3-9b9d-35a7ac357acc" data-blockingmode="auto" type="text/javascript"></script>
-        <!-- End GDPR Compliance -->
+        
         <!-- Styling -->
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -21,52 +19,19 @@
         <meta name="author" content="123 Help Me Study">
         <meta name="theme-color" content="#00AAFF" />
         <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
-        <link rel="preconnect" href="https://www.googletagmanager.com/gtm.js" as="GoogleTagManager">
-        <link rel="preconnect" href="https://www.google-analytics.com" as="GoogleAnalytics">
+        
         <!-- End SEO -->
-        <!-- Google Tag Manager -->
-        <script async>
-            (function(w,d,s,l,i){
-                    w[l]=w[l]||[];
-                    w[l].push({
-                        'gtm.start':new Date().getTime(),event:'gtm.js'
-                    });
-                    var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-                    j.async=true;
-                    j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-                    f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-NH3D9DG');
-        </script>
-        <!-- End Google Tag Manager -->
+        
         <!-- Custom styling -->
         <script src="../../assets/js/main.js" type="text/javascript"></script>
         <script src="../../assets/js/api.js" type="text/javascript"></script>
         <link rel="stylesheet" href="../../assets/css/main.css">
-        <script type="application/ld+json">
-        {
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "url": "www.123helpmestudy.com",
-          "name": "123 Help Me Study",
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "email": "123helpmestudy@gmail.com",
-            "contactType": "Customer service"
-          }
-        }
-        </script>
+        
     </head>
     <body>
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NH3D9DG"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
+        
         <div id="main">
-            <!--
-            ##########################################
-            ########### START CODE BLOCK #############
-            ##########################################    
-            -->
+            
             <!-- NAVBAR -->
             <div id="navigation-bar"></div>
             <!-- EASY CONTACT BUTTONS -->
@@ -84,17 +49,17 @@
                     <div class="col">
                     </div>
                     <div class="col-12">
-                        <div class="card bg-white max-card mx-auto">
+                        <div class="card shadow bg-white max-card mx-auto">
                             <div class="card-body p-1">
                                 <div id="previous-messages">
                                     <!-- CODE BLOCK -->
                                 </div>
                             </div>
                         </div>
-                        <div class="card bg-white max-card mx-auto mt-2">
+                        <div class="card shadow bg-white max-card mx-auto mt-3">
                             <div class="card-body p-3">
                                 <h4>Send Message</h4>
-                                <textarea id="new-message" onclick="reset_error();" class="form-control mb-2" rows="6"></textarea>
+                                <textarea id="new-message" onfocus="reset_error();" class="form-control mb-2" rows="6"></textarea>
                                 <button id="submit-new-message" onclick="message_thread_send_message_page_submit_page();" class="btn btn-primary">Send</button>
                                 <button id="show-lesson-booking-form" onclick="toggle_lesson_booking_form_on_messages_page();" class="btn btn-success hidden-el">Book a lesson</button>
                                 <div id="pending-send" class="text-center hidden-el">
@@ -108,7 +73,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="lesson-booking-form" class="card bg-white max-card mx-auto mt-2 hidden-el">
+                        <div id="lesson-booking-form" class="card shadow bg-white max-card mx-auto mt-3 hidden-el">
                             <div class="card-body p-3">
                                 <div class="text-right">
                                     <button onclick="toggle_lesson_booking_form_on_messages_page();" class="btn btn-danger">Close</button>
@@ -117,16 +82,16 @@
                                 <span id="customer-id" class="hidden-el"></span>
                                 <span id="tutor-id" class="hidden-el"></span>
                                 <span id="tutor-rate" class="hidden-el"></span>
-                                <select id="lesson-location" onclick="reset_invalid_input('lesson-location');" class="form-control mb-2">
+                                <select id="lesson-location" onfocus="reset_invalid_input('lesson-location');" class="form-control mb-2">
                                     <option value="-1">Lesson location</option>
                                     <option value="online">Online</option>
                                     <option value="face-to-face">At student home</option>
                                     <option value="face-to-face">At my home</option>
                                     <option value="face-to-face">Other</option>
                                 </select>
-                                <input id="lesson-date" onclick="reset_invalid_input('lesson-date');" class="form-control mb-2" type="date">
-                                <input id="lesson-time" onclick="reset_invalid_input('lesson-time');" class="form-control mb-2" type="time">
-                                <select id="lesson-duration" onclick="reset_invalid_input('lesson-duration');" class="form-control mb-2">
+                                <input id="lesson-date" onfocus="reset_invalid_input('lesson-date');" class="form-control mb-2" type="date">
+                                <input id="lesson-time" onfocus="reset_invalid_input('lesson-time');" class="form-control mb-2" type="time">
+                                <select id="lesson-duration" onfocus="reset_invalid_input('lesson-duration');" class="form-control mb-2">
                                     <option value="-1">Lesson duration</option>
                                     <option value="30">30 minutes</option>
                                     <option value="45">45 minutes</option>
@@ -148,11 +113,11 @@
                                     <option value="285">4 hours 45 minutes</option>
                                     <option value="300">5 hours</option>
                                 </select>
-                                <select id="tutor-subjects" onclick="reset_invalid_input('tutor-subjects');" class="form-control mb-2">
+                                <select id="tutor-subjects" onfocus="reset_invalid_input('tutor-subjects');" class="form-control mb-2">
                                     <option value="-1">Lesson subject</option>
                                     <!-- Tutor subjects Code block-->
                                 </select>
-                                <select id="student-level" onclick="reset_invalid_input('student-level');" class="form-control mb-2">
+                                <select id="student-level" onfocus="reset_invalid_input('student-level');" class="form-control mb-2">
                                     <option value="-1">Student level</option>
                                     <!-- Student level Code block -->
                                 </select>
@@ -178,11 +143,7 @@
                 <div class="row py-5">
                 </div>
             </div>
-            <!--
-            ##########################################
-            ########### END CODE BLOCK ###############
-            ##########################################    
-            -->
+            
         </div>
         <script type="text/javascript">main('/application/user/message-thread.html', window.location.pathname);</script>
         <script type="text/javascript">

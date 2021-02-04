@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- GDPR Compliance -->
-        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="5f9b8c19-d69c-42f3-9b9d-35a7ac357acc" data-blockingmode="auto" type="text/javascript"></script>
-        <!-- End GDPR Compliance -->
         <!-- Styling -->
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -62,11 +59,7 @@
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
         <div id="main">
-            <!--
-            ##########################################
-            ########### START CODE BLOCK #############
-            ##########################################    
-            -->
+            
             <!-- NAVBAR -->
             <div id="navigation-bar"></div>
             <!-- EASY CONTACT BUTTONS -->
@@ -83,16 +76,16 @@
                     <div class="col">
                     </div>
                     <div class="col-12">
-                        <div class="card bg-white max-card mx-auto">
+                        <div class="card bg-white max-card mx-auto shadow">
                             <div class="card-body text-left">
                                 <h2>Login</h2>
                                 <div class="form-group">
                                     <label>Email address</label>
-                                    <input id="email" onclick="reset_error();" type="email" class="form-control">
+                                    <input id="email" onfocus="reset_error();" type="email" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input id="password" onclick="reset_error();" type="password" class="form-control">
+                                    <input id="password" onfocus="reset_error();" type="password" class="form-control">
                                 </div>
                                 <button id="login_submit" onclick="login_page_submit_form();" class="btn btn-primary">Submit</button>
                                 <div id="error-card" class="card mt-3 border border-danger warning-bg hidden-el">
@@ -117,11 +110,7 @@
                 <div class="row py-5">
                 </div>
             </div>
-            <!--
-            ##########################################
-            ########### END CODE BLOCK ###############
-            ##########################################    
-            -->
+            
         </div>
         <script type="text/javascript">main('/information/login.html', window.location.pathname);</script>
         <script type="text/javascript">
