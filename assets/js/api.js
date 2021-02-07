@@ -29,6 +29,20 @@ async function api_call(path, headers, method, payload) {
     };
 }
 
+function validate_target(id) {
+    if (document.getElementById(id).value.length == 0) {
+        var class_list = document.getElementById(id).className;
+        if (class_list.indexOf('is-invalid') == -1) {
+            document.getElementById(id).className = (
+                class_list
+                +' is-invalid'
+            );
+        }
+        return true;
+    }
+    return false;
+}
+
 async function index_page_test_api() {
     var path = ('/api/status');
     var headers = {};
@@ -83,19 +97,6 @@ async function index_page_load_page() {
 }
 
 async function index_page_submit_form() {
-    function validate_target(id) {
-        if (document.getElementById(id).value.length == 0) {
-            var class_list = document.getElementById(id).className;
-            if (class_list.indexOf('is-invalid') == -1) {
-                document.getElementById(id).className = (
-                    class_list
-                    +' is-invalid'
-                );
-            }
-            return true;
-        }
-        return false;
-    }
     /* Validate user input */
     var validate = false;
     if (validate_target('first_name')) {validate = true;}
@@ -199,6 +200,56 @@ function validate_user_check(id) {
 }
 
 async function login_page_submit_form() {
+    /* Data validation */
+    var validate = false;
+    if (validate_target('email')) {validate = true;}
+    if (validate_target('password')) {validate = true;}
+    if (validate) {return false;}
+    var path = '/api/users/login';
+    var headers = {
+        'Access-Token': '',
+    };
+    var method = 'POST';
+    var payload = {
+        'email': document.getElementById('email').value,
+        'secret': btoa(document.getElementById('password').value),
+    };
+    var response = await api_call(
+        path, 
+        headers, 
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        /* Change DOM based on message or data */
+        //response['response']
+        /* Redirect page */
+        localStorage.setItem(
+            "123helpmestudy-email", payload['email']
+        );
+        localStorage.setItem(
+            "123helpmestudy-access-token", response['response']['data']['access-token']
+        );
+        var base = (window.location.pathname).toString().replace('/information/login.html', '');
+        window.location.assign(base+'/application/home.html');
+    } else if (response['status'] == 480) {
+        var base = (window.location.pathname).toString().replace('/information/login.html', '');
+        var parameters = '?email='+payload['email']+'&email_token='
+        window.location.assign(base+'/application/sign-up/email-verification.html'+parameters);
+    } else {
+        document.getElementById('error-card').style.display = 'block';
+        document.getElementById('error-response').innerHTML = response['response']['message'];
+    }
+    //console.log(response['status']);
+    //console.log(response['response']);
+}
+
+async function login_page_reset_password_submit_form() {
+    /* Data validation */
+    var validate = false;
+    if (validate_target('for-forgot-password-email')) {validate = true;}
+    if (validate) {return false;}
+    document.getElementById('reset-email').innerHTML = document.getElementById('for-forgot-password-email').value;
     var path = '/api/users/login';
     var headers = {
         'Access-Token': '',
@@ -519,16 +570,12 @@ async function home_page_load_page() {
             if (
                 attributes[i]['attribute'] == 'hours_taught'
             ) {
-                document.getElementById('hours-taught').innerHTML = (
-                    'Hours tutored - '+attributes[i]['value']
-                );
+                document.getElementById('hours-taught').innerHTML += attributes[i]['value'];
             }
             if (
                 attributes[i]['attribute'] == 'earnings'
             ) {
-                document.getElementById('earnings').innerHTML = (
-                    'Earnings Summary - £'+attributes[i]['value']
-                );
+                document.getElementById('earnings').innerHTML += attributes[i]['value'];
             }
             /* Show user specific cards */
             if (attributes[i]['attribute'] == 'user_type') {
@@ -585,6 +632,24 @@ async function home_page_load_page() {
 }
 
 async function account_page_submit_form() {
+    /* Validate new password is not empty & equal the same */
+    var validate = false;
+    if (validate_target('password')) {validate = true;}
+    if (validate_target('confirm-password')) {validate = true;}
+    if (validate) {return false;}
+    var password = document.getElementById('password').value;
+    var confirm_password = document.getElementById('confirm-password').value;
+    if (password != confirm_password) {
+        document.getElementById('password').className = (
+            document.getElementById('password').className
+            +' is-invalid'
+        );
+        document.getElementById('confirm-password').className = (
+            document.getElementById('confirm-password').className
+            +' is-invalid'
+        );
+        return false;
+    }
     var email = localStorage.getItem('123helpmestudy-email');
     var path = '/api/users/update_user_attribute';
     var headers = {
@@ -652,6 +717,29 @@ async function account_page_submit_form() {
         //console.log(response['status']);
         //console.log(response['response']);
     }
+    /* Update user password */
+    var path = '/api/users/change_password';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'PUT';
+    var payload = {
+        'password': password,
+        'confirm_password': confirm_password
+    };
+    var response = await api_call(
+        path,
+        headers,
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+    } else if (response['status'] == 401) {
+        var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
+        window.location.assign(base+'/information/login.html');
+    } else {}
+    //console.log(response['status']);
+    //console.log(response['response']);
     window.location.reload();
 }
 
@@ -703,13 +791,17 @@ async function account_page_load_page() {
             if (attributes[i]['attribute'] == 'country') {
                 document.getElementById('country').value = attributes[i]['value'];
             }
+            if (attributes[i]['attribute'] == 'password') {
+                document.getElementById('password').value = atob(attributes[i]['value']);
+                document.getElementById('confirm-password').value = atob(attributes[i]['value']);
+            }
         }
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    //console.log(response['response']);
+    console.log(response['response']);
 }
 
 async function tutor_profile_page_load_page() {
@@ -829,10 +921,6 @@ async function tutor_profile_page_load_page() {
     } else {}
     //console.log(response['status']);
     //console.log(response['response']);
-}
-
-function tutor_profile_page_click_element_by_id(id) {
-    document.getElementById(id).click();
 }
 
 async function tutor_profile_page_submit_form() {
@@ -1151,19 +1239,6 @@ function contact_us_load_page() {
 }
 
 async function contact_us_page_submit() {
-    function validate_target(id) {
-        if (document.getElementById(id).value.length == 0) {
-            var class_list = document.getElementById(id).className;
-            if (class_list.indexOf('is-invalid') == -1) {
-                document.getElementById(id).className = (
-                    class_list
-                    +' is-invalid'
-                );
-            }
-            return true;
-        }
-        return false;
-    }
     /* Validate user input */
     var validate = false;
     if (validate_target('email')) {validate = true;}
@@ -1295,19 +1370,6 @@ async function message_tutor_load_page(id) {
 }
 
 async function message_tutor_page_submit() {
-    function validate_target(id) {
-        if (document.getElementById(id).value.length == 0) {
-            var class_list = document.getElementById(id).className;
-            if (class_list.indexOf('is-invalid') == -1) {
-                document.getElementById(id).className = (
-                    class_list
-                    +' is-invalid'
-                );
-            }
-            return true;
-        }
-        return false;
-    }
     /* Validate user input */
     var validate = false;
     if (validate_target('email')) {validate = true;}
@@ -1381,7 +1443,7 @@ async function remove_users_load_page() {
         var users = response['response']['data'];
         for (var i = 0; i < users.length; i++) {
             var html = `
-            <div class="card mb-3 p-3 danger-dashboard-button text-center">
+            <div class="card shadow-sm mb-3 p-3 danger-dashboard-button text-center">
                 <div class="card-body">
                     <p onclick="remove_users_validate('show-keep-record', `+users[i]['user_id']+`, '');" class="mb-0 hover-pointer">`+users[i]['email']+`</p>
                 </div>
@@ -1730,7 +1792,7 @@ async function message_thread_book_lesson_submit_page() {
         'tutor_id': document.getElementById('tutor-id').innerHTML,
         'lesson_location': lesson_location,
         'location': '',
-        'lesson_fee': document.getElementById('tutor-rate').innerHTML
+        'hourly_rate': document.getElementById('tutor-rate').innerHTML
     };
     var response = await api_call(
         path, 
@@ -1791,12 +1853,22 @@ async function lessons_page_load_page() {
                     <p class="text-danger mb-0">Lesson payment status: `+lessons[i]['payment_received']+`</p>
                     <small class="text-secondary">Please do not attend this lesson until payment is confirmed, otherwise we can <b>not</b> guarantee payment to you.</small>
                     `;
+                } else {
+                    var payment_activity = `
+                    <div class="card border border-success success-bg">
+                        <div class="card-body">
+                            <p class="text-center font-weight-bold m-0">
+                                Payment successful, enjoy your lesson!
+                            </p>
+                        </div>
+                    </div>
+                    `;
                 }
             }
             var html = `
             <div class="row mb-1">                        
                 <div class="col p-0">
-                    <div class="card">
+                    <div class="card shadow-sm">
                         <div class="card-body text-left">
                             <div class="px-4">
                                 <p class="mb-0 font-weight-bold">`+lessons[i]['lesson_date']+`</p>
@@ -1816,7 +1888,6 @@ async function lessons_page_load_page() {
                                     <div id="error-card-date-time-`+lessons[i]['lesson_id']+`" class="card border mb-3 border-danger warning-bg hidden-el">
                                         <div class="card-body">
                                             <p id="error-response-date-time-`+lessons[i]['lesson_id']+`" class="text-center font-weight-bold m-0">
-                                                Test
                                             </p>
                                         </div>
                                     </div>

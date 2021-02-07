@@ -11,26 +11,26 @@ function set_navigation_bar(base) {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/index.html" target="_parent">Home</a>
+                <li class="nav-item"> 
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/index.html" target="_parent"><i class="bi-house"></i> Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/information/about-us.html">About Us</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/about-us.html"><i class="bi-person"></i> About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/information/tutors.html" target="_parent">Tutors</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/tutors.html" target="_parent"><i class="bi-award"></i> Tutors</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/information/contact-us.html" target="_parent">Contact Us</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/contact-us.html" target="_parent"><i class="bi-chat-right-text"></i> Contact Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="https://www.facebook.com/123helpmestudy" target="_blank">Facebook</a>
+                    <a class="nav-link font-weight-bold px-3" href="https://www.facebook.com/123helpmestudy" target="_blank"><i class="bi-facebook"></i> Facebook</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/information/sign-up.html" target="_parent">Sign Up</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/sign-up.html" target="_parent"><i class="bi-person-plus"></i> Sign Up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/information/login.html">Login</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/login.html"><i class="bi-box-arrow-right"></i> Login</a>
                 </li>
             </ul>
         </div>
@@ -52,19 +52,19 @@ function set_application_navigation_bar(base) {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <!--<li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/index.html" target="_parent">Home</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/index.html" target="_parent"><i class="bi-house"></i> Home</a>
                 </li>-->
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/application/home.html" target="_parent">Dashboard</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/application/home.html" target="_parent"><i class="bi-pentagon"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/information/tutors.html" target="_parent">Tutors</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/tutors.html" target="_parent"><i class="bi-award"></i> Tutors</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/information/contact-us.html" target="_parent">Contact Us</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/contact-us.html" target="_parent"><i class="bi-chat-right-text"></i> Contact Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href="`+base+`/information/login.html" target="_parent">Logout</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/login.html" target="_parent"><i class="bi-box-arrow-left"></i> Logout</a>
                 </li>
             </ul>
         </div>

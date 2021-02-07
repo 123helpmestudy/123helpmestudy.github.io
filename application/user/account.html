@@ -48,10 +48,10 @@
                     <div class="col">
                     </div>
                     <div class="col-12">
-                        <div class="card bg-white max-card mx-auto text-left mb-5">
+                        <div class="card shadow bg-white max-card mx-auto text-left mb-5">
                             <div class="card-body">
                                 <div class="text-right mb-3">
-                                    <buton onclick="account_page_submit_form();" class="btn btn-success">Save Details</buton>
+                                    <button onclick="account_page_submit_form();" class="btn btn-success">Save Details</button>
                                 </div>
                                 <p id="email">User Email: </p>
                                 <div class="row mb-3">
@@ -62,7 +62,7 @@
                                         <input id="last-name" class="form-control" type="text" value="" placeholder="Last Name">
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                <div class="row mb-2">
                                     <div class="col">
                                         <input id="mobile" class="form-control" type="text" value="" placeholder="Mobile">
                                         <p class="mt-4 mb-1">Date of Birth:</p>
@@ -78,9 +78,22 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="card">
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <p class="mt-4 mb-1">Account Password:</p>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Password: </label>
+                                            <input id="password" onfocus="reset_invalid_input('password');" class="form-control mx-3 mb-0 col-sm-7" type="password" value="">
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Confirm Password: </label>
+                                            <input id="confirm-password" onfocus="reset_invalid_input('confirm-password');" class="form-control mx-3 mb-0 col-sm-7" type="password" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card shadow-sm">
                                     <div class="card-body">
-                                        <p>
+                                        <p class="mb-0">
                                             <small>
                                                 We do not currently allow users to change 
                                                 their own email for security reasons. Should 
