@@ -85,37 +85,95 @@
                                             <option>Masters's Degree</option>
                                             <option>PhD</option>
                                         </select>
-                                        <p class="align-middle mb-1">
+                                        <p class="align-middle mb-0">
                                             Add a copy of your qualifications:
                                             <img id="qualification" onclick="tutor_profile_page_click_element_by_id('qualification-upload');" class="btn p-0 add-img-btn circle-img" src="../../assets/images/add_image.svg">
                                             <img id="tick-qualification" class="p-0 add-img-btn circle-img hidden-el" src="../../assets/images/tick_image.svg">
                                         </p>
-                                        <button id="qualification-document-pending" class="btn btn-warning hidden-el">Pending</button>
-                                        <button id="qualification-document-confirmed" class="btn btn-success hidden-el">Confirmed</button>
+                                        <p class="font-italic text-secondary">
+                                            <small>
+                                                Must be less than 2mb in size.
+                                            </small>
+                                        </p>
+                                        <!--<button id="qualification-document-pending" class="btn btn-warning hidden-el">Pending</button>-->
+                                        <!--<button id="qualification-document-confirmed" class="btn btn-success hidden-el">Confirmed</button>-->
+                                        <div id="qualification-document-pending" class="card mt-3 border border-warning alert-bg hidden-el">
+                                            <div class="card-body">
+                                                <p class="text-center font-weight-bold m-0">
+                                                    Pending approval.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div id="qualification-document-confirmed" class="card mt-3 border border-success success-bg hidden-el">
+                                            <div class="card-body">
+                                                <p class="text-center font-weight-bold m-0">
+                                                    Your qualifications have been approved.
+                                                </p>
+                                            </div>
+                                        </div>
                                         <input id="qualification-upload" onchange="set_file_on_submit('qualification-document-store', 'qualification-upload', 'tick-qualification');" class="form-control-file py-1 hidden-el" type="file" accept="application/pdf">
                                         <span id="qualification-document-store" class="hidden-el"></span>
                                         <p class="mt-5">Please select your three preferred subjects:</p>
                                         <select id="subject-options-1" class="form-control mb-4"></select>
                                         <select id="subject-options-2" class="form-control mb-4"></select>
                                         <select id="subject-options-3" class="form-control mb-5"></select>
-                                        <p class="align-middle mb-1">
+                                        <p class="align-middle mb-0">
                                             Add a copy of your background / police check <i>(recommended)</i>:
                                             <img id="background-check" onclick="tutor_profile_page_click_element_by_id('background-check-upload');" class="btn p-0 add-img-btn circle-img" src="../../assets/images/add_image.svg">
                                             <img id="tick-background-check" class="p-0 add-img-btn circle-img hidden-el" src="../../assets/images/tick_image.svg">
                                         </p>
-                                        <button id="background-check-document-pending" class="btn btn-warning hidden-el">Pending</button>
-                                        <button id="background-check-document-confirmed" class="btn btn-success hidden-el">Confirmed</button>
+                                        <p class="font-italic text-secondary">
+                                            <small>
+                                                Must be less than 2mb in size.
+                                            </small>
+                                        </p>
+                                        <!--<button id="background-check-document-pending" class="btn btn-warning hidden-el">Pending</button>-->
+                                        <!--<button id="background-check-document-confirmed" class="btn btn-success hidden-el">Confirmed</button>-->
+                                        <div id="background-check-document-pending" class="card mt-3 border border-warning alert-bg hidden-el">
+                                            <div class="card-body">
+                                                <p class="text-center font-weight-bold m-0">
+                                                    Pending approval.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div id="background-check-document-confirmed" class="card mt-3 border border-success success-bg hidden-el">
+                                            <div class="card-body">
+                                                <p class="text-center font-weight-bold m-0">
+                                                    Your background check documents have been approved.
+                                                </p>
+                                            </div>
+                                        </div>
                                         <input id="background-check-upload" onchange="set_file_on_submit('background-check-document-store', 'background-check-upload', 'tick-background-check');" class="form-control-file py-1 hidden-el" type="file" accept="application/pdf">
                                         <span id="background-check-document-store" class="hidden-el"></span>
-                                        <p class="align-middle mb-1 mt-5">
+                                        <p class="align-middle mb-0 mt-5">
                                             Add a copy of your qualified teacher status <i>(optional)</i>:
                                             <img id="teacher-status" onclick="tutor_profile_page_click_element_by_id('teacher-status-upload');" class="btn p-0 add-img-btn circle-img" src="../../assets/images/add_image.svg">
                                             <img id="tick-teacher-status" class="p-0 add-img-btn circle-img hidden-el" src="../../assets/images/tick_image.svg">
                                         </p>
-                                        <button id="teacher-status-document-pending" class="btn btn-warning hidden-el">Pending</button>
-                                        <button id="teacher-status-document-confirmed" class="btn btn-success hidden-el">Confirmed</button>
+                                        <p class="font-italic text-secondary">
+                                            <small>
+                                                Must be less than 2mb in size.
+                                            </small>
+                                        </p>
+                                        <!--<button id="teacher-status-document-pending" class="btn btn-warning hidden-el">Pending</button>-->
+                                        <!--<button id="teacher-status-document-confirmed" class="btn btn-success hidden-el">Confirmed</button>-->
+                                        <div id="teacher-status-document-pending" class="card mt-3 border border-warning alert-bg hidden-el">
+                                            <div class="card-body">
+                                                <p class="text-center font-weight-bold m-0">
+                                                    Pending approval.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div id="teacher-status-document-confirmed" class="card mt-3 border border-success success-bg hidden-el">
+                                            <div class="card-body">
+                                                <p class="text-center font-weight-bold m-0">
+                                                    Your teacher status documents have been approved.
+                                                </p>
+                                            </div>
+                                        </div>
                                         <input id="teacher-status-upload" onchange="set_file_on_submit('teacher-status-document-store', 'teacher-status-upload', 'tick-teacher-status');" class="form-control-file py-1 hidden-el" type="file" accept="application/pdf">
                                         <span id="teacher-status-document-store" class="hidden-el"></span>
+                                        <div class="py-3"></div>
                                     </div>
                                 </div>
                             </div>

@@ -55,7 +55,7 @@ function set_application_navigation_bar(base) {
                     <a class="nav-link font-weight-bold px-3" href="`+base+`/index.html" target="_parent"><i class="bi-house"></i> Home</a>
                 </li>-->
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/application/home.html" target="_parent"><i class="bi-pentagon"></i> Dashboard</a>
+                    <a class="nav-link font-weight-bold px-3" href="`+base+`/application/home.html" target="_parent"><i class="bi-grid-3x3-gap"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link font-weight-bold px-3" href="`+base+`/information/tutors.html" target="_parent"><i class="bi-award"></i> Tutors</a>
@@ -411,6 +411,7 @@ function application_messages_page(base) {
 function application_message_thread_page(base) {
     set_application_navigation_bar(base);
     set_contact_buttons();
+    tutor_page_set_input_string_length('new-message', 'message-str-len');
 }
 
 function application_account_page(base) {

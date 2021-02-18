@@ -89,6 +89,42 @@
                                             <label class="col-sm-4 col-form-label">Confirm Password: </label>
                                             <input id="confirm-password" onfocus="reset_invalid_input('confirm-password');" class="form-control mx-3 mb-0 col-sm-7" type="password" value="">
                                         </div>
+                                        <div id="error-card" class="card mt-3 border border-danger warning-bg hidden-el">
+                                            <div class="card-body">
+                                                <p id="error-response" class="text-center font-weight-bold m-0"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="confirm-identity-card" class="row mb-3">
+                                    <div class="col">
+                                        <p class="mb-1">Confirm Identity:</p>
+                                        <p class="align-middle mb-0">
+                                            Add a copy of your passport or drivers license:
+                                            <img id="identity-status" onclick="account_page_click_element_by_id('identity-status-upload');" class="btn p-0 add-img-btn circle-img" src="../../assets/images/add_image.svg">
+                                            <img id="tick-identity-status" class="p-0 add-img-btn circle-img hidden-el" src="../../assets/images/tick_image.svg">
+                                        </p>
+                                        <p class="font-italic text-secondary">
+                                            <small>
+                                                Must be less than 2mb in size.
+                                            </small>
+                                        </p>
+                                        <input id="identity-status-upload" onchange="set_file_on_submit('identity-status-document-store', 'identity-status-upload', 'tick-identity-status');" class="form-control-file py-1 hidden-el" type="file" accept="application/pdf,image/png,image/jpeg">
+                                        <span id="identity-status-document-store" class="hidden-el"></span>
+                                        <div id="identity-card-waiting" class="card mt-3 border border-warning alert-bg">
+                                            <div class="card-body">
+                                                <p id="identity-response-waiting" class="text-center font-weight-bold m-0">
+                                                    Please submit a copy.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div id="identity-card-attached" class="card mt-3 border border-success success-bg hidden-el">
+                                            <div class="card-body">
+                                                <p id="identity-response-attached" class="text-center font-weight-bold m-0">
+                                                    Identity verified, thank you.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card shadow-sm">
@@ -119,6 +155,11 @@
         </div>
         <script type="text/javascript">main('/application/user/account.html', window.location.pathname);</script>
         <script type="text/javascript">account_page_load_page();</script>
+        <script type="text/javascript">
+            function account_page_click_element_by_id(id) {
+                document.getElementById(id).click();
+            }
+        </script>
         <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>

@@ -1,5 +1,5 @@
-//var BASE_URL = 'http://127.0.0.1:8000';
-var BASE_URL = 'https://api.123helpmestudy.com';
+var BASE_URL = 'http://127.0.0.1:8000';
+// var BASE_URL = 'https://api.123helpmestudy.com';
 
 async function api_call(path, headers, method, payload) {
     var url = BASE_URL+path;
@@ -157,6 +157,89 @@ async function index_page_submit_form() {
     //console.log(response['response']);
 }
 
+async function index_page_server_offline_request_submit_page() {
+    /* Validation */
+    var validate = false;
+    if (validate_target('offline-first-name')) {validate = true;}
+    if (validate_target('offline-last-name')) {validate = true;}
+    if (validate_target('offline-mobile')) {validate = true;}
+    if (validate_target('offline-email')) {validate = true;}
+    if (validate) {return false;}
+    if (document.getElementById('offline-tick-terms-and-conditions').checked == false) {
+        document.getElementById('offline-error-response').innerHTML = (
+            'To proceed, please read and agree to our terms '
+            +'and conditions, and our privacy policy.');
+        document.getElementById('offline-error-card').style.display = 'block';
+        return false;
+    }
+    if (document.getElementById('offline-tick-privacy-policy').checked == false) {
+        document.getElementById('offline-error-response').innerHTML = (
+            'To proceed, please read and agree to our terms '
+            +'and conditions, and our privacy policy.');
+        document.getElementById('offline-error-card').style.display = 'block';
+        return false;
+    }
+    /* Robotic test */
+    if (document.getElementById('offline-is-not-robot').checked == false) {
+        document.getElementById('offline-check-validator').style.display = 'block';
+        var first_number = parseInt(document.getElementById('first-number').innerHTML);
+        var second_number = parseInt(document.getElementById('second-number').innerHTML);
+        var response = document.getElementById('math-outcome').value;
+        var calculated_check = first_number + second_number;
+        if (response == calculated_check) {
+            // Validated
+            document.getElementById('offline-check-validator').style.display = 'none';
+        } else {
+            return false;
+        }
+    }
+    document.getElementById('offline-submit-form').style.display = 'none';
+    document.getElementById('offline-pending-send').style.display = 'block';
+    /* API execute */
+    var text = 'WARNING: OFFLINE MESSAGE\n'
+        + 'First Name: '
+        + document.getElementById('offline-first-name').value + '\n'
+        + 'Last Name: '
+        + document.getElementById('offline-last-name').value + '\n'
+        + 'Mobile: '
+        + document.getElementById('offline-mobile').value + '\n'
+        + 'Email: '
+        + document.getElementById('offline-email').value + '\n'
+        + '-------------------'
+    ;
+    var url = 'https://hooks.slack.com/services/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';
+    var headings = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    };
+    var requestOptions = {
+        headers: headings,
+        method: 'POST',
+        mode: 'no-cors',
+        redirect: 'follow'
+    };
+    var payload = {
+        'text': text
+    };
+    requestOptions['body'] = JSON.stringify(payload);
+    var response = await fetch(url, requestOptions);
+    document.getElementById('offline-pending-send').style.display = 'none';
+    document.getElementById('offline-success-card').style.display = 'block';
+    // var formatted_response = {
+    //     'status': response.status, 
+    //     'response': json_response
+    // };
+    // if (response['status'] == 200) {
+    //     document.getElementById('offline-pending-send').style.display = 'none';
+    //     document.getElementById('offline-success-card').style.display = 'block';
+    // } else {
+    //     document.getElementById('offline-error-response').innerHTML = (
+    //         'Sadly, we have not managed to process you message '
+    //         + 'please try again later..');
+    //     document.getElementById('offline-error-card').style.display = 'block';
+    // }
+}
+
 async function validate_user_interaction_page_load() {
     var path = ('/api/validate_user_interaction');
     var headers = {};
@@ -199,12 +282,31 @@ function validate_user_check(id) {
     }
 }
 
+async function login_page_load_page() {
+    var remember_me = localStorage.getItem('123helpmestudy-remember-me');
+    if (remember_me == 'true') {
+        document.getElementById('remember-me').checked = true;
+        document.getElementById('email').value = localStorage.getItem('123helpmestudy-email');
+        document.getElementById('password').value = atob(
+            localStorage.getItem('123helpmestudy-secret')
+        );
+    }
+    
+    // var secret = localStorage.getItem('123helpmestudy-secret');
+}
+
 async function login_page_submit_form() {
     /* Data validation */
     var validate = false;
     if (validate_target('email')) {validate = true;}
     if (validate_target('password')) {validate = true;}
     if (validate) {return false;}
+    if (document.getElementById('remember-me').checked) {
+        localStorage.setItem('123helpmestudy-remember-me', true);
+        localStorage.setItem('123helpmestudy-secret', btoa(
+            document.getElementById('password').value
+        ));
+    }
     var path = '/api/users/login';
     var headers = {
         'Access-Token': '',
@@ -372,7 +474,6 @@ async function email_verification_submit_form() {
 }
 
 async function home_page_submit_user_type_form(user_type) {
-    console.log(user_type);
     var path = '/api/users/update_user_attribute';
     var headers = {
         'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
@@ -623,12 +724,14 @@ async function home_page_load_page() {
                 document.getElementById('tutor-resources').style.display = 'block';
             }
         }
+        document.getElementById('pending-load-page').style.display = 'none';
+        document.getElementById('navigation-card').style.display = 'block';
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['status']);
+    //console.log(response['response']);
 }
 
 async function account_page_submit_form() {
@@ -648,6 +751,8 @@ async function account_page_submit_form() {
             document.getElementById('confirm-password').className
             +' is-invalid'
         );
+        document.getElementById('error-response').innerHTML = 'Password does not match Confirm password.'
+        document.getElementById('error-card').style.display = 'block';
         return false;
     }
     var email = localStorage.getItem('123helpmestudy-email');
@@ -738,8 +843,34 @@ async function account_page_submit_form() {
         var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    /* Upload user identity */
+    var user_identity_document = document.getElementById('identity-status-document-store').innerHTML;
+    if (user_identity_document.length > 0) {
+        var email = localStorage.getItem('123helpmestudy-email');
+        var path = '/api/users/update_user_attribute';
+        var headers = {
+            'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+        };
+        var method = 'PUT';
+        var payload = {
+            'email': email,
+            'attribute': 'user_identity_document',
+            'value': user_identity_document
+        };
+        var response = await api_call(
+            path,
+            headers,
+            method,
+            payload
+        );
+        if (response['status'] == 200) {
+        } else if (response['status'] == 401) {
+            var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
+            window.location.assign(base+'/information/login.html');
+        } else {}
+        //console.log(response['status']);
+        //console.log(response['response']);
+    }
     window.location.reload();
 }
 
@@ -795,13 +926,27 @@ async function account_page_load_page() {
                 document.getElementById('password').value = atob(attributes[i]['value']);
                 document.getElementById('confirm-password').value = atob(attributes[i]['value']);
             }
+            if (
+                attributes[i]['attribute'] == 'user_identity_document'
+                &&
+                attributes[i]['value'] == 'confirmed'
+            ) {
+                document.getElementById('identity-card-waiting').style.display = 'none';
+                document.getElementById('identity-card-attached').style.display = 'block';
+            } else if (
+                attributes[i]['attribute'] == 'user_identity_document'
+                &&
+                attributes[i]['value'] != ''
+            ) {
+                document.getElementById('identity-response-waiting').innerHTML = 'Awaiting approval.';
+            }
         }
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['response']);
 }
 
 async function tutor_profile_page_load_page() {
@@ -914,7 +1059,6 @@ async function tutor_profile_page_load_page() {
         );
         localStorage.removeItem('123helpmestudy-background-tutor-1');
         localStorage.removeItem('123helpmestudy-background-tutor-2');
-
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
         window.location.assign(base+'/information/login.html');
@@ -980,27 +1124,26 @@ async function tutor_profile_page_submit_form() {
             'value': profile_photo_base64
         });
     }
-    if (localStorage.getItem('123helpmestudy-qualification-document')) {
+    var qualification_document_store = document.getElementById('qualification-document-store').innerHTML;
+    if (qualification_document_store.length > 0) {
         attributes_list.push({
             'attribute': 'qualification_support_document',
-            'value': localStorage.getItem('123helpmestudy-qualification-document')
+            'value': qualification_document_store
         });
-        localStorage.removeItem('123helpmestudy-qualification-document');
     }
-    if (localStorage.getItem('123helpmestudy-background-check-document')) {
+    var background_check_document_store = document.getElementById('background-check-document-store').innerHTML;
+    if (background_check_document_store.length > 0) {
         attributes_list.push({
             'attribute': 'background_check_document',
-            'value': localStorage.getItem('123helpmestudy-background-check-document')
+            'value': background_check_document_store
         });
-        localStorage.removeItem('123helpmestudy-background-check-document');
     }
-    if (localStorage.getItem('123helpmestudy-teacher-status-document')) {
+    var teacher_status_document_store = document.getElementById('teacher-status-document-store').innerHTML;
+    if (teacher_status_document_store.length > 0) {
         attributes_list.push({
             'attribute': 'teacher_status_document',
-            'value': localStorage.getItem('123helpmestudy-teacher-status-document')
+            'value': teacher_status_document_store
         });
-        localStorage.removeItem('123helpmestudy-teacher-status-document');
-
     }
     for (var i = 0; i < attributes_list.length; i++) {
         var payload = {
@@ -1015,7 +1158,6 @@ async function tutor_profile_page_submit_form() {
             payload
         );
         if (response['status'] == 200) {
-            
         } else if (response['status'] == 401) {
             var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
             window.location.assign(base+'/information/login.html');
@@ -1220,7 +1362,7 @@ async function profile_page_load_page(id) {
         document.getElementById('loading-card').style.display = 'none';
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['response']);
 }
 
 function contact_us_load_page() {
@@ -1685,7 +1827,7 @@ async function message_thread_page_load_page(id) {
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['response']);
 }
 
 async function message_thread_send_message_page_submit_page() {
@@ -1806,7 +1948,12 @@ async function message_thread_book_lesson_submit_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
+    } else {
+        document.getElementById('pending-send-2').style.display = 'none';
+        document.getElementById('error-card-2').style.display = 'block';
+        document.getElementById('submit-book-lesson').style.display = 'block';
+        document.getElementById('error-response-2').innerHTML = response['response']['message'];
+    }
     //console.log(response['status']);
     //console.log(response['response']);
 }
@@ -1826,6 +1973,7 @@ async function lessons_page_load_page() {
         payload
     );
     if (response['status'] == 200) {
+        /* Upcoming Lessons */
         var lessons = response['response']['data']['upcoming_lessons'];
         if (lessons.length > 0) {
             document.getElementById('no-upcoming-lessons').style.display = 'none';
@@ -1893,7 +2041,18 @@ async function lessons_page_load_page() {
                                     </div>
                                 </div>
                                 <div class="mt-3">
-                                    <button onclick="show_cancel_lesson_confirm(`+lessons[i]['lesson_id']+`);" class="btn btn-danger">Cancel lesson</button>
+                                    <!-- Download iCal -->
+                                    <input id="ics-subject-`+lessons[i]['lesson_id']+`" value="`+ lessons[i]['ics_subject'] +`" class="hidden-el">
+                                    <input id="ics-description-`+lessons[i]['lesson_id']+`" value="`+ lessons[i]['ics_description'] +`" class="hidden-el">
+                                    <input id="ics-location-`+lessons[i]['lesson_id']+`" value="`+ lessons[i]['ics_location'] +`" class="hidden-el">
+                                    <input id="ics-begin-`+lessons[i]['lesson_id']+`" value="`+ lessons[i]['ics_begin'] +`" class="hidden-el">
+                                    <input id="ics-end-`+lessons[i]['lesson_id']+`" value="`+ lessons[i]['ics_end'] +`" class="hidden-el">
+                                    <input id="ics-filename-`+lessons[i]['lesson_id']+`" value="`+ lessons[i]['ics_filename'] +`" class="hidden-el">
+                                    <button onclick="create_ics(`+lessons[i]['lesson_id']+`);" class="btn btn-info">Download Calendar Event</button>
+                                </div>
+                                <div class="mt-3">
+                                    <!-- Cancel lesson -->
+                                    <button onclick="show_cancel_lesson_confirm(`+lessons[i]['lesson_id']+`);" class="btn btn-danger mr-1">Cancel lesson</button>
                                     <button onclick="lessons_page_cancel_order(`+lessons[i]['lesson_id']+`);" id="confirm-cancel-button-`+lessons[i]['lesson_id']+`" class="btn btn-warning hidden-el">Confirm Cancel</button>
                                 </div>
                             </div>
@@ -1904,12 +2063,62 @@ async function lessons_page_load_page() {
             `;
             document.getElementById('lessons-list').innerHTML += html;
         }
+
+        /* Historical Lessons */
+        var lessons = response['response']['data']['historical_lessons'];
+        if (lessons.length > 0) {
+            document.getElementById('show-historical-lessons').style.display = 'block';
+        }
+        for (var i = 0; i < lessons.length; i++) {
+            if (lessons[i]['payment_received'] != 'complete') {
+                var payment_activity = `
+                <div class="card border border-danger warning-bg">
+                    <div class="card-body">
+                        <p class="text-center font-weight-bold m-0">
+                            Payment was NOT taken.
+                        </p>
+                    </div>
+                </div>
+                `;
+            } else {
+                var payment_activity = `
+                <div class="card border border-success success-bg">
+                    <div class="card-body">
+                        <p class="text-center font-weight-bold m-0">
+                            Payment was successful.
+                        </p>
+                    </div>
+                </div>
+                `;
+            }
+            var html = `
+            <div class="row mb-1">                        
+                <div class="col p-0">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-left">
+                            <div class="px-4">
+                                <p class="mb-0 font-weight-bold">`+lessons[i]['lesson_date']+`</p>
+                                <p class="mb-0">`+lessons[i]['header']+`</p>
+                                <p class="mb-0">Tutor fee: £`+lessons[i]['lesson_fee']+`</p>
+                                <div class="mt-3">
+                                    `+payment_activity+`
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+            document.getElementById('historical-lessons-list').innerHTML += html;
+        }
+
+
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/lessons.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['response']);
 }
 
 async function lessons_page_cancel_order(id) {
@@ -2035,7 +2244,7 @@ async function payment_options_create_stripe_payment_intent_submit_form() {
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['response']);
 }
 
 async function record_stripe_payment_submit_page(id, reference) {
@@ -2060,8 +2269,8 @@ async function record_stripe_payment_submit_page(id, reference) {
         //window.location.assign(base+'/information/login.html');
     } else {
     }
-    console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['status']);
+    //console.log(response['response']);
     //window.location.reload();
 }
 
@@ -2134,16 +2343,16 @@ async function payment_options_load_page(id) {
                 //var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
                 //window.location.assign(base+'/information/login.html');
             } else {}
-            console.log(response['status']);
-            console.log(response['response']);
+            //console.log(response['status']);
+            //console.log(response['response']);
             /* End New API call */
         }
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['status']);
+    //console.log(response['response']);
 }
 
 async function payment_options_bacs_evidence_page_submit_form() {
@@ -2265,7 +2474,6 @@ async function customer_profile_page_load_page() {
                 localStorage.setItem('123helpmestudy-customer-request-detail-2', attributes[i]['value']);
             }
             if (attributes[i]['attribute'] == 'customer_advertisement_status') {
-                console.log(attributes[i]['value']);
                 if (attributes[i]['value'] == 'open') {
                     document.getElementById('advertisement-status').value = 'open';
                     document.getElementById('check-open-status').className = 'col btn m-0 bg-primary font-weight-bold text-white';
@@ -2341,7 +2549,7 @@ async function sensor_user_messages_load_page() {
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['response']);
 }
 
 async function sensor_user_messages_submit_page(id) {
@@ -2429,7 +2637,7 @@ async function record_payment_load_page() {
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['response']);
 }
 
 async function record_payment_submit_page(id) {
@@ -2619,8 +2827,8 @@ async function tutoring_opportunities_load_page() {
         var base = (window.location.pathname).toString().replace('/application/user/tutoring-opportunities.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    //console.log(response['status']);
+    //console.log(response['response']);
 }
 
 async function tutoring_opportunities_submit_page(id) {

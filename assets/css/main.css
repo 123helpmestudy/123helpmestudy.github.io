@@ -56,6 +56,9 @@ body{
 .warning-bg{
     background-color: rgba(255, 168, 168, 0.801);
 }
+.alert-bg{
+    background-color: rgba(255, 221, 109, 0.493);
+}
 .success-bg{
     background-color: rgba(130, 248, 146, 0.541);
 }

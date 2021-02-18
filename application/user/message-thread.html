@@ -60,6 +60,7 @@
                             <div class="card-body p-3">
                                 <h4>Send Message</h4>
                                 <textarea id="new-message" onfocus="reset_error();" class="form-control mb-2" rows="6"></textarea>
+                                <p class="mt-0 pt-0 pr-1 text-right mb-3"><small id="message-str-len">0 / 500</small></p>
                                 <button id="submit-new-message" onclick="message_thread_send_message_page_submit_page();" class="btn btn-primary">Send</button>
                                 <button id="show-lesson-booking-form" onclick="toggle_lesson_booking_form_on_messages_page();" class="btn btn-success hidden-el">Book a lesson</button>
                                 <div id="pending-send" class="text-center hidden-el">
@@ -172,8 +173,10 @@
                     ||
                     document.getElementById('lesson-booking-form').style.display == ''
                 ) {
+                    document.getElementById('show-lesson-booking-form').style.display = 'none';
                     document.getElementById('lesson-booking-form').style.display = 'block';
                 } else {
+                    document.getElementById('show-lesson-booking-form').style.display = 'inline';
                     document.getElementById('lesson-booking-form').style.display = 'none';
                 }
             }

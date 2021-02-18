@@ -45,7 +45,7 @@
                     <div class="col-12">
                         <div class="card shadow bg-white max-card mx-auto">
                             <div class="card-body text-center">
-                                <!-- TABLE SPACE -->
+                                <!-- UPCOMING LESSONS -->
                                 <div class="row mb-1">
                                     <div class="col primary-bg py-1">
                                         <h4 class="text-center font-weight-bold text-white p-1 m-0">Pending Lessons</h4>
@@ -63,7 +63,27 @@
                                 <div id="lessons-list">
                                     <!-- CODE BLOCK -->
                                 </div>
-                                <!-- TABLE SPACE -->
+                                <!-- END TABLE SPACE -->
+                            </div>
+                        </div>
+
+                        <div id="show-historical-lessons" class="mt-4 hidden-el">
+                            <div class="card shadow bg-white max-card mx-auto">
+                                <div class="text-right mt-2 mr-1 hidden-el">
+                                    <button class="btn btn-primary">Download a copy</button>
+                                </div>
+                                <div class="card-body text-center">
+                                    <!-- HISTORICAL LESSONS -->
+                                    <div class="row mb-1">
+                                        <div class="col primary-bg py-1">
+                                            <h4 class="text-center font-weight-bold text-white p-1 m-0">Historical Lessons</h4>
+                                        </div>
+                                    </div>
+                                    <div id="historical-lessons-list">
+                                        <!-- CODE BLOCK -->
+                                    </div>
+                                    <!-- END TABLE SPACE -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -102,17 +122,33 @@
                 document.getElementById('error-card-date-time-'+id).style.display = 'none';
             }
             function show_cancel_lesson_confirm(id) {
-                document.getElementById('confirm-cancel-button-'+id).style.display = 'inline';
+                if (
+                    document.getElementById('confirm-cancel-button-'+id).style.display == 'none'
+                    ||
+                    document.getElementById('confirm-cancel-button-'+id).style.display == ''
+                ) {
+                    document.getElementById('confirm-cancel-button-'+id).style.display = 'inline';
+                } else {
+                    document.getElementById('confirm-cancel-button-'+id).style.display = 'none';
+                }
             }
-            function create_i_cal(subject, description, location, begin, end, filename) {
+            function create_ics(id) {
+                
+                var subject = document.getElementById('ics-subject-'+id).value;
+                var description = document.getElementById('ics-description-'+id).value;
+                var location = document.getElementById('ics-location-'+id).value;
+                var begin = document.getElementById('ics-begin-'+id).value;
+                var end = document.getElementById('ics-end-'+id).value;
+                var filename = document.getElementById('ics-filename-'+id).value;
+                // console.log(subject, description, location, begin, end, filename);
                 var cal = ics();
-                var subject = 'Test calendar event Marcel';
-                var description = 'test description';
-                var location = 'Nome, AK';
+                // var subject = 'Test calendar event Marcel';
+                // var description = 'test description';
+                // var location = 'Nome, AK';
                 // Format is m/d/yyyy
-                var begin = '2/7/2021 5:30 pm';
-                var end = '2/7/2021 6:00 pm';
-                var filename = 'Marcel Test ICS';
+                // var begin = '2/7/2021 5:30 pm';
+                // var end = '2/7/2021 6:00 pm';
+                // var filename = 'Marcel Test ICS';
                 var extension; // You can leave this blank to make a .ics
                 cal.addEvent(subject, description, location, begin, end);
                 console.log(cal);
