@@ -157,89 +157,6 @@ async function index_page_submit_form() {
     //console.log(response['response']);
 }
 
-async function index_page_server_offline_request_submit_page() {
-    /* Validation */
-    var validate = false;
-    if (validate_target('offline-first-name')) {validate = true;}
-    if (validate_target('offline-last-name')) {validate = true;}
-    if (validate_target('offline-mobile')) {validate = true;}
-    if (validate_target('offline-email')) {validate = true;}
-    if (validate) {return false;}
-    if (document.getElementById('offline-tick-terms-and-conditions').checked == false) {
-        document.getElementById('offline-error-response').innerHTML = (
-            'To proceed, please read and agree to our terms '
-            +'and conditions, and our privacy policy.');
-        document.getElementById('offline-error-card').style.display = 'block';
-        return false;
-    }
-    if (document.getElementById('offline-tick-privacy-policy').checked == false) {
-        document.getElementById('offline-error-response').innerHTML = (
-            'To proceed, please read and agree to our terms '
-            +'and conditions, and our privacy policy.');
-        document.getElementById('offline-error-card').style.display = 'block';
-        return false;
-    }
-    /* Robotic test */
-    if (document.getElementById('offline-is-not-robot').checked == false) {
-        document.getElementById('offline-check-validator').style.display = 'block';
-        var first_number = parseInt(document.getElementById('first-number').innerHTML);
-        var second_number = parseInt(document.getElementById('second-number').innerHTML);
-        var response = document.getElementById('math-outcome').value;
-        var calculated_check = first_number + second_number;
-        if (response == calculated_check) {
-            // Validated
-            document.getElementById('offline-check-validator').style.display = 'none';
-        } else {
-            return false;
-        }
-    }
-    document.getElementById('offline-submit-form').style.display = 'none';
-    document.getElementById('offline-pending-send').style.display = 'block';
-    /* API execute */
-    var text = 'WARNING: OFFLINE MESSAGE\n'
-        + 'First Name: '
-        + document.getElementById('offline-first-name').value + '\n'
-        + 'Last Name: '
-        + document.getElementById('offline-last-name').value + '\n'
-        + 'Mobile: '
-        + document.getElementById('offline-mobile').value + '\n'
-        + 'Email: '
-        + document.getElementById('offline-email').value + '\n'
-        + '-------------------'
-    ;
-    var url = 'https://hooks.slack.com/services/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';
-    var headings = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    };
-    var requestOptions = {
-        headers: headings,
-        method: 'POST',
-        mode: 'no-cors',
-        redirect: 'follow'
-    };
-    var payload = {
-        'text': text
-    };
-    requestOptions['body'] = JSON.stringify(payload);
-    var response = await fetch(url, requestOptions);
-    document.getElementById('offline-pending-send').style.display = 'none';
-    document.getElementById('offline-success-card').style.display = 'block';
-    // var formatted_response = {
-    //     'status': response.status, 
-    //     'response': json_response
-    // };
-    // if (response['status'] == 200) {
-    //     document.getElementById('offline-pending-send').style.display = 'none';
-    //     document.getElementById('offline-success-card').style.display = 'block';
-    // } else {
-    //     document.getElementById('offline-error-response').innerHTML = (
-    //         'Sadly, we have not managed to process you message '
-    //         + 'please try again later..');
-    //     document.getElementById('offline-error-card').style.display = 'block';
-    // }
-}
-
 async function validate_user_interaction_page_load() {
     var path = ('/api/validate_user_interaction');
     var headers = {};
@@ -347,19 +264,20 @@ async function login_page_submit_form() {
 }
 
 async function login_page_reset_password_submit_form() {
+    /* Reset cards */
+    document.getElementById('error-card-2').style.display = 'none';
+    document.getElementById('success-password-reset').style.display = 'none';
     /* Data validation */
     var validate = false;
     if (validate_target('for-forgot-password-email')) {validate = true;}
     if (validate) {return false;}
-    document.getElementById('reset-email').innerHTML = document.getElementById('for-forgot-password-email').value;
-    var path = '/api/users/login';
+    var path = '/api/users/reset_password';
     var headers = {
         'Access-Token': '',
     };
     var method = 'POST';
     var payload = {
-        'email': document.getElementById('email').value,
-        'secret': btoa(document.getElementById('password').value),
+        'email': document.getElementById('for-forgot-password-email').value
     };
     var response = await api_call(
         path, 
@@ -368,24 +286,11 @@ async function login_page_reset_password_submit_form() {
         payload
     );
     if (response['status'] == 200) {
-        /* Change DOM based on message or data */
-        //response['response']
-        /* Redirect page */
-        localStorage.setItem(
-            "123helpmestudy-email", payload['email']
-        );
-        localStorage.setItem(
-            "123helpmestudy-access-token", response['response']['data']['access-token']
-        );
-        var base = (window.location.pathname).toString().replace('/information/login.html', '');
-        window.location.assign(base+'/application/home.html');
-    } else if (response['status'] == 480) {
-        var base = (window.location.pathname).toString().replace('/information/login.html', '');
-        var parameters = '?email='+payload['email']+'&email_token='
-        window.location.assign(base+'/application/sign-up/email-verification.html'+parameters);
+        document.getElementById('reset-email').innerHTML = document.getElementById('for-forgot-password-email').value;
+        document.getElementById('success-password-reset').style.display = 'block';
     } else {
-        document.getElementById('error-card').style.display = 'block';
-        document.getElementById('error-response').innerHTML = response['response']['message'];
+        document.getElementById('error-response-2').innerHTML = response['response']['message'];
+        document.getElementById('error-card-2').style.display = 'block';
     }
     //console.log(response['status']);
     //console.log(response['response']);
