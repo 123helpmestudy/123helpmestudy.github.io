@@ -10,7 +10,7 @@
         <!-- End Styling -->
         <!-- SEO -->
         <title>
-            123 Help Me Study | Messages
+            123 Help Me Study | Students
         </title>
         <meta charset="UTF-8">
         <meta name="description" content="">
@@ -47,14 +47,14 @@
                                 <!-- TABLE SPACE -->
                                 <div class="row">
                                     <div class="col primary-bg py-1">
-                                        <h4 class="text-center font-weight-bold text-white p-1 m-0">Messages</h4>
+                                        <h4 class="text-center font-weight-bold text-white p-1 m-0">Students</h4>
                                     </div>
                                 </div>
-                                <div id="messages-list">
+                                <div id="students-list">
                                     <!-- CODE BLOCK -->
-                                    <div id="no-messages" class="hidden-el mt-4">
+                                    <div id="no-students" class="hidden-el mt-4">
                                         <p class="my-2 font-italic">
-                                            You have no messages in your inbox.
+                                            You have no active students currently.
                                         </p>
                                     </div>
                                 </div>
@@ -72,8 +72,14 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript">main('/application/user/messages.html', window.location.pathname);</script>
-        <script type="text/javascript">messages_page_load_page();</script>
+        <script type="text/javascript">main('/application/user/students.html', window.location.pathname);</script>
+        <script type="text/javascript">students_page_load_page();</script>
+        <script type="text/javascript">
+            function go_to_message_thread(id){
+                var base = (window.location.pathname).toString().replace('/application/user/students.html', '');
+                window.location.assign(base+'/application/user/message-thread.html?id='+id);
+            }
+        </script>
         <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>

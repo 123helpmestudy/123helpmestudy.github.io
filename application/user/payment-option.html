@@ -40,10 +40,10 @@
                 </div>
             </div>
             <!-- Storage Card -->
-            <input id="sales-order-id" class="hidden-el">
-            <input id="customer-id" class="hidden-el">
-            <input id="customer-name" class="hidden-el">
-            <input id="payment-intent-client-secret" class="hidden-el">
+            <input id="sales-order-id" type="text" class="hidden-el">
+            <input id="customer-id" type="text" class="hidden-el">
+            <input id="customer-name" type="text" class="hidden-el">
+            <input id="payment-intent-client-secret" type="text" class="hidden-el">
             <!-- CARD 1 -->
             <div class="container-fluid">
                 <div class="row">
@@ -75,7 +75,7 @@
                                 <p id="card-total-fee" class="mb-0 font-weight-bold">
                                     Total charge: £0.00
                                 </p>
-                                <input id="card-total-fee-value" class="hidden-el">
+                                <input id="card-total-fee-value" type="text" class="hidden-el">
                             </div>
                         </div>
                         <!-- Card payment form -->
@@ -96,7 +96,7 @@
                                     a confirmation email once payment for the lesson is cleared 
                                     and the lesson can proceed as scheduled.
                                 </p>
-                                <div class="card shadow py-4 px-2">
+                                <div id="stripe-input-card" class="card shadow py-4 px-2">
                                     <!-- Stripe elements here -->
                                     <div id="card-element">
                                         <!-- Elements will create input elements here -->
@@ -349,11 +349,15 @@
                 document.getElementById('pay-now-button').style.display = 'none';
                 document.getElementById('pending-card-payment').style.display = 'block';
                 var clientSecret = document.getElementById('payment-intent-client-secret').value;
+                var customer_name = document.getElementById('customer-name').value;
+                if (customer_name.length == 0) {
+                    customer_name = 'New Customer'
+                }
                 stripe.confirmCardPayment(clientSecret, {
                     payment_method: {
                             card: card,
                             billing_details: {
-                            name: document.getElementById('customer-name').value
+                            name: customer_name
                         }
                     },
                     setup_future_usage: 'off_session'
@@ -376,6 +380,7 @@
                                 'Your payment reference is <b>' + result.paymentIntent.payment_method + '</b>'
                             );
                             document.getElementById('pending-card-payment').style.display = 'none';
+                            document.getElementById('stripe-input-card').style.display = 'none';
                         }
                     }
                 });

@@ -95,7 +95,7 @@ function set_page_footer(base) {
     */
     html = `
     <div class="container-fluid bg-dark pb-3">
-        <p class="pt-5 text-light">Established In August 2019</p>
+        <p class="pt-5 text-light">Established in August 2019</p>
         <p class="text-light">Trading As "123 Help Me Study"</p>
         <a class="text-light" href="`+base+`/information/privacy-policy.html" target="_parent"><p>Privacy Policy</p></a>
         <a class="text-light" href="`+base+`/information/terms-and-conditions.html" target="_parent"><p>Terms &amp; Conditions</p></a>            
@@ -463,6 +463,11 @@ function application_tutoring_opportunities_page(base) {
     set_contact_buttons();
 }
 
+function application_students_page(base) {
+    set_application_navigation_bar(base);
+    set_contact_buttons();
+}
+
 function has_unique_id() {
     var unique = localStorage.getItem('123helpmestudy-unique');
     var now = new Date();
@@ -552,6 +557,9 @@ function main(arg, base) {
         application_validate_user_document_page(base);
     }
     if (arg == '/application/user/tutoring-opportunities.html') {
+        application_tutoring_opportunities_page(base);
+    }
+    if (arg == '/application/user/students.html') {
         application_tutoring_opportunities_page(base);
     }
 }

@@ -1,5 +1,5 @@
-//var BASE_URL = 'http://127.0.0.1:8000';
-var BASE_URL = 'https://api.123helpmestudy.com';
+var BASE_URL = 'http://127.0.0.1:8000';
+//var BASE_URL = 'https://api.123helpmestudy.com';
 
 async function api_call(path, headers, method, payload) {
     var url = BASE_URL+path;
@@ -522,6 +522,7 @@ async function home_page_load_page() {
     );
     if (response['status'] == 200) {
         var attributes = response['response']['data'];
+        var show_navigation_card = true;
         for (var i = 0; i < attributes.length; i++) {
             /* Attach alerts and notifications to page */
             if (
@@ -586,7 +587,7 @@ async function home_page_load_page() {
             /* Show user specific cards */
             if (attributes[i]['attribute'] == 'user_type') {
                 if (attributes[i]['value'] == 'new') {
-                    document.getElementById('navigation-card').style.display = 'none';
+                    show_navigation_card = false;
                     document.getElementById('initialise-user-type').style.display = 'block';
                 }
                 if (attributes[i]['value'] == 'tutor') {
@@ -595,6 +596,7 @@ async function home_page_load_page() {
                     document.getElementById('messages-card').style.display = 'block';
                     document.getElementById('account-card').style.display = 'block';
                     /* Tutor specific */
+                    document.getElementById('students-card').style.display = 'block';
                     document.getElementById('tutor-blurb').style.display = 'block';
                     document.getElementById('tutoring-opportunities').style.display = 'block';
                     document.getElementById('tutor-profile').style.display = 'block';
@@ -620,6 +622,7 @@ async function home_page_load_page() {
                 &&
                 attributes[i]['value'] == 'super'
             ) {
+                document.getElementById('students-card').style.display = 'block';
                 document.getElementById('tutor-profile').style.display = 'block';
                 document.getElementById('customer-profile').style.display = 'block';
                 document.getElementById('validate-user-document').style.display = 'block';
@@ -630,7 +633,9 @@ async function home_page_load_page() {
             }
         }
         document.getElementById('pending-load-page').style.display = 'none';
-        document.getElementById('navigation-card').style.display = 'block';
+        if (show_navigation_card == true) {
+            document.getElementById('navigation-card').style.display = 'block';
+        }
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
@@ -1156,27 +1161,29 @@ async function tutor_subject_display_tutors_load_page(id) {
             </p>
             <br><br><br><br>
             `;
-        }
-        for (var i = 0; i < tutors.length; i++) {
-            var miles_button = '';
-            if ('distance_miles' in tutors[i]) {
-                miles_button = `<button class="btn btn-success">`+tutors[i]['distance_miles']+` miles away</button>`;
-            }
-            var html = `
-            <div class="card mb-2 shadow">
-                <div onclick="go_to_tutor_profile(`+tutors[i]['profile_id']+`);" class="card-body dashboard-button">
-                    <div class="text-right">
-                        `+miles_button+`
+        } else {
+            document.getElementById('tutor-list').innerHTML += '<h3 class="mb-3">Browse the tutors that cover your subject</h3>';
+            for (var i = 0; i < tutors.length; i++) {
+                var miles_button = '';
+                if ('distance_miles' in tutors[i]) {
+                    miles_button = `<button class="btn btn-success">`+tutors[i]['distance_miles']+` miles away</button>`;
+                }
+                var html = `
+                <div class="card mb-2 shadow">
+                    <div onclick="go_to_tutor_profile(`+tutors[i]['profile_id']+`);" class="card-body dashboard-button">
+                        <div class="text-right">
+                            `+miles_button+`
+                        </div>
+                        <img class="circle-img-profile-list" src="`+tutors[i]['profile_photo']+`">
+                        <p class="my-0">`+tutors[i]['first_name']+' '+tutors[i]['last_name_initial']+`</p>
+                        <p class="my-0"><em>`+tutors[i]['profile_header']+`</em></p>
+                        <p class="my-0">Hours Taught: <b>`+tutors[i]['hours_taught']+`</b></p>
+                        <p class="my-0">Highest Qualification: <b>`+tutors[i]['highest_qualification']+`<b/></p>
                     </div>
-                    <img class="circle-img-profile-list" src="`+tutors[i]['profile_photo']+`">
-                    <p class="my-0">`+tutors[i]['first_name']+' '+tutors[i]['last_name_initial']+`</p>
-                    <p class="my-0"><em>`+tutors[i]['profile_header']+`</em></p>
-                    <p class="my-0">Hours Taught: <b>`+tutors[i]['hours_taught']+`</b></p>
-                    <p class="my-0">Highest Qualification: <b>`+tutors[i]['highest_qualification']+`<b/></p>
                 </div>
-            </div>
-            `;
-            document.getElementById('tutor-list').innerHTML += html;
+                `;
+                document.getElementById('tutor-list').innerHTML += html;
+            }
         }
         document.getElementById('subject-card').style.display = 'none';
         document.getElementById('tutors-card').style.display = 'block';
@@ -1579,7 +1586,6 @@ async function messages_page_load_page() {
         var messages = response['response']['data'];
         if (messages.length == 0) {
             document.getElementById('no-messages').style.display = 'block';
-            
         }
         var a = 0;
         var row_colour = '';
@@ -1593,26 +1599,30 @@ async function messages_page_load_page() {
             }
             var new_message = '';
             if (messages[i]['message_read']) {
-                var button_padding = ' pt-2';
+                // var button_padding = ' pt-2';
+                var button_padding = '';
                 var button_type = 'primary';
             } else {
-                if (messages[i]['name'].toString().length > 0) {
-                    var button_padding = ' pt-3';
-                } else {
-                    var button_padding = ' pt-2';
-                }
+                // if (messages[i]['name'].toString().length > 0) {
+                //     var button_padding = ' pt-3';
+                // } else {
+                //     var button_padding = ' pt-2';
+                // }
+                var button_padding = '';
                 var button_type = 'success';
-                var new_message = '*New*';
+                var new_message = 'New';
             }
             var html = `
-            <div class="shadow-sm row py-3`+row_colour+`">
+            <div class="shadow-sm hover-pointer row py-3`+row_colour+`" onclick="messages_page_submit_page(`+messages[i]['thread_id']+`);">
                 <div class="col">
-                    <p class="font-weight-bold m-0 p-0">`+new_message+`</p>
+                    <p class="font-italic m-0 p-0">`+new_message+`</p>
                     <p class="font-weight-bold m-0 p-0">`+messages[i]['name']+`</p>
+                    <p class="m-0 p-0"><small>`+messages[i]['message_subject']+`</small></p>
                     <p class="m-0 p-0"><small>`+messages[i]['date']+`</small></p>
                 </div>
                 <div class="col`+button_padding+`">
-                    <button onclick="messages_page_submit_page(`+messages[i]['thread_id']+`);" class=" btn btn-`+button_type+`">Read</button>
+                    <!--<button onclick="messages_page_submit_page(`+messages[i]['thread_id']+`);" class=" btn btn-`+button_type+`">Read</button>-->
+                    <p class="m-0 py-0 pl-0 pr-1 text-left"><small>`+messages[i]['message_snippet']+`</small></p>
                 </div>
             </div>
             `;
@@ -1623,7 +1633,7 @@ async function messages_page_load_page() {
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    //console.log(response['response']);
+    console.log(response['response']);
 }
 
 async function messages_page_submit_page(id) {
@@ -1647,7 +1657,7 @@ async function messages_page_submit_page(id) {
         base = base.toString().replace('/application/user/messages.html', '');
         window.location.assign(base+'/application/user/message-thread.html?id='+id);
     } else if (response['status'] == 401) {
-        var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
+        var base = (window.location.pathname).toString().replace('/application/user/message.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
@@ -1726,7 +1736,6 @@ async function message_thread_page_load_page(id) {
                 document.getElementById('student-level').innerHTML += html;
             }
         }
-        
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
         window.location.assign(base+'/information/login.html');
@@ -1767,13 +1776,25 @@ async function message_thread_send_message_page_submit_page() {
         payload
     );
     if (response['status'] == 200) {
+        window.location.reload();
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
+    } else {
+        if (response['status'] == 500) {
+            document.getElementById('error-response').innerHTML = (
+                "An unexpected error occurred while trying to send you message, please try again later."
+            );
+            document.getElementById('error-card').style.display = 'block';
+        } else {
+            document.getElementById('error-response').innerHTML = response['response']['message'];
+            document.getElementById('error-card').style.display = 'block';
+        }
+        document.getElementById('pending-send').style.display = 'none';
+        document.getElementById('submit-new-message').style.display = 'block';
+    }
     //console.log(response['status']);
     //console.log(response['response']);
-    window.location.reload();
 }
 
 async function message_thread_book_lesson_submit_page() {
@@ -1880,8 +1901,8 @@ async function lessons_page_load_page() {
     if (response['status'] == 200) {
         /* Upcoming Lessons */
         var lessons = response['response']['data']['upcoming_lessons'];
-        if (lessons.length > 0) {
-            document.getElementById('no-upcoming-lessons').style.display = 'none';
+        if (lessons.length == 0) {
+            document.getElementById('no-upcoming-lessons').style.display = 'block';
         }
         for (var i = 0; i < lessons.length; i++) {
             // For customer payment button
@@ -1911,7 +1932,7 @@ async function lessons_page_load_page() {
                     <div class="card border border-success success-bg">
                         <div class="card-body">
                             <p class="text-center font-weight-bold m-0">
-                                Payment successful, enjoy your lesson!
+                                Payment received, enjoy your lesson!
                             </p>
                         </div>
                     </div>
@@ -1959,6 +1980,18 @@ async function lessons_page_load_page() {
                                     <!-- Cancel lesson -->
                                     <button onclick="show_cancel_lesson_confirm(`+lessons[i]['lesson_id']+`);" class="btn btn-danger mr-1">Cancel lesson</button>
                                     <button onclick="lessons_page_cancel_order(`+lessons[i]['lesson_id']+`);" id="confirm-cancel-button-`+lessons[i]['lesson_id']+`" class="btn btn-warning hidden-el">Confirm Cancel</button>
+                                </div>
+                                <div id="error-card-cancel-`+lessons[i]['lesson_id']+`" class="card border mt-3 border-danger warning-bg hidden-el">
+                                    <div class="card-body">
+                                        <p id="error-response-cancel-`+lessons[i]['lesson_id']+`" class="text-center font-weight-bold m-0">
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="success-card-cancel-`+lessons[i]['lesson_id']+`" class="card border mt-3 border-success success-bg hidden-el">
+                                    <div class="card-body">
+                                        <p id="success-response-cancel-`+lessons[i]['lesson_id']+`" class="text-center font-weight-bold m-0">
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2042,13 +2075,17 @@ async function lessons_page_cancel_order(id) {
         payload
     );
     if (response['status'] == 200) {
+        document.getElementById('success-response-cancel-'+id).innerHTML = response['message'];
+        document.getElementById('success-card-cancel-'+id).style.display = 'block';
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/lessons.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
+    } else {
+        document.getElementById('error-response-cancel-'+id).innerHTML = response['message'];
+        document.getElementById('error-card-cancel-'+id).style.display = 'block';
+    }
     //console.log(response['status']);
-    //console.log(response['response']);
-    window.location.reload();
+    console.log(response['response']);
 }
 
 async function lessons_page_change_date_time_on_order(id) {
@@ -2153,6 +2190,7 @@ async function payment_options_create_stripe_payment_intent_submit_form() {
 }
 
 async function record_stripe_payment_submit_page(id, reference) {
+    var card_total_fee = document.getElementById('card-total-fee-value').value;
     var path = '/api/salesorders/confirm_payment_received';
     var headers = {
         'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
@@ -2160,7 +2198,8 @@ async function record_stripe_payment_submit_page(id, reference) {
     var method = 'PUT';
     var payload = {
         'sales_order_id': id,
-        'payment_reference': reference
+        'payment_reference': reference,
+        'total_gross': card_total_fee
     };
     var response = await api_call(
         path, 
@@ -2198,6 +2237,7 @@ async function payment_options_load_page(id) {
     );
     if (response['status'] == 200) {
         var order_details = response['response']['data'];
+        console.log(order_details);
         if (order_details['payment_received'] == 'complete') {
             var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
             window.location.assign(base+'/application/user/lessons.html');
@@ -2586,9 +2626,8 @@ async function validate_user_document_load_page() {
     );
     if (response['status'] == 200) {
         var document_details_list = response['response']['data'];
-        if (document_details_list.length > 0) {
-            document.getElementById('no-outstanding-documents').style.display = 'none';
-            document.getElementById('outstanding-documents').style.display = 'block';
+        if (document_details_list.length == 0) {
+            document.getElementById('no-outstanding-documents').style.display = 'block';
         }
         for (var i = 0; i < document_details_list.length; i++) {
             var html =`
@@ -2629,6 +2668,7 @@ async function validate_user_document_load_page() {
             `;
             document.getElementById('outstanding-documents-objects').innerHTML += html;
         }
+        document.getElementById('outstanding-documents').style.display = 'block';
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/validate-user-document.html', '');
         window.location.assign(base+'/information/login.html');
@@ -2766,4 +2806,55 @@ async function tutoring_opportunities_submit_page(id) {
     }
     //console.log(response['status']);
     //console.log(response['response']);
+}
+
+async function students_page_load_page() {
+    /* Execute API */
+    var path = '/api/users/list_tutors_students';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'GET';
+    var payload = {};
+    var response = await api_call(
+        path, 
+        headers, 
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        var students = response['response']['data'];
+        if (students.length == 0) {
+            document.getElementById('no-students').style.display = 'block';
+        }
+        var a = 0;
+        for (var i = 0; i < students.length; i++) {
+            if (a == 0) {
+                a = 1;
+                row_colour = '';
+            } else {
+                a = 0;
+                row_colour = ' bg-light';
+            }
+            html = `
+            <div class="shadow-sm hover-pointer row py-3`+row_colour+`">
+                <div class="col">
+                    <p class="font-weight-bold m-0 p-0">`+students[i]['customer_name']+`</p>
+                    <p class="m-0 p-0"><small>`+students[i]['subject']+`</small></p>
+                    <p class="m-0 p-0"><small>Last Lesson Date: `+students[i]['last_lesson_date']+`</small></p>
+                </div>
+                <div class="col">
+                    <button onclick="go_to_message_thread(`+students[i]['message_thread_id']+`);" class="mt-3 btn btn-success">Book a lesson</button>
+                </div>
+            </div>
+            `;
+            document.getElementById('students-list').innerHTML += html;
+        }
+        // console.log(students);
+    } else if (response['status'] == 401) {
+        var base = (window.location.pathname).toString().replace('/application/user/students.html', '');
+        window.location.assign(base+'/information/login.html');
+    } else {}
+    //console.log(response['status']);
+    console.log(response['response']);
 }
