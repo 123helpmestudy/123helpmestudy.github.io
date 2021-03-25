@@ -1636,7 +1636,7 @@ async function messages_page_load_page() {
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    // console.log(response['response']);
 }
 
 async function messages_page_submit_page(id) {
@@ -2088,7 +2088,7 @@ async function lessons_page_cancel_order(id) {
         document.getElementById('error-card-cancel-'+id).style.display = 'block';
     }
     //console.log(response['status']);
-    console.log(response['response']);
+    // console.log(response['response']);
 }
 
 async function lessons_page_change_date_time_on_order(id) {
@@ -2860,7 +2860,7 @@ async function students_page_load_page() {
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    console.log(response['response']);
+    // console.log(response['response']);
 }
 
 async function all_tutors_page_load_page() {
@@ -2906,6 +2906,6 @@ async function all_tutors_page_load_page() {
         var base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    // console.log(response['status']);
+    // console.log(response['response']);
 }
