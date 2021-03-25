@@ -625,6 +625,7 @@ async function home_page_load_page() {
                 document.getElementById('students-card').style.display = 'block';
                 document.getElementById('tutor-profile').style.display = 'block';
                 document.getElementById('customer-profile').style.display = 'block';
+                document.getElementById('all-tutors-list').style.display = 'block';
                 document.getElementById('validate-user-document').style.display = 'block';
                 document.getElementById('record-payment').style.display = 'block';
                 document.getElementById('remove-user').style.display = 'block';
@@ -1225,7 +1226,9 @@ async function profile_page_load_page(id) {
             +'/'
             +response['response']['data']['last_active'].substring(0, 4)
         );
-        document.getElementById('profile-photo').src = response['response']['data']['profile_photo'];
+        if (response['response']['data']['profile_photo'] != '') {
+            document.getElementById('profile-photo').src = response['response']['data']['profile_photo'];
+        }
         if (response['response']['data']['background_check_confirmed']) {
             html = `
             <b>Background checked </b>
@@ -1274,7 +1277,7 @@ async function profile_page_load_page(id) {
         document.getElementById('loading-card').style.display = 'none';
     } else {}
     //console.log(response['status']);
-    //console.log(response['response']);
+    // console.log(response['response']);
 }
 
 function contact_us_load_page() {
@@ -1613,7 +1616,7 @@ async function messages_page_load_page() {
                 var new_message = 'New';
             }
             var html = `
-            <div class="shadow-sm hover-pointer row py-3`+row_colour+`" onclick="messages_page_submit_page(`+messages[i]['thread_id']+`);">
+            <div class="shadow-sm hover-pointer mx-0 row py-3`+row_colour+`" onclick="messages_page_submit_page(`+messages[i]['thread_id']+`);">
                 <div class="col">
                     <p class="font-italic m-0 p-0">`+new_message+`</p>
                     <p class="font-weight-bold m-0 p-0">`+messages[i]['name']+`</p>
@@ -1940,7 +1943,7 @@ async function lessons_page_load_page() {
                 }
             }
             var html = `
-            <div class="row mb-1">                        
+            <div class="mb-1">                        
                 <div class="col p-0">
                     <div class="card shadow-sm">
                         <div class="card-body text-left">
@@ -2631,7 +2634,7 @@ async function validate_user_document_load_page() {
         }
         for (var i = 0; i < document_details_list.length; i++) {
             var html =`
-            <div class="card">
+            <div class="card mt-2">
                 <div class="card-body">
                     <p class="mb-0">
                         Users Name: <b>`+document_details_list[i]['name']+`</b>
@@ -2651,8 +2654,8 @@ async function validate_user_document_load_page() {
                         Document Received Date: <b>`+document_details_list[i]['document_received_date']+`</b>
                     </p>
                     <div>
-                        <button onclick="toggle_document_display(`+document_details_list[i]['document_id']+`);" class="btn btn-primary">View Document</button>
-                        <button onclick="validate_user_document_submit_page(`+document_details_list[i]['document_id']+`);" class="btn btn-success">Validate Document</button>
+                        <button onclick="toggle_document_display(`+document_details_list[i]['document_id']+`);" class="btn btn-primary mt-2">View Document</button>
+                        <button onclick="validate_user_document_submit_page(`+document_details_list[i]['document_id']+`);" class="btn btn-success mt-2">Validate Document</button>
                     </div>
                 </div>
             </div>
@@ -2662,6 +2665,7 @@ async function validate_user_document_load_page() {
             <div id="document-`+document_details_list[i]['document_id']+`" class="hidden-el">
                 <div class="my-1 ml-1">
                     <button onclick="toggle_document_display(`+document_details_list[i]['document_id']+`);" class="btn btn-primary">Back</button>
+                    <a download="`+document_details_list[i]['document_type']+`_`+document_details_list[i]['document_id']+`.pdf" href="`+document_details_list[i]['document_contents']+`"><button class="btn btn-secondary">Download</button></a>
                 </div>
                 <object style="width: 100%; height: 92vh;" data="`+document_details_list[i]['document_contents']+`" type="application/pdf"></object>
             </div>
@@ -2837,7 +2841,7 @@ async function students_page_load_page() {
                 row_colour = ' bg-light';
             }
             html = `
-            <div class="shadow-sm hover-pointer row py-3`+row_colour+`">
+            <div class="shadow-sm hover-pointer py-3`+row_colour+`">
                 <div class="col">
                     <p class="font-weight-bold m-0 p-0">`+students[i]['customer_name']+`</p>
                     <p class="m-0 p-0"><small>`+students[i]['subject']+`</small></p>
@@ -2856,5 +2860,52 @@ async function students_page_load_page() {
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
+    console.log(response['response']);
+}
+
+async function all_tutors_page_load_page() {
+    /* Execute API */
+    var path = '/api/users/list_all_tutors';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'GET';
+    var payload = {};
+    var response = await api_call(
+        path, 
+        headers, 
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        var tutors = response['response']['data'];
+        if (tutors.length == 0) {
+            document.getElementById('no-all-tutors').style.display = 'block';
+            return false;
+        }
+        for (var i = 0; i < tutors.length; i++) {
+            var button_colour = 'btn-danger'
+            if (tutors[i]['profile_status'] == 'active') {
+                var button_colour = 'btn-success'
+            }
+            html = `
+            <a class="strip-link-black" href="../../information/profile.html?tutor=`+tutors[i]['tutor_id']+`">
+                <div class="card mt-2 shadow-sm hover-pointer">
+                    <div class="card-body text-left px-5">
+                        <p class="mb-2">Tutor id: `+tutors[i]['tutor_id']+`</p>
+                        <p class="mb-2">Name: `+tutors[i]['first_name']+` `+tutors[i]['last_name']+`</p>
+                        <p class="mb-2">Email: `+tutors[i]['email']+`</p>
+                        <p class="mb-1 btn `+button_colour+`">`+tutors[i]['profile_status']+`</p>
+                    </div>
+                </div>
+            </a>
+            `;
+            document.getElementById('all-tutors-list').innerHTML += html;
+        }
+    } else if (response['status'] == 401) {
+        var base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
+        window.location.assign(base+'/information/login.html');
+    } else {}
+    console.log(response['status']);
     console.log(response['response']);
 }
