@@ -393,30 +393,10 @@ function message_tutor_page(base) {
     tutor_page_set_input_string_length('message', 'message-str-len');
 }
 
-function application_home_page(base) {
-    set_application_navigation_bar(base);
-    set_contact_buttons();
-}
-
-function application_lessons_page(base) {
-    set_application_navigation_bar(base);
-    set_contact_buttons();
-}
-
-function application_messages_page(base) {
-    set_application_navigation_bar(base);
-    set_contact_buttons();
-}
-
 function application_message_thread_page(base) {
     set_application_navigation_bar(base);
     set_contact_buttons();
     tutor_page_set_input_string_length('new-message', 'message-str-len');
-}
-
-function application_account_page(base) {
-    set_application_navigation_bar(base);
-    set_contact_buttons();
 }
 
 function application_tutor_profile_page(base) {
@@ -434,36 +414,11 @@ function application_customer_profile_page(base) {
     tutor_page_set_input_string_length('about-customer', 'customer-requirements-str-len');
 }
 
-function application_remove_users_page(base) {
+function application_general_nav_only(base) {
     set_application_navigation_bar(base);
 }
 
-function application_payment_options_page(base) {
-    set_application_navigation_bar(base);
-}
-
-function application_sensor_user_messages_page(base) {
-    set_application_navigation_bar(base);
-}
-
-function application_tutor_resources_page(base) {
-    set_application_navigation_bar(base);
-}
-
-function application_record_payment_page(base) {
-    set_application_navigation_bar(base);
-}
-
-function application_validate_user_document_page(base) {
-    set_application_navigation_bar(base);
-}
-
-function application_tutoring_opportunities_page(base) {
-    set_application_navigation_bar(base);
-    set_contact_buttons();
-}
-
-function application_students_page(base) {
+function application_general_nav_and_contact(base) {
     set_application_navigation_bar(base);
     set_contact_buttons();
 }
@@ -518,19 +473,19 @@ function main(arg, base) {
     }
     /* Application pages */
     if (arg == '/application/home.html') {
-        application_home_page(base);
+        application_general_nav_and_contact(base);
     }
     if (arg == '/application/user/messages.html') {
-        application_messages_page(base);
+        application_general_nav_and_contact(base);
     }
     if (arg == '/application/user/lessons.html') {
-        application_lessons_page(base);
+        application_general_nav_and_contact(base);
     }
     if (arg == '/application/user/message-thread.html') {
         application_message_thread_page(base);
     }
     if (arg == '/application/user/account.html') {
-        application_account_page(base);
+        application_general_nav_and_contact(base);
     }
     if (arg == '/application/user/tutor-profile.html') {
         application_tutor_profile_page(base);
@@ -539,27 +494,30 @@ function main(arg, base) {
         application_customer_profile_page(base);
     }
     if (arg == '/application/admin/remove-users.html') {
-        application_remove_users_page(base);
+        application_general_nav_only(base);
     }
     if (arg == '/application/user/payment-option.html') {
-        application_remove_users_page(base);
+        application_general_nav_only(base);
     }
     if (arg == '/application/admin/sensor-user-messages.html') {
-        application_sensor_user_messages_page(base);
+        application_general_nav_only(base);
     }
     if (arg == '/application/user/tutor-resources.html') {
-        application_tutor_resources_page(base);
+        application_general_nav_only(base);
     }
     if (arg == '/application/admin/record-payment.html') {
-        application_record_payment_page(base);
+        application_general_nav_only(base);
     }
     if (arg == '/application/admin/validate-user-document.html') {
-        application_validate_user_document_page(base);
+        application_general_nav_only(base);
     }
     if (arg == '/application/user/tutoring-opportunities.html') {
-        application_tutoring_opportunities_page(base);
+        application_general_nav_and_contact(base);
     }
     if (arg == '/application/user/students.html') {
-        application_tutoring_opportunities_page(base);
+        application_general_nav_and_contact(base);
+    }
+    if (arg == '/application/admin/all-tutors.html') {
+        application_general_nav_only(base);
     }
 }

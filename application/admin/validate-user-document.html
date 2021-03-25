@@ -50,14 +50,21 @@
                     <div class="col-12">
                         <div class="card shadow bg-white max-card mx-auto">
                             <div class="card-body text-center">
-                                <div id="no-outstanding-documents" class="hidden-el">
-                                    <p class="mb-0 font-italic">
-                                        No outstanding documents to validate
-                                    </p>
+                                <!-- TABLE SPACE -->
+                                <div class="row mx-0">
+                                    <div class="col primary-bg py-1">
+                                        <h4 class="text-center font-weight-bold text-white p-1 m-0">Documents</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="outstanding-documents" class="hidden-el">
-                                <!-- CODE BLOCK -->
+                                <div id="outstanding-documents">
+                                    <!-- CODE BLOCK -->
+                                    <div id="no-outstanding-documents" class="hidden-el mt-4">
+                                        <p class="my-2 font-italic">
+                                            You have no documents pending.
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- TABLE SPACE -->
                             </div>
                         </div>
                     </div>
@@ -90,6 +97,11 @@
                     document.getElementById('document-'+id).style.display = 'none';
                     document.getElementById('main').style.display = 'block';
                 }
+            }
+            function download_user_document(document_id) {
+                console.log(document_id);
+                var base64 = document.getElementById('document-contents-for-download-'+document_id).innerHTML;
+                window.open(base64);
             }
         </script>
         <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
