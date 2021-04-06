@@ -51,17 +51,43 @@
                         <div class="card shadow bg-white max-card mx-auto text-left mb-5">
                             <div class="card-body">
                                 <div class="text-right mb-3">
-                                    <buton onclick="tutor_profile_page_submit_form();" class="btn btn-success">Save Details</buton>
+                                    <button onclick="tutor_profile_page_submit_form();" class="btn btn-success" style="width: 150px;">
+                                        <span id="save-button-text">Save Details</span>
+                                        <span id="save-button-loading" class="hidden-el">
+                                            <div class="spinner-border spinner-border-sm text-light mb-0"></div>
+                                        </span>
+                                    </button>
                                 </div>
                                 <div class="text-center">
-                                    <button id="profile-status-inactive" class="btn btn-danger hidden-el">Inactive</button>
+                                    <button id="profile-status-inactive-incomplete" class="btn btn-danger hidden-el">Inactive</button>
+                                    <div id="profile-status-inactive-complete" class="btn-group hidden-el">
+                                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                            Inactive
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item hover-pointer" onclick="toggle_tutor_profile_status('active');">
+                                                Active
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="text-center">
                                     <button id="profile-status-pending" class="btn btn-warning hidden-el">Pending Approval</button>
                                 </div>
                                 <div class="text-center">
-                                    <button id="profile-status-active" class="btn btn-success hidden-el">Active</button>
+                                    <!-- <button id="profile-status-active" class="btn btn-success hidden-el">Active</button> -->
+                                    <div id="profile-status-active" class="btn-group hidden-el">
+                                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                            Active
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item hover-pointer" onclick="toggle_tutor_profile_status('inactive_complete');">
+                                                Inactive
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
+                                <input id="tutor-profile-status" class="hidden-el">
                                 <p id="email" class="mt-3">User Email: </p>
                                 <div class="row">
                                     <div class="col">
@@ -195,6 +221,17 @@
         <script type="text/javascript">
             function tutor_profile_page_click_element_by_id(id) {
                 document.getElementById(id).click();
+            }
+            function toggle_tutor_profile_status(status) {
+                if (status == 'inactive_complete') {
+                    document.getElementById('profile-status-active').style.display = 'none';
+                    document.getElementById('profile-status-inactive-complete').style.display = 'inline';
+                }
+                if (status == 'active') {
+                    document.getElementById('profile-status-inactive-complete').style.display = 'none';
+                    document.getElementById('profile-status-active').style.display = 'inline';
+                }
+                document.getElementById('tutor-profile-status').value = status;
             }
         </script>
         <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

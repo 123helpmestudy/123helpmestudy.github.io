@@ -666,6 +666,8 @@ async function account_page_submit_form() {
         document.getElementById('error-card').style.display = 'block';
         return false;
     }
+    document.getElementById('save-button-text').style.display = 'none';
+    document.getElementById('save-button-loading').style.display = 'block';
     var email = localStorage.getItem('123helpmestudy-email');
     var path = '/api/users/update_user_attribute';
     var headers = {
@@ -879,8 +881,11 @@ async function tutor_profile_page_load_page() {
         var attributes = response['response']['data'];
         for (var i = 0; i < attributes.length; i++) {
             if (attributes[i]['attribute'] == 'tutor_profile_status') {
-                if (attributes[i]['value'] == 'inactive') {
-                    document.getElementById('profile-status-inactive').style.display = 'inline';
+                if (attributes[i]['value'] == 'inactive_complete') {
+                    document.getElementById('profile-status-inactive-complete').style.display = 'inline';
+                }
+                if (attributes[i]['value'] == 'inactive_incomplete' || attributes[i]['value'] == 'inactive') {
+                    document.getElementById('profile-status-inactive-incomplete').style.display = 'inline';
                 }
                 if (attributes[i]['value'] == 'pending') {
                     document.getElementById('profile-status-pending').style.display = 'inline';
@@ -888,6 +893,7 @@ async function tutor_profile_page_load_page() {
                 if (attributes[i]['value'] == 'active') {
                     document.getElementById('profile-status-active').style.display = 'inline';
                 }
+                document.getElementById('tutor-profile-status').value = attributes[i]['value'];
             }
             if (attributes[i]['attribute'] == 'profile_photo') {
                 if (attributes[i]['value']) {
@@ -979,6 +985,8 @@ async function tutor_profile_page_load_page() {
 }
 
 async function tutor_profile_page_submit_form() {
+    document.getElementById('save-button-text').style.display = 'none';
+    document.getElementById('save-button-loading').style.display = 'block';
     var email = localStorage.getItem('123helpmestudy-email');
     var path = '/api/users/update_user_attribute';
     var headers = {
@@ -1025,6 +1033,10 @@ async function tutor_profile_page_submit_form() {
         {
             'attribute': 'subject_options_3',
             'value': document.getElementById('subject-options-3').value
+        },
+        {
+            'attribute': 'tutor_profile_status',
+            'value': document.getElementById('tutor-profile-status').value
         },
     ];
     /* A base64 encoded image */
@@ -1136,7 +1148,7 @@ async function tutor_subject_display_tutors_load_page(id) {
     }
     document.getElementById('subject-selected').innerHTML = id;
     var path = (
-        '/api/salesorders/list_tutors_for_subject'
+        '/api/salesorders/list_tutors_by_subject'
         +'?subject='+id
         +'&lesson_type='+lesson_type
         +'&post_zip_code='+post_zip_code
@@ -2884,21 +2896,47 @@ async function all_tutors_page_load_page() {
             return false;
         }
         for (var i = 0; i < tutors.length; i++) {
-            var button_colour = 'btn-danger'
-            if (tutors[i]['profile_status'] == 'active') {
-                var button_colour = 'btn-success'
+            var active_button_view = 'hidden-el';
+            var inactive_button_view = '';
+            if (tutors[i]['tutor_profile_status'] == 'active') {
+                var active_button_view = '';
+                var inactive_button_view = 'hidden-el';
             }
             html = `
-            <a class="strip-link-black" href="../../information/profile.html?tutor=`+tutors[i]['tutor_id']+`">
-                <div class="card mt-2 shadow-sm hover-pointer">
-                    <div class="card-body text-left px-5">
-                        <p class="mb-2">Tutor id: `+tutors[i]['tutor_id']+`</p>
-                        <p class="mb-2">Name: `+tutors[i]['first_name']+` `+tutors[i]['last_name']+`</p>
-                        <p class="mb-2">Email: `+tutors[i]['email']+`</p>
-                        <p class="mb-1 btn `+button_colour+`">`+tutors[i]['profile_status']+`</p>
+            <div class="card mt-2 shadow-sm">
+                <div class="card-body text-left px-5">
+                    <p class="mb-2">Tutor id: `+tutors[i]['tutor_id']+`</p>
+                    <p class="mb-2">Name: `+tutors[i]['first_name']+` `+tutors[i]['last_name']+`</p>
+                    <p class="mb-2">Email: `+tutors[i]['email']+`</p>
+                    <div class="mb-2">
+                        <a class="strip-link-black" href="../../information/profile.html?tutor=`+tutors[i]['tutor_id']+`">
+                            <button class="btn btn-info" style="width: 150px;">
+                                View profile
+                            </button>
+                        </a>
+                    </div>
+                    <div id="active-dropdown-button" class="btn-group `+active_button_view+`">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" style="width: 150px;">
+                            Active
+                        </button>
+                        <div class="dropdown-menu">
+                            <a onclick="all_tutors_page_submit_form('`+tutors[i]['email']+`', 'inactive_complete');" class="dropdown-item hover-pointer">
+                                Inactive
+                            </a>
+                        </div>
+                    </div>
+                    <div id="inactive-dropdown-button" class="btn-group `+inactive_button_view+`">
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" style="width: 150px;">
+                            Inactive
+                        </button>
+                        <div class="dropdown-menu">
+                            <a onclick="all_tutors_page_submit_form('`+tutors[i]['email']+`', 'active');" class="dropdown-item hover-pointer">
+                                Active
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </a>
+            </div>
             `;
             document.getElementById('all-tutors-list').innerHTML += html;
         }
@@ -2908,4 +2946,38 @@ async function all_tutors_page_load_page() {
     } else {}
     // console.log(response['status']);
     // console.log(response['response']);
+}
+
+async function all_tutors_page_submit_form(email, status) {
+    var path = '/api/users/update_user_attribute';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'PUT';
+    var payload = {
+        'email': email,
+        'attribute': 'tutor_profile_status',
+        'value': status
+    };
+    var response = await api_call(
+        path,
+        headers,
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        if (status == 'active') {
+            document.getElementById('inactive-dropdown-button').style.display = 'none';
+            document.getElementById('active-dropdown-button').style.display = 'block';
+        }
+        if (status == 'inactive_complete') {
+            document.getElementById('active-dropdown-button').style.display = 'none';
+            document.getElementById('inactive-dropdown-button').style.display = 'block';
+        }
+    } else if (response['status'] == 401) {
+        var base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
+        window.location.assign(base+'/information/login.html');
+    } else {}
+    console.log(response['status']);
+    console.log(response['response']);
 }
