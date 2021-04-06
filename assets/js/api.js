@@ -2915,22 +2915,22 @@ async function all_tutors_page_load_page() {
                             </button>
                         </a>
                     </div>
-                    <div id="active-dropdown-button" class="btn-group `+active_button_view+`">
+                    <div id="active-dropdown-button-`+tutors[i]['tutor_id']+`" class="btn-group `+active_button_view+`">
                         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" style="width: 150px;">
                             Active
                         </button>
                         <div class="dropdown-menu">
-                            <a onclick="all_tutors_page_submit_form('`+tutors[i]['email']+`', 'inactive_complete');" class="dropdown-item hover-pointer">
+                            <a onclick="all_tutors_page_submit_form(`+tutors[i]['tutor_id']+`, '`+tutors[i]['email']+`', 'inactive_complete');" class="dropdown-item hover-pointer">
                                 Inactive
                             </a>
                         </div>
                     </div>
-                    <div id="inactive-dropdown-button" class="btn-group `+inactive_button_view+`">
+                    <div id="inactive-dropdown-button-`+tutors[i]['tutor_id']+`" class="btn-group `+inactive_button_view+`">
                         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" style="width: 150px;">
                             Inactive
                         </button>
                         <div class="dropdown-menu">
-                            <a onclick="all_tutors_page_submit_form('`+tutors[i]['email']+`', 'active');" class="dropdown-item hover-pointer">
+                            <a onclick="all_tutors_page_submit_form(`+tutors[i]['tutor_id']+`, '`+tutors[i]['email']+`', 'active');" class="dropdown-item hover-pointer">
                                 Active
                             </a>
                         </div>
@@ -2948,7 +2948,7 @@ async function all_tutors_page_load_page() {
     // console.log(response['response']);
 }
 
-async function all_tutors_page_submit_form(email, status) {
+async function all_tutors_page_submit_form(id, email, status) {
     var path = '/api/users/update_user_attribute';
     var headers = {
         'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
@@ -2967,12 +2967,12 @@ async function all_tutors_page_submit_form(email, status) {
     );
     if (response['status'] == 200) {
         if (status == 'active') {
-            document.getElementById('inactive-dropdown-button').style.display = 'none';
-            document.getElementById('active-dropdown-button').style.display = 'block';
+            document.getElementById('inactive-dropdown-button-'+id).style.display = 'none';
+            document.getElementById('active-dropdown-button-'+id).style.display = 'block';
         }
         if (status == 'inactive_complete') {
-            document.getElementById('active-dropdown-button').style.display = 'none';
-            document.getElementById('inactive-dropdown-button').style.display = 'block';
+            document.getElementById('active-dropdown-button-'+id).style.display = 'none';
+            document.getElementById('inactive-dropdown-button-'+id).style.display = 'block';
         }
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
