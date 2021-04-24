@@ -1184,6 +1184,9 @@ async function tutor_subject_display_tutors_load_page(id) {
                 var html = `
                 <div class="card mb-2 shadow">
                     <div onclick="go_to_tutor_profile(`+tutors[i]['profile_id']+`);" class="card-body dashboard-button">
+                        <div class="rounded-pill">
+
+                        </div>
                         <div class="text-right">
                             `+miles_button+`
                         </div>
@@ -1206,7 +1209,7 @@ async function tutor_subject_display_tutors_load_page(id) {
         document.getElementById('error-response').innerHTML = response['response']['message'];
     } else {}
     //console.log(response['status']);
-    //console.log(response['response']);
+    console.log(response['response']);
 }
 
 async function profile_page_load_page(id) {
@@ -2045,7 +2048,7 @@ async function lessons_page_load_page() {
                 `;
             }
             var html = `
-            <div class="row mb-1">                        
+            <div class="mb-1">                        
                 <div class="col p-0">
                     <div class="card shadow-sm">
                         <div class="card-body text-left">
@@ -2071,7 +2074,7 @@ async function lessons_page_load_page() {
         window.location.assign(base+'/information/login.html');
     } else {}
     //console.log(response['status']);
-    //console.log(response['response']);
+    console.log(response['response']);
 }
 
 async function lessons_page_cancel_order(id) {
