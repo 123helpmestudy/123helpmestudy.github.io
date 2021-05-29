@@ -1,22 +1,22 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
 
-body{
+body {
     width: 100%; 
     height: 99vh;
 }
-.hover-pointer:hover{
+.hover-pointer:hover {
     cursor: pointer;
 }
-.cust-header-background{
+.cust-header-background {
     background-image: url(https://ik.imagekit.io/123helpmestudy/uc?export=view&id=1MObN2awVJFHbwsOlSjY3GvTt50wVM5up);
 }
-.max-card{
+.max-card {
     max-width: 600px;
 }
-.max-view{
+.max-view {
     max-width: 1000px;
 }
-.phone{
+.phone {
     z-index: 4;
     text-align: right;
     display: block;
@@ -25,7 +25,7 @@ body{
     bottom: 70px;
     right: 1%;
 }
-.skype{
+.skype {
     z-index: 4;
     text-align: right;
     display: block;
@@ -34,88 +34,89 @@ body{
     bottom: 10px;
     right: 1%;
 }
-.comms-image{
+.comms-image {
     width: 50px;
     margin-bottom: 0px;
     margin-top: 0px;
     vertical-align: middle;
 }
-.card-1-bg{
+.card-1-bg {
     background-color: rgb(219, 245, 245);
 }
-.card-2-bg{
+.card-2-bg {
     background-color: rgb(41, 16, 0);
 }
-.card-2-bg-img{
+.card-2-bg-img {
     background-image: url("https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5");
 }
-.paragraph-seperator{
+.paragraph-seperator {
     border: solid 1px;
     border-color: rgba(100,100,100);
 }
-.warning-bg{
+.warning-bg {
     background-color: rgba(255, 168, 168, 0.801);
 }
-.alert-bg{
+.alert-bg {
     background-color: rgba(255, 221, 109, 0.493);
 }
-.success-bg{
+.success-bg {
     background-color: rgba(130, 248, 146, 0.541);
 }
-.primary-bg{
+.primary-bg {
     background-color: rgb(17, 81, 255);
     border-radius: 5px;
 }
-.circle-img{
+.circle-img {
     border-radius: 50%;
     max-width: 200px;
 }
-.circle-img-profile-list{
+.circle-img-profile-list {
     border-radius: 50%;
-    max-width: 100px;
+    width: 100px;
+    height: 100px;
 }
-.add-img-btn{
+.add-img-btn {
     width: 25px;
 }
-.hidden-el{
+.hidden-el {
     display: none;
 }
-.dashboard-button:hover{
+.dashboard-button:hover {
     background-color: rgb(143, 201, 255);
     border-color: rgb(84, 172, 255);
     color: rgb(255, 255, 255);
     cursor: pointer;
 }
-.danger-dashboard-button:hover{
+.danger-dashboard-button:hover {
     background-color: rgb(255, 118, 118);
     border-color: rgb(255, 50, 50);
     color: rgb(255, 255, 255);
     font-weight: bolder;
 }
-.strip-link{
+.strip-link {
     color: rgb(0, 0, 0);
 }
-.strip-link:hover{
+.strip-link:hover {
     text-decoration: none;
     color: rgb(255, 255, 255);
 }
-.strip-link-black{
+.strip-link-black {
     color: rgb(0, 0, 0);
 }
-.strip-link-black:hover{
+.strip-link-black:hover {
     color: rgb(0, 0, 0);
     text-decoration: none;
 }
-.light-blue-card{
+.light-blue-card {
     background-color: rgba(193, 225, 255, 0.589);
 }
-.light-green-card{
+.light-green-card {
     background-color: rgba(207, 253, 201, 0.541);
 }
-.light-warning-card{
+.light-warning-card {
     background-color: rgba(255, 242, 166, 0.637);
 }
-.hourly-rate{
+.hourly-rate {
     border: solid 2px rgb(255, 255, 255);
     border-radius: 50%;
     width: 120px;
@@ -131,7 +132,7 @@ body{
     top: 10px;
     left: -10px;
 }
-#service-charge{
+#service-charge {
     text-align: right;
     border: solid 2px rgb(0, 87, 7);
     border-radius: 10px;
@@ -148,6 +149,31 @@ body{
     top: -40px;
     left: 60px;
 }
-.little-flag{
+.little-flag {
     max-width: 45px;
+}
+.nav-bar-menu-item {
+    color: rgb(165, 165, 165);
+    display: block;
+    padding: .5rem 1rem;
+}
+.nav-bar-menu-item:hover {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+.nav-bar-bg-colour {
+    background-color: rgba(22, 22, 22, 0.952);
+}
+.nav-underline {
+    background-color: rgb(255, 255, 255);
+    height: 2px;
+    width: 0rem;
+    margin-left: auto;
+    margin-right: auto;
+    transition: width 1s;
+}
+@media only screen and (min-width: 992px) {
+    .nav-bar-menu-item-ext:hover + .nav-underline {
+        width: 4rem;
+    }
 }
