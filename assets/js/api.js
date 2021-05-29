@@ -1106,6 +1106,18 @@ async function tutor_subjects_load_page() {
         var subjects = response['response']['data'];
         var a = 1;
         for (var i = 0; i < subjects.length; i++) {
+            // Handle cheapest tutor option / not available
+            if (subjects[i]['lowest_price'] == 'Not available') {
+                continue;
+                cheapest_option = `<button class="btn btn-warning shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
+                                        `+subjects[i]['lowest_price']+`
+                                   </button>`;
+            } else {
+                cheapest_option = `<button class="btn btn-primary shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
+                                        `+'<b>From £'+subjects[i]['lowest_price']+'/hr</b>'+`
+                                   </button>`
+            }
+            // Handle the colour of the cards
             var colour = 'light-blue-card';
             if (a == 1) {
                 a = 2;
@@ -1121,16 +1133,21 @@ async function tutor_subjects_load_page() {
             }
             var html = `
             <div onclick="tutor_subject_display_tutors_load_page(`+subjects[i]['subject_id']+`);" class="card mb-1 `+colour+`">
-                <div class="card-body dashboard-button">
-                    <b>`+subjects[i]['long_name']+`</b>
+                <div class="card-body dashboard-button pt-1 pr-1">
+                    <div class="text-right">
+                        `+cheapest_option+`
+                    </div>
+                    <b>`+subjects[i]['long_name']+`</b><br><br>
                 </div>
             </div>
             `;
             document.getElementById('subject-list').innerHTML += html;
         }
+        document.getElementById('loading-card').style.display = 'none';
+        document.getElementById('subject-view').style.display = 'block';
     } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    // console.log(response['status']);
+    // console.log(response['response']);
 }
 
 async function tutor_subject_display_tutors_load_page(id) {
@@ -1179,16 +1196,16 @@ async function tutor_subject_display_tutors_load_page(id) {
             for (var i = 0; i < tutors.length; i++) {
                 var miles_button = '';
                 if ('distance_miles' in tutors[i]) {
-                    miles_button = `<button class="btn btn-success">`+tutors[i]['distance_miles']+` miles away</button>`;
+                    miles_button = `<button class="btn btn-success shadow"><b>`+tutors[i]['distance_miles']+` miles away</b></button>`;
                 }
                 var html = `
                 <div class="card mb-2 shadow">
                     <div onclick="go_to_tutor_profile(`+tutors[i]['profile_id']+`);" class="card-body dashboard-button">
-                        <div class="rounded-pill">
-
-                        </div>
-                        <div class="text-right">
+                        <div class="text-right mb-2">
                             `+miles_button+`
+                            <button class="btn btn-primary shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
+                                <b>£`+tutors[i]['hourly_rate']+`/hr</b>
+                            </button>
                         </div>
                         <img class="circle-img-profile-list" src="`+tutors[i]['profile_photo']+`">
                         <p class="my-0">`+tutors[i]['first_name']+' '+tutors[i]['last_name_initial']+`</p>
@@ -1208,8 +1225,8 @@ async function tutor_subject_display_tutors_load_page(id) {
         document.getElementById('error-card').style.display = 'block';
         document.getElementById('error-response').innerHTML = response['response']['message'];
     } else {}
-    //console.log(response['status']);
-    console.log(response['response']);
+    // console.log(response['status']);
+    // console.log(response['response']);
 }
 
 async function profile_page_load_page(id) {

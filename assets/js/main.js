@@ -5,32 +5,53 @@ function set_navigation_bar(base) {
     Requires: <div id="navigation-bar"></div>
     */
    html = `
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <nav class="navbar navbar-expand-lg nav-bar-bg-colour navbar-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon" ></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"> 
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/index.html" target="_parent"><i class="bi-house"></i> Home</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/index.html" target="_parent"><i class="bi-house"></i> Home</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/about-us.html"><i class="bi-person"></i> About Us</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/about-us.html"><i class="bi-person"></i> About Us</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/tutors.html" target="_parent"><i class="bi-award"></i> Tutors</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/tutors.html" target="_parent"><i class="bi-award"></i> Tutors</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/contact-us.html" target="_parent"><i class="bi-chat-right-text"></i> Contact Us</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/contact-us.html" target="_parent"><i class="bi-chat-right-text"></i> Contact Us</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="https://www.facebook.com/123helpmestudy" target="_blank"><i class="bi-facebook"></i> Facebook</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="https://www.facebook.com/123helpmestudy" target="_blank"><i class="bi-facebook"></i> Facebook</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/sign-up.html" target="_parent"><i class="bi-person-plus"></i> Sign Up</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/sign-up.html" target="_parent"><i class="bi-person-plus"></i> Sign Up</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/login.html"><i class="bi-box-arrow-right"></i> Login</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/login.html"><i class="bi-box-arrow-right"></i> Login</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>
                 </li>
             </ul>
         </div>
@@ -45,26 +66,41 @@ function set_application_navigation_bar(base) {
     Requires: <div id="navigation-bar"></div>
     */
    html = `
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <nav class="navbar navbar-expand-lg nav-bar-bg-colour navbar-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <!--<li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/index.html" target="_parent"><i class="bi-house"></i> Home</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/index.html" target="_parent"><i class="bi-house"></i> Home</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>
                 </li>-->
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/application/home.html" target="_parent"><i class="bi-grid-3x3-gap"></i> Dashboard</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/application/home.html" target="_parent"><i class="bi-grid-3x3-gap"></i> Dashboard</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/tutors.html" target="_parent"><i class="bi-award"></i> Tutors</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/tutors.html" target="_parent"><i class="bi-award"></i> Tutors</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>                    
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/contact-us.html" target="_parent"><i class="bi-chat-right-text"></i> Contact Us</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/contact-us.html" target="_parent"><i class="bi-chat-right-text"></i> Contact Us</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>  
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold px-3" href="`+base+`/information/login.html" target="_parent"><i class="bi-box-arrow-left"></i> Logout</a>
+                    <span style="display: block;" class="nav-bar-menu-item-ext">
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/login.html" target="_parent"><i class="bi-box-arrow-left"></i> Logout</a>
+                    </span>
+                    <span style="display: block;" class="nav-underline"></span>     
                 </li>
             </ul>
         </div>
@@ -184,6 +220,7 @@ function set_tutor_page_subject_options() {
     <span id="subject-options-3">
     */
     html = `
+    <option>None</option>
     <option>Accounting</option>
     <option>Art and Design</option>
     <option>Bengali</option>
@@ -192,12 +229,15 @@ function set_tutor_page_subject_options() {
     <option>Chemistry</option>
     <option>Chinese (Mandarin)</option>
     <option>Citizenship Studies</option>
+    <option>Computer programming in C</option>
+    <option>Computer programming in Python</option>
     <option>Computer Science and IT</option>
     <option>Dance</option>
     <option>Design and Technology</option>
     <option>Drama</option>
     <option>Economics</option>
     <option>Engineering</option>
+    <option>English as a Foreign Language</option>
     <option>English Language</option>
     <option>English Literature</option>
     <option>Entry Level Certificates (ELC)</option>
@@ -237,7 +277,8 @@ function set_tutor_page_subject_options() {
     <option>Tech-levels</option>
     <option>Technical Awards</option>
     <option>Unit Award Scheme</option>
-    <option>Urdu</option>  
+    <option>Urdu</option>
+    <option>None</option>
    `;
    if (document.getElementById('subject-options-1')) {
     document.getElementById('subject-options-1').innerHTML = html;
