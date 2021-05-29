@@ -333,8 +333,8 @@ async function sign_up_page_submit_form() {
         'password': document.getElementById('password').value,
     };
     var response = await api_call(
-        path, 
-        headers, 
+        path,
+        headers,
         method,
         payload
     );
@@ -345,6 +345,8 @@ async function sign_up_page_submit_form() {
     } else {
         document.getElementById('error-card').style.display = 'block';
         document.getElementById('error-response').innerHTML = response['response']['message'];
+        document.getElementById('pending-send').style.display = 'none';
+        document.getElementById('sign-up-submit').style.display = 'block';
     }
     //console.log(response['status']);
     //console.log(response['response']);
@@ -662,7 +664,7 @@ async function account_page_submit_form() {
             document.getElementById('confirm-password').className
             +' is-invalid'
         );
-        document.getElementById('error-response').innerHTML = 'Password does not match Confirm password.'
+        document.getElementById('error-response').innerHTML = 'Password does not match confirm password.'
         document.getElementById('error-card').style.display = 'block';
         return false;
     }
