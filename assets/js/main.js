@@ -138,10 +138,10 @@ function set_page_footer(base) {
         <a class="text-light" href="`+base+`/information/site-map.html" target="_parent"><p>Site Map</p></a>
         <div class="text-center">
             <a class="strip-link" href="https://www.facebook.com/123helpmestudy" target="_blank" alt="facebook link">
-                <img style="width: 50px;" class="mx-2" src="`+base+`/assets/images/f_logo_RGB-White_144.png"/>
+                <img class=" social-media-icon-footer" src="`+base+`/assets/images/f_logo_RGB-White_144.png"/>
             </a>
             <a class="strip-link" href="https://www.instagram.com/123helpmestudy" target="_blank" alt="instagram link">
-                <img style="width: 50px;" class="mx-2" src="`+base+`/assets/images/glyph-logo_May2016_white_edit.png"/>
+                <img class="social-media-icon-footer" src="`+base+`/assets/images/glyph-logo_May2016_white_edit.png"/>
             </a>
         </div>           
     </div>
@@ -164,17 +164,17 @@ function set_contact_buttons(base) {
     html = `
         <a href="tel:07493696970">
             <div class="phone">
-                <img class="comms-image" alt="call or text 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png">
+                <img class="comms-image" style="border: solid 2px rgb(0, 0, 0);" alt="call or text 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png">
             </div>
         </a>
         <a href="`+base+`/information/contact-us.html" target="_parent">
             <div class="email">
-                <img class="comms-image" style="background-color: rgb(59, 59, 59);" alt="email 123 help me study" src="`+base+`/assets/images/email-icon.png">
+                <img class="comms-image" style="background-color: rgb(59, 59, 59); border: solid 2px rgb(0, 0, 0);" alt="email 123 help me study" src="`+base+`/assets/images/email-icon.png">
             </div>
         </a>
         <a href="https://join.skype.com/invite/brePqBzYCveV">
             <div class="skype">
-                <img class="comms-image" alt="skype 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/skype-icon_GsT8vFll7cwp.png">
+                <img class="comms-image" style="border: solid 2px rgb(0, 0, 0);"  alt="skype 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/skype-icon_GsT8vFll7cwp.png">
             </div>
         </a>
     `;
