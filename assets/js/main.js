@@ -130,25 +130,46 @@ function set_page_footer(base) {
     Requires: <div id="page-footer"></div>
     */
     html = `
-    <div class="container-fluid bg-dark pb-3">
-        <p class="pt-5 text-light">Established in August 2019</p>
-        <p class="text-light">Trading As "123 Help Me Study"</p>
+    <div class="container-fluid bg-dark p-4">
+        <p class="text-light">Established in August 2019</p>
+        <p class="text-light">Trading as <i>"123 Help Me Study"</i></p>
         <a class="text-light" href="`+base+`/information/privacy-policy.html" target="_parent"><p>Privacy Policy</p></a>
-        <a class="text-light" href="`+base+`/information/terms-and-conditions.html" target="_parent"><p>Terms &amp; Conditions</p></a>            
+        <a class="text-light" href="`+base+`/information/terms-and-conditions.html" target="_parent"><p>Terms &amp; Conditions</p></a>
+        <a class="text-light" href="`+base+`/information/site-map.html" target="_parent"><p>Site Map</p></a>
+        <div class="text-center">
+            <a class="strip-link" href="https://www.facebook.com/123helpmestudy" target="_blank" alt="facebook link">
+                <img style="width: 50px;" class="mx-2" src="`+base+`/assets/images/f_logo_RGB-White_144.png"/>
+            </a>
+            <a class="strip-link" href="https://www.instagram.com/123helpmestudy" target="_blank" alt="instagram link">
+                <img style="width: 50px;" class="mx-2" src="`+base+`/assets/images/glyph-logo_May2016_white_edit.png"/>
+            </a>
+        </div>           
     </div>
     `;
     document.getElementById('page-footer').innerHTML = html;
 }
 
-function set_contact_buttons() {
+function set_contact_buttons(base) {
     /* 
     Set Contact Buttons on page 
     Requires: <div id="contact-buttons"></div>
     */
+   /*
+    TODO:
+    Add slack
+    https://join.slack.com/t/123helpmestudy/shared_invite/zt-qu1qc57r-YvbbiOGxrp5bpiKOUUJGfw
+
+    Add messaging button
+   */
     html = `
         <a href="tel:07493696970">
             <div class="phone">
                 <img class="comms-image" alt="call or text 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png">
+            </div>
+        </a>
+        <a href="`+base+`/information/contact-us.html" target="_parent">
+            <div class="email">
+                <img class="comms-image" style="background-color: rgb(59, 59, 59);" alt="email 123 help me study" src="`+base+`/assets/images/email-icon.png">
             </div>
         </a>
         <a href="https://join.skype.com/invite/brePqBzYCveV">
@@ -376,7 +397,7 @@ function index_page(base) {
     set_navigation_bar(base);
     set_page_header();
     set_page_footer(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
     
 }
 
@@ -384,7 +405,7 @@ function about_us_page(base) {
     set_navigation_bar(base);
     set_page_header();
     set_page_footer(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
 }
 
 function sign_up_page(base) {
@@ -401,7 +422,7 @@ function contact_us_page(base) {
     set_navigation_bar(base);
     set_page_header();
     set_page_footer(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
     tutor_page_set_input_string_length('message', 'message-str-len');
 }
 
@@ -409,40 +430,47 @@ function legal_pages(base) {
     set_navigation_bar(base);
     set_page_header();
     set_page_footer(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
+}
+
+function site_map_page(base) {
+    set_navigation_bar(base);
+    set_page_header();
+    set_page_footer(base);
+    set_contact_buttons(base);
 }
 
 function tutors_page(base) {
     set_navigation_bar(base);
     set_page_header();
     set_page_footer(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
 }
 
 function profile_page(base) {
     set_navigation_bar(base);
     set_page_header();
     set_page_footer(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
 }
 
 function message_tutor_page(base) {
     set_navigation_bar(base);
     set_page_header();
     set_page_footer(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
     tutor_page_set_input_string_length('message', 'message-str-len');
 }
 
 function application_message_thread_page(base) {
     set_application_navigation_bar(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
     tutor_page_set_input_string_length('new-message', 'message-str-len');
 }
 
 function application_tutor_profile_page(base) {
     set_application_navigation_bar(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
     set_tutor_page_subject_options();
     tutor_page_set_input_string_length('about-tutor', 'about-tutor-str-len');
     tutor_page_set_input_string_length('background-tutor', 'background-tutor-str-len');
@@ -450,7 +478,7 @@ function application_tutor_profile_page(base) {
 
 function application_customer_profile_page(base) {
     set_application_navigation_bar(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
     set_tutor_page_subject_options();
     tutor_page_set_input_string_length('about-customer', 'customer-requirements-str-len');
 }
@@ -461,7 +489,7 @@ function application_general_nav_only(base) {
 
 function application_general_nav_and_contact(base) {
     set_application_navigation_bar(base);
-    set_contact_buttons();
+    set_contact_buttons(base);
 }
 
 function has_unique_id() {
@@ -490,6 +518,9 @@ function main(arg, base) {
     }
     if (arg == '/information/terms-and-conditions.html') {
         legal_pages(base);
+    }
+    if (arg == '/information/site-map.html') {
+        site_map_page(base);
     }
     if (arg == '/information/tutors.html') {
         tutors_page(base);
