@@ -164,17 +164,17 @@ function set_contact_buttons(base) {
     html = `
         <a href="tel:07493696970">
             <div class="phone">
-                <img class="comms-image" style="border: solid 2px rgb(0, 0, 0);" alt="call or text 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png">
+                <img class="comms-image" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="call or text 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png">
             </div>
         </a>
         <a href="`+base+`/information/contact-us.html" target="_parent">
             <div class="email">
-                <img class="comms-image" style="background-color: rgb(59, 59, 59); border: solid 2px rgb(0, 0, 0);" alt="email 123 help me study" src="`+base+`/assets/images/email-icon.png">
+                <img class="comms-image" style="background-color: rgb(59, 59, 59); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="email 123 help me study" src="`+base+`/assets/images/email-icon.png">
             </div>
         </a>
         <a href="https://join.skype.com/invite/brePqBzYCveV">
             <div class="skype">
-                <img class="comms-image" style="border: solid 2px rgb(0, 0, 0);"  alt="skype 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/skype-icon_GsT8vFll7cwp.png">
+                <img class="comms-image" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);"  alt="skype 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/skype-icon_GsT8vFll7cwp.png">
             </div>
         </a>
     `;
