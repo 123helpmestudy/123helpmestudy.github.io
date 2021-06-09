@@ -1157,6 +1157,83 @@ async function tutor_subjects_load_page() {
     // console.log(response['response']);
 }
 
+function sort_tutors_to_display(tutors, method) {
+    var sort_by_button_text = 'Price (lowest to highest)';
+    if (method == 'price-low-to-high') {
+        sort_by_button_text = 'Price (lowest to highest)';
+        tutors.sort(function(a, b) {
+            return parseFloat(a['hourly_rate']) - parseFloat(b['hourly_rate']);
+        });
+    } else if (method == 'price-high-to-low') {
+        sort_by_button_text = 'Price (highest to lowest)';
+        tutors.sort(function(a, b) {
+            return parseFloat(b['hourly_rate']) - parseFloat(a['hourly_rate']);
+        });
+    } else if (method == 'hours-low-to-high') {
+        sort_by_button_text = 'Hours (lowest to highest)';
+        tutors.sort(function(a, b) {
+            return parseFloat(a['hours_taught']) - parseFloat(b['hours_taught']);
+        });
+    } else if (method == 'hours-high-to-low') {
+        sort_by_button_text = 'Hours (highest to lowest)';
+        tutors.sort(function(a, b) {
+            return parseFloat(b['hours_taught']) - parseFloat(a['hours_taught']);
+        });
+    }
+    return tutors, sort_by_button_text;
+}
+
+function render_tutors_page(method) {
+    var tutors = localStorage.getItem('all-tutors');
+    tutors = JSON.parse(tutors);
+    tutors, sort_by_button_text = sort_tutors_to_display(tutors, method);
+    document.getElementById('tutor-list').innerHTML = '';
+    document.getElementById('tutor-list').innerHTML += '<h3>Browse the tutors that cover your subject</h3>';
+    document.getElementById('tutor-list').innerHTML += `
+    <div class="mb-3 text-left dropdown">
+        <button 
+            id="tutor-sort-by-button" 
+            type="button" 
+            data-toggle="dropdown" 
+            class="btn btn-info dropdown-toggle"
+        >
+            Sort by: Price (lowest to highest)
+        </button>
+        <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton">
+            <a onclick="render_tutors_page('price-low-to-high');" class="hover-pointer dropdown-item bg-dark text-white">Price (lowest to highest)</a>
+            <a onclick="render_tutors_page('price-high-to-low');" class="hover-pointer dropdown-item bg-dark text-white">Price (highest to lowest)</a>
+            <a onclick="render_tutors_page('hours-low-to-high');" class="hover-pointer dropdown-item bg-dark text-white">Hours taught (lowest to highest)</a>
+            <a onclick="render_tutors_page('hours-high-to-low');" class="hover-pointer dropdown-item bg-dark text-white">Hours taught (highest to lowest)</a>
+        </div>
+    </div>
+    `;
+    document.getElementById('tutor-sort-by-button').innerHTML = 'Sort by: ' + sort_by_button_text;
+    for (var i = 0; i < tutors.length; i++) {
+        var miles_button = '';
+        if ('distance_miles' in tutors[i]) {
+            miles_button = `<button class="btn btn-success shadow"><b>`+tutors[i]['distance_miles']+` miles away</b></button>`;
+        }
+        var html = `
+        <div class="card mb-2 shadow">
+            <div onclick="go_to_tutor_profile(`+tutors[i]['profile_id']+`);" class="card-body dashboard-button">
+                <div class="text-right mb-2">
+                    `+miles_button+`
+                    <button class="btn btn-primary shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
+                        <b>£`+tutors[i]['hourly_rate']+`/hr</b>
+                    </button>
+                </div>
+                <img class="circle-img-profile-list" src="`+tutors[i]['profile_photo']+`">
+                <p class="my-0">`+tutors[i]['first_name']+' '+tutors[i]['last_name_initial']+`</p>
+                <p class="my-0"><em>`+tutors[i]['profile_header']+`</em></p>
+                <p class="my-0">Hours Taught: <b>`+tutors[i]['hours_taught']+`</b></p>
+                <p class="my-0">Highest Qualification: <b>`+tutors[i]['highest_qualification']+`<b/></p>
+            </div>
+        </div>
+        `;
+        document.getElementById('tutor-list').innerHTML += html;
+    }
+}
+
 async function tutor_subject_display_tutors_load_page(id) {
     var lesson_type = document.getElementById('lesson-location').value;
     var post_zip_code = document.getElementById('post-zip-code').value;
@@ -1188,6 +1265,10 @@ async function tutor_subject_display_tutors_load_page(id) {
     );
     if (response['status'] == 200) {
         var tutors = response['response']['data'];
+        localStorage.setItem('all-tutors', JSON.stringify(
+            tutors
+        ));
+        
         document.getElementById('tutor-list').innerHTML = '';
         if (tutors.length == 0) {
             document.getElementById('tutor-list').innerHTML = `
@@ -1199,31 +1280,8 @@ async function tutor_subject_display_tutors_load_page(id) {
             <br><br><br><br>
             `;
         } else {
-            document.getElementById('tutor-list').innerHTML += '<h3 class="mb-3">Browse the tutors that cover your subject</h3>';
-            for (var i = 0; i < tutors.length; i++) {
-                var miles_button = '';
-                if ('distance_miles' in tutors[i]) {
-                    miles_button = `<button class="btn btn-success shadow"><b>`+tutors[i]['distance_miles']+` miles away</b></button>`;
-                }
-                var html = `
-                <div class="card mb-2 shadow">
-                    <div onclick="go_to_tutor_profile(`+tutors[i]['profile_id']+`);" class="card-body dashboard-button">
-                        <div class="text-right mb-2">
-                            `+miles_button+`
-                            <button class="btn btn-primary shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
-                                <b>£`+tutors[i]['hourly_rate']+`/hr</b>
-                            </button>
-                        </div>
-                        <img class="circle-img-profile-list" src="`+tutors[i]['profile_photo']+`">
-                        <p class="my-0">`+tutors[i]['first_name']+' '+tutors[i]['last_name_initial']+`</p>
-                        <p class="my-0"><em>`+tutors[i]['profile_header']+`</em></p>
-                        <p class="my-0">Hours Taught: <b>`+tutors[i]['hours_taught']+`</b></p>
-                        <p class="my-0">Highest Qualification: <b>`+tutors[i]['highest_qualification']+`<b/></p>
-                    </div>
-                </div>
-                `;
-                document.getElementById('tutor-list').innerHTML += html;
-            }
+            // Using a function to render the tutor cards    
+            render_tutors_page('price-low-to-high');
         }
         document.getElementById('subject-card').style.display = 'none';
         document.getElementById('tutors-card').style.display = 'block';
