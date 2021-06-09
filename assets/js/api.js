@@ -227,6 +227,9 @@ async function login_page_submit_form() {
             document.getElementById('password').value
         ));
     }
+    // Deactivate login button and show pending
+    document.getElementById('login-submit').style.display = 'none';
+    document.getElementById('pending-login').style.display = 'block';
     var path = '/api/users/login';
     var headers = {
         'Access-Token': '',
@@ -261,6 +264,9 @@ async function login_page_submit_form() {
     } else {
         document.getElementById('error-card').style.display = 'block';
         document.getElementById('error-response').innerHTML = response['response']['message'];
+        
+        document.getElementById('pending-login').style.display = 'none';
+        document.getElementById('login-submit').style.display = 'block';
     }
     //console.log(response['status']);
     //console.log(response['response']);
@@ -410,9 +416,66 @@ async function home_page_submit_user_type_form(user_type) {
     if (user_type == 'tutor') {
         document.getElementById('initialise-user-type').style.display = 'none';
         document.getElementById('first-tutor-walkthrough').style.display = 'block';
+    } else if (user_type == 'parent') {
+        document.getElementById('initialise-user-type').style.display = 'none';
+        document.getElementById('first-parent-walkthrough').style.display = 'block';
     } else {
         window.location.reload();
     }
+}
+
+async function home_page_submit_parent_form() {
+    /* Validate tutor terms */
+    var parent_first_name = document.getElementById('parent-first-name').value;
+    var parent_last_name = document.getElementById('parent-last-name').value;
+    var validated = true;
+    if (parent_first_name.length == 0) {
+        document.getElementById('parent-first-name').className += ' is-invalid';
+        validated = false;
+    }
+    if (parent_last_name.length == 0) {
+        document.getElementById('parent-last-name').className += ' is-invalid';
+        validated = false;
+    }
+    if (!validated) {return false;}
+    /* Execute API */
+    var email = localStorage.getItem('123helpmestudy-email');
+    var path = '/api/users/update_user_attribute';
+    var headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    var method = 'PUT';
+    var attributes_list = [
+        {
+            'attribute': 'first_name',
+            'value': parent_first_name
+        },
+        {
+            'attribute': 'last_name',
+            'value': parent_last_name
+        },
+    ];
+    for (var i = 0; i < attributes_list.length; i++) {
+        var payload = {
+            'email': email,
+            'attribute': attributes_list[i]['attribute'],
+            'value': attributes_list[i]['value']
+        };
+        var response = await api_call(
+            path,
+            headers,
+            method,
+            payload
+        );
+        if (response['status'] == 200) {
+        } else if (response['status'] == 401) {
+            var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
+            window.location.assign(base+'/information/login.html');
+        } else {}
+        //console.log(response['status']);
+        //console.log(response['response']);
+    }
+    window.location.reload();
 }
 
 async function home_page_submit_tutor_form() {

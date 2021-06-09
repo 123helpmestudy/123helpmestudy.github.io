@@ -415,7 +415,7 @@ function sign_up_page(base) {
 
 function login_page(base) {
     set_navigation_bar(base);
-    set_enter_submit('password', 'login_submit');
+    set_enter_submit('password', 'login-submit');
 }
 
 function contact_us_page(base) {

@@ -197,6 +197,36 @@
                                 <button onclick="home_page_submit_user_type_form('tutor');" class="btn btn-primary my-2">Tutor</button>
                             </div>
                         </div>
+                        <!-- 1st PARENT QUESTION SET -->
+                        <div id="first-parent-walkthrough" class="card bg-white max-card mx-auto">
+                            <div class="card-body text-justify">
+                                <h5 class="mt-2 mb-3">
+                                    Congratulations on joining a family run tutoring company!
+                                </h5>
+                                <h5 class="mb-4">
+                                    Let's get started by filling in your first name and last name.
+                                </h5>
+                                <div class="form-group mt-2">
+                                    <label >First Name</label>
+                                    <input type="text" onfocus="reset_invalid_input('parent-first-name');" class="form-control" id="parent-first-name">
+                                  </div>
+                                  <div class="form-group">
+                                    <label >Last Name</label>
+                                    <input type="text" onfocus="reset_invalid_input('parent-last-name');" class="form-control" id="parent-last-name">
+                                    <small class="form-text text-muted">
+                                        Feel free to use only your last name initial if you have privacy concerns.
+                                    </small>
+                                  </div>
+                                <div>
+                                    <button onclick="home_page_submit_parent_form();" class="btn btn-success"  style="width: 150px;">
+                                        <span id="save-parent-details-button-text">Submit</span>
+                                        <span id="save-parent-details-button-loading" class="hidden-el">
+                                            <div class="spinner-border spinner-border-sm text-light mb-0"></div>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <!-- 1st TUTOR QUESTION SET -->
                         <div id="first-tutor-walkthrough" class="card bg-white max-card mx-auto hidden-el">
                             <div class="card-body text-justify">
@@ -439,6 +469,7 @@
                 return false;
             }
             /* Navigation toggles */
+            // Tutor walk through below
             function first_to_second() {
                 document.getElementById('first-tutor-walkthrough').style.display = 'none';
                 document.getElementById('second-tutor-walkthrough').style.display = 'block';

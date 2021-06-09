@@ -58,7 +58,11 @@
                                         <input id="remember-me" type="checkbox" class="form-check-input">
                                         <label class="form-check-label">Remember me</label>
                                     </div>
-                                    <button id="login_submit" onclick="login_page_submit_form();" class="btn btn-primary">Submit</button>
+                                    <button id="login-submit" onclick="login_page_submit_form();" class="btn btn-primary">Submit</button>
+                                    <div id="pending-login" class="text-center hidden-el">
+                                        <p class="text-secondary mb-1">Logging in, please wait</p>
+                                        <div class="spinner-border text-info" role="status"></div>
+                                    </div>
                                     <div id="error-card" class="card mt-3 border border-danger warning-bg hidden-el">
                                         <div class="card-body">
                                             <p id="error-response" class="text-center font-weight-bold m-0"></p>
