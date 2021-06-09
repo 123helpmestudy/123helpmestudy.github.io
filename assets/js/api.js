@@ -85,6 +85,9 @@ async function index_page_load_page() {
         var subjects = response['response']['data'];
         var option_list;
         for (var i = 0; i < subjects.length; i++) {
+            if (subjects[i]['lowest_price'] == 'Not available') {
+                continue;
+            }
             var html = `
             <option value=`+subjects[i]['subject_id']+`>`+subjects[i]['long_name']+`</option>
             `;
@@ -1111,11 +1114,11 @@ async function tutor_subjects_load_page() {
             // Handle cheapest tutor option / not available
             if (subjects[i]['lowest_price'] == 'Not available') {
                 continue;
-                cheapest_option = `<button class="btn btn-warning shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
-                                        `+subjects[i]['lowest_price']+`
-                                   </button>`;
+                // cheapest_option = `<button class="btn btn-warning shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
+                //                         `+subjects[i]['lowest_price']+`
+                //                    </button>`;
             } else {
-                cheapest_option = `<button class="btn btn-primary shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
+                cheapest_option = `<button class="btn btn-primary shadow" style="font-size: 13px;"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
                                         `+'<b>From £'+subjects[i]['lowest_price']+'/hr</b>'+`
                                    </button>`
             }
@@ -1135,11 +1138,13 @@ async function tutor_subjects_load_page() {
             }
             var html = `
             <div onclick="tutor_subject_display_tutors_load_page(`+subjects[i]['subject_id']+`);" class="card mb-1 `+colour+`">
-                <div class="card-body dashboard-button pt-1 pr-1">
-                    <div class="text-right">
+                <div class="card-body dashboard-button pt-1 px-0">
+                    <div class="text-right pr-1">
                         `+cheapest_option+`
                     </div>
-                    <b>`+subjects[i]['long_name']+`</b><br><br>
+                    <div class="mt-3 px-3">
+                        <b style="font-size: 23px;">`+subjects[i]['long_name']+`</b><br><br>
+                    </div>
                 </div>
             </div>
             `;
