@@ -169,7 +169,7 @@ function set_contact_buttons(base) {
         </a>
         <a href="`+base+`/information/contact-us.html" target="_parent">
             <div class="email">
-                <img class="comms-image" style="background-color: rgb(59, 59, 59); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="email 123 help me study" src="`+base+`/assets/images/email-icon.png">
+                <img class="comms-image" style="background-color: rgb(59, 59, 59); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="email 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/email-icon_T97mDAvjR.PNG">
             </div>
         </a>
         <a href="https://join.skype.com/invite/brePqBzYCveV">
