@@ -93,10 +93,19 @@ body {
 .hidden-el {
     display: none;
 }
-.dashboard-button:hover {
+.dashboard-button {
+    transition: background-color 1s;
+}
+/* .dashboard-button:hover {
     background-color: rgb(143, 201, 255);
     border-color: rgb(84, 172, 255);
     color: rgb(255, 255, 255);
+    cursor: pointer;
+} */
+.dashboard-button:hover {
+    background-color: rgba(143, 201, 255, 0.40);
+    border-color: rgb(84, 172, 255, 0.5);
+    /* color: rgb(255, 255, 255); */
     cursor: pointer;
 }
 .danger-dashboard-button:hover {
@@ -110,7 +119,6 @@ body {
 }
 .strip-link:hover {
     text-decoration: none;
-    color: rgb(255, 255, 255);
 }
 .strip-link-black {
     color: rgb(0, 0, 0);
