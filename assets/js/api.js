@@ -280,6 +280,10 @@ async function login_page_reset_password_submit_form() {
     var validate = false;
     if (validate_target('for-forgot-password-email')) {validate = true;}
     if (validate) {return false;}
+    // Disable submit button and display pending message
+    document.getElementById('for-forgot-password-login-submit').style.display = 'none';
+    document.getElementById('pending-password-reset').style.display = 'block';
+    // Define API call parameters
     var path = '/api/users/reset_password';
     var headers = {
         'Access-Token': '',
@@ -296,10 +300,13 @@ async function login_page_reset_password_submit_form() {
     );
     if (response['status'] == 200) {
         document.getElementById('reset-email').innerHTML = document.getElementById('for-forgot-password-email').value;
+        document.getElementById('pending-password-reset').style.display = 'none';
         document.getElementById('success-password-reset').style.display = 'block';
     } else {
         document.getElementById('error-response-2').innerHTML = response['response']['message'];
         document.getElementById('error-card-2').style.display = 'block';
+        document.getElementById('for-forgot-password-login-submit').style.display = 'block';
+        document.getElementById('pending-password-reset').style.display = 'none';
     }
     //console.log(response['status']);
     //console.log(response['response']);
@@ -665,6 +672,7 @@ async function home_page_load_page() {
                     document.getElementById('account-card').style.display = 'block';
                     /* Tutor specific */
                     document.getElementById('students-card').style.display = 'block';
+                    document.getElementById('calendar-card').style.display = 'block';
                     document.getElementById('tutor-blurb').style.display = 'block';
                     document.getElementById('tutoring-opportunities').style.display = 'block';
                     document.getElementById('tutor-profile').style.display = 'block';

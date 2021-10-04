@@ -84,6 +84,10 @@
                                         <input id="for-forgot-password-email" onfocus="reset_invalid_input('for-forgot-password-email');" type="email" class="form-control">
                                     </div>
                                     <button id="for-forgot-password-login-submit" onclick="login_page_reset_password_submit_form();" class="btn btn-primary">Submit</button>
+                                    <div id="pending-password-reset" class="text-center hidden-el">
+                                        <p class="text-secondary mb-1">Requesting password, please wait</p>
+                                        <div class="spinner-border text-info" role="status"></div>
+                                    </div>
                                     <div id="success-password-reset" class="card mt-3 border border-success success-bg hidden-el">
                                         <div class="card-body">
                                             <p class="text-center font-weight-bold m-0">
