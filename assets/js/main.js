@@ -593,6 +593,6 @@ function main(arg, base) {
         application_general_nav_only(base);
     }
     if (arg == '/application/user/calendar.html') {
-        application_general_nav_and_contact(base);
+        application_general_nav_only(base);
     }
 }
