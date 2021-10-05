@@ -53,9 +53,12 @@
                         <div id="calendar-parent-card" class="card shadow bg-white max-card mx-auto">
                             <div class="card-body text-center">
                                 <!-- TABLE SPACE -->
-                                <div class="col primary-bg py-1 mb-4">
+                                <div class="col primary-bg py-1 mb-1">
                                     <h4 class="text-center font-weight-bold text-white p-1 m-0">Calendar</h4>
                                 </div>
+                                <!-- <div class="col primary-bg py-1 mb-3 hover-pointer">
+                                    <p class="text-center font-weight-bold text-white p-1 m-0">+</p>
+                                </div> -->
                                 <div id="calendar-list">
                                     <!-- CODE BLOCK -->
                                     <div id="calendar"></div>
@@ -76,7 +79,7 @@
         </div>
         <script type="text/javascript">main('/application/user/calendar.html', window.location.pathname);</script>
         <script type="text/javascript">
-            document.addEventListener('DOMContentLoaded', function() {
+            function createCalendar() {
                 // Fetch events array and load into calendar
                 // TODO: Perform API call here
                 let calendarEvents = [
@@ -98,14 +101,20 @@
                 }
                 // Initialise the full calendar
                 let calendarEl = document.getElementById('calendar');
+                calendarEl.innerHTML = '';
                 let calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: calendarView,
                     themeSystem: 'bootstrap',
                     events: calendarEvents
                 });
                 calendar.render();
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Render Calendar
+                createCalendar();
                 // Adjust height for the windows size to 75% height of whole window
-                document.getElementById('calendar').style.height = (window.innerHeight * 0.75) + 'px';
+                document.getElementById('calendar').style.height = (window.innerHeight * 0.7) + 'px';
                 // Adjust the max width of the calendar card
                 if (window.innerWidth > 900) {
                     document.getElementById('calendar-parent-card').style.maxWidth = (window.innerWidth * 0.75) + 'px';
@@ -137,12 +146,16 @@
             });
             // Event listener for resizing of the window, specifically relating to height
             window.addEventListener('resize', function() {
-                document.getElementById('calendar').style.height = (window.innerHeight * 0.75) + 'px';
+                document.getElementById('calendar').style.height = (window.innerHeight * 0.7) + 'px';
                 // TODO: Adjust so that calendar is responsive across screen sizes
                 if (window.innerWidth > 900) {
                     document.getElementById('calendar-parent-card').style.maxWidth = (window.innerWidth * 0.75) + 'px';
+                    // Render Calendar
+                    createCalendar();
                 } else {
                     document.getElementById('calendar-parent-card').style.maxWidth = '';
+                    // Render Calendar
+                    createCalendar();
                 }
             });
         </script>
