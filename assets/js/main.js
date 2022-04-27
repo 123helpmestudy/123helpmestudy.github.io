@@ -35,12 +35,14 @@ function set_navigation_bar(base) {
                     </span>
                     <span style="display: block;" class="nav-underline"></span>
                 </li>
+                <!--
                 <li class="nav-item">
                     <span style="display: block;" class="nav-bar-menu-item-ext">
                         <a class="nav-bar-menu-item font-weight-bold px-3" href="https://www.facebook.com/123helpmestudy" target="_blank"><i class="bi-facebook"></i> Facebook</a>
                     </span>
                     <span style="display: block;" class="nav-underline"></span>
                 </li>
+                -->
                 <li class="nav-item">
                     <span style="display: block;" class="nav-bar-menu-item-ext">
                         <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/sign-up.html" target="_parent"><i class="bi-person-plus"></i> Sign Up</a>
