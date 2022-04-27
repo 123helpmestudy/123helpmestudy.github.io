@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', calendar_page_load_page);
 
 async function calendar_page_load_page() {
     // Render Calendar
-    createCalendar([]);
+    createCalendar(null);
     // Adjust height for the windows size to 75% height of whole window
     document.getElementById('calendar').style.height = (window.innerHeight * 0.7) + 'px';
     // Adjust the max width of the calendar card
@@ -27,7 +27,6 @@ async function calendar_page_load_page() {
         payload
     );
     if (response['status'] == 200) {
-        console.log(response['response']['events']);
         createCalendar(response['response']['events']);
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/calendar.html', '');
@@ -38,9 +37,14 @@ async function calendar_page_load_page() {
 }
 
 
-function createCalendar(events) {
+async function createCalendar(events) {
     // Load empty calendar
-    let calendarEvents = events;
+    let calendarEvents;
+    if (events == null) {
+        calendarEvents = [];
+    } else {
+        calendarEvents = events;
+    }
     // Calculate the screen width and render appropriate calendar
     let calendarView = 'timeGridDay';
     if (window.innerWidth > 900) {
@@ -55,7 +59,7 @@ function createCalendar(events) {
         firstDay: 1,
         events: calendarEvents
     });
-    calendar.render();
+    let renderedCalendar = await calendar.render();
 
     /* 
     If display size is less than 500px then 
@@ -94,6 +98,9 @@ function createCalendar(events) {
         } else if (allDivs[i].className.indexOf('fc-timegrid-body') > -1) {
             allDivs[i].style.width = '100%';
         }
+    }
+    if (events != null) {
+        document.getElementById('pending-load-page').style.display = 'none';
     }
 }
 
