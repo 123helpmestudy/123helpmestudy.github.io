@@ -165,7 +165,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     position: relative;
-    z-index: 1;
+    z-index: 3;
     top: -40px;
     left: 60px;
 }
