@@ -280,6 +280,10 @@ async function login_page_reset_password_submit_form() {
     var validate = false;
     if (validate_target('for-forgot-password-email')) {validate = true;}
     if (validate) {return false;}
+    // Disable submit button and display pending message
+    document.getElementById('for-forgot-password-login-submit').style.display = 'none';
+    document.getElementById('pending-password-reset').style.display = 'block';
+    // Define API call parameters
     var path = '/api/users/reset_password';
     var headers = {
         'Access-Token': '',
@@ -296,10 +300,13 @@ async function login_page_reset_password_submit_form() {
     );
     if (response['status'] == 200) {
         document.getElementById('reset-email').innerHTML = document.getElementById('for-forgot-password-email').value;
+        document.getElementById('pending-password-reset').style.display = 'none';
         document.getElementById('success-password-reset').style.display = 'block';
     } else {
         document.getElementById('error-response-2').innerHTML = response['response']['message'];
         document.getElementById('error-card-2').style.display = 'block';
+        document.getElementById('for-forgot-password-login-submit').style.display = 'block';
+        document.getElementById('pending-password-reset').style.display = 'none';
     }
     //console.log(response['status']);
     //console.log(response['response']);
@@ -665,6 +672,7 @@ async function home_page_load_page() {
                     document.getElementById('account-card').style.display = 'block';
                     /* Tutor specific */
                     document.getElementById('students-card').style.display = 'block';
+                    document.getElementById('calendar-card').style.display = 'block';
                     document.getElementById('tutor-blurb').style.display = 'block';
                     document.getElementById('tutoring-opportunities').style.display = 'block';
                     document.getElementById('tutor-profile').style.display = 'block';
@@ -714,35 +722,60 @@ async function home_page_load_page() {
 }
 
 async function account_page_submit_form() {
-    /* Validate new password is not empty & equal the same */
-    var validate = false;
-    if (validate_target('password')) {validate = true;}
-    if (validate_target('confirm-password')) {validate = true;}
-    if (validate) {return false;}
-    var password = document.getElementById('password').value;
-    var confirm_password = document.getElementById('confirm-password').value;
-    if (password != confirm_password) {
-        document.getElementById('password').className = (
-            document.getElementById('password').className
-            +' is-invalid'
-        );
-        document.getElementById('confirm-password').className = (
-            document.getElementById('confirm-password').className
-            +' is-invalid'
-        );
-        document.getElementById('error-response').innerHTML = 'Password does not match confirm password.'
-        document.getElementById('error-card').style.display = 'block';
+    /*
+    Validate new password is not empty & equal the same 
+    if the user wishes to update the password
+    */
+    let update_password = false;
+    let password = document.getElementById('password').value;
+    let confirm_password = document.getElementById('confirm-password').value;
+    // Check if password is not blank and confirm-password is blank
+    if (password.length > 0 && confirm_password.length == 0) {
+        let class_list = document.getElementById('confirm-password').className;
+        if (class_list.indexOf('is-invalid') == -1) {
+            document.getElementById('confirm-password').className = (
+                class_list
+                +' is-invalid'
+            );
+        }
         return false;
+    } else if (confirm_password.length > 0 && password.length == 0) {
+        // Check if confirm-password is not blank and password is blank
+        let class_list = document.getElementById('password').className;
+        if (class_list.indexOf('is-invalid') == -1) {
+            document.getElementById('password').className = (
+                class_list
+                +' is-invalid'
+            );
+        }
+        return false;
+    } else if (password.length > 0 && confirm_password.length > 0) {
+        if (password != confirm_password) {
+            document.getElementById('password').className = (
+                document.getElementById('password').className
+                +' is-invalid'
+            );
+            document.getElementById('confirm-password').className = (
+                document.getElementById('confirm-password').className
+                +' is-invalid'
+            );
+            document.getElementById('error-response').innerHTML = 'Password does not match confirm password.'
+            document.getElementById('error-card').style.display = 'block';
+            return false;
+        } else {
+            update_password = true;
+        }
     }
+
     document.getElementById('save-button-text').style.display = 'none';
     document.getElementById('save-button-loading').style.display = 'block';
-    var email = localStorage.getItem('123helpmestudy-email');
-    var path = '/api/users/update_user_attribute';
-    var headers = {
+    let email = localStorage.getItem('123helpmestudy-email');
+    let path = '/api/users/update_user_attribute';
+    let headers = {
         'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
     };
-    var method = 'PUT';
-    var attributes_list = [
+    let method = 'PUT';
+    let attributes_list = [
         {
             'attribute': 'first_name',
             'value': document.getElementById('first-name').value
@@ -784,61 +817,13 @@ async function account_page_submit_form() {
             'value': document.getElementById('country').value
         },
     ];
-    for (var i = 0; i < attributes_list.length; i++) {
-        var payload = {
+    for (let i = 0; i < attributes_list.length; i++) {
+        let payload = {
             'email': email,
             'attribute': attributes_list[i]['attribute'],
             'value': attributes_list[i]['value']
         };
-        var response = await api_call(
-            path,
-            headers,
-            method,
-            payload
-        );
-        if (response['status'] == 200) {} else if (response['status'] == 401) {
-            var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
-            window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
-    }
-    /* Update user password */
-    var path = '/api/users/change_password';
-    var headers = {
-        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
-    };
-    var method = 'PUT';
-    var payload = {
-        'password': password,
-        'confirm_password': confirm_password
-    };
-    var response = await api_call(
-        path,
-        headers,
-        method,
-        payload
-    );
-    if (response['status'] == 200) {
-    } else if (response['status'] == 401) {
-        var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
-        window.location.assign(base+'/information/login.html');
-    } else {}
-    /* Upload user identity */
-    var user_identity_document = document.getElementById('identity-status-document-store').innerHTML;
-    if (user_identity_document.length > 0) {
-        var email = localStorage.getItem('123helpmestudy-email');
-        var path = '/api/users/update_user_attribute';
-        var headers = {
-            'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
-        };
-        var method = 'PUT';
-        var payload = {
-            'email': email,
-            'attribute': 'user_identity_document',
-            'value': user_identity_document
-        };
-        var response = await api_call(
+        let response = await api_call(
             path,
             headers,
             method,
@@ -846,7 +831,58 @@ async function account_page_submit_form() {
         );
         if (response['status'] == 200) {
         } else if (response['status'] == 401) {
-            var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
+            let base = (window.location.pathname).toString().replace('/application/user/account.html', '');
+            window.location.assign(base+'/information/login.html');
+        } else {}
+        //console.log(response['status']);
+        //console.log(response['response']);
+    }
+    /* Update user password */
+    if (update_password) {
+        let path = '/api/users/change_password';
+        let headers = {
+            'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+        };
+        let method = 'PUT';
+        let payload = {
+            'password': password,
+            'confirm_password': confirm_password
+        };
+        let response = await api_call(
+            path,
+            headers,
+            method,
+            payload
+        );
+        if (response['status'] == 200) {
+        } else if (response['status'] == 401) {
+            let base = (window.location.pathname).toString().replace('/application/user/account.html', '');
+            window.location.assign(base+'/information/login.html');
+        } else {}
+    }
+    /* Upload user identity */
+    let user_identity_document = document.getElementById('identity-status-document-store').innerHTML;
+    if (user_identity_document.length > 0) {
+        let email = localStorage.getItem('123helpmestudy-email');
+        let path = '/api/users/update_user_attribute';
+        let headers = {
+            'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+        };
+        let method = 'PUT';
+        let payload = {
+            'email': email,
+            'attribute': 'user_identity_document',
+            'value': user_identity_document
+        };
+        let response = await api_call(
+            path,
+            headers,
+            method,
+            payload
+        );
+        if (response['status'] == 200) {
+        } else if (response['status'] == 401) {
+            let base = (window.location.pathname).toString().replace('/application/user/account.html', '');
             window.location.assign(base+'/information/login.html');
         } else {}
         //console.log(response['status']);

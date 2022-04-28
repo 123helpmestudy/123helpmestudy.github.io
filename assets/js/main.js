@@ -35,12 +35,14 @@ function set_navigation_bar(base) {
                     </span>
                     <span style="display: block;" class="nav-underline"></span>
                 </li>
+                <!--
                 <li class="nav-item">
                     <span style="display: block;" class="nav-bar-menu-item-ext">
                         <a class="nav-bar-menu-item font-weight-bold px-3" href="https://www.facebook.com/123helpmestudy" target="_blank"><i class="bi-facebook"></i> Facebook</a>
                     </span>
                     <span style="display: block;" class="nav-underline"></span>
                 </li>
+                -->
                 <li class="nav-item">
                     <span style="display: block;" class="nav-bar-menu-item-ext">
                         <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/sign-up.html" target="_parent"><i class="bi-person-plus"></i> Sign Up</a>
@@ -162,11 +164,11 @@ function set_contact_buttons(base) {
     Add messaging button
    */
     html = `
-        <a href="tel:07493696970">
+        <!--<a href="tel:07493696970">
             <div class="phone">
                 <img class="comms-image" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="call or text 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png">
             </div>
-        </a>
+        </a>-->
         <a href="`+base+`/information/contact-us.html" target="_parent">
             <div class="email">
                 <img class="comms-image" style="background-color: rgb(59, 59, 59); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="email 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/email-icon_T97mDAvjR.PNG">
@@ -590,6 +592,9 @@ function main(arg, base) {
         application_general_nav_and_contact(base);
     }
     if (arg == '/application/admin/all-tutors.html') {
+        application_general_nav_only(base);
+    }
+    if (arg == '/application/user/calendar.html') {
         application_general_nav_only(base);
     }
 }
