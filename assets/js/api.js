@@ -1,5 +1,5 @@
-// var BASE_URL = 'http://127.0.0.1:8000';
-var BASE_URL = 'https://api.123helpmestudy.com';
+var BASE_URL = 'http://127.0.0.3:8000';
+// var BASE_URL = 'https://api.123helpmestudy.com';
 
 async function api_call(path, headers, method, payload) {
     var url = BASE_URL+path;
@@ -1890,7 +1890,7 @@ async function message_thread_page_load_page(id) {
                 var to = 'me';
             }
             var html = `
-            <div class="`+bubble_class+` rounded shadow mb-4 p-3">
+            <div class="${bubble_class} shadow mb-4 p-3">
                 <p class="mb-0">From: <i>`+from+`</i></p>
                 <p class="mb-0">To: <i>`+to+`</i></p>
                 <p class="mb-0">Date: <i>`+messages[i]['date']+`</i></p>
@@ -3089,7 +3089,7 @@ async function all_tutors_page_load_page() {
             html = `
             <div class="card mt-2 shadow-sm">
                 <div class="card-body text-left px-5">
-                    <p class="mb-2">Tutor id: `+tutors[i]['tutor_id']+`</p>
+                    <p class="mb-2">Tutor id: ${tutors[i]['tutor_id']}</p>
                     <p class="mb-2">Name: `+tutors[i]['first_name']+` `+tutors[i]['last_name']+`</p>
                     <p class="mb-2">Email: `+tutors[i]['email']+`</p>
                     <div class="mb-2">
@@ -3133,17 +3133,17 @@ async function all_tutors_page_load_page() {
 }
 
 async function all_tutors_page_submit_form(id, email, status) {
-    var path = '/api/users/update_user_attribute';
-    var headers = {
+    let path = '/api/users/update_user_attribute';
+    let headers = {
         'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
     };
-    var method = 'PUT';
-    var payload = {
+    let method = 'PUT';
+    let payload = {
         'email': email,
         'attribute': 'tutor_profile_status',
         'value': status
     };
-    var response = await api_call(
+    let response = await api_call(
         path,
         headers,
         method,
@@ -3159,9 +3159,87 @@ async function all_tutors_page_submit_form(id, email, status) {
             document.getElementById('inactive-dropdown-button-'+id).style.display = 'block';
         }
     } else if (response['status'] == 401) {
-        var base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
+        let base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
+    } else {
+        console.error('Got an undesirable error code');
+    }
+    // console.log(response['status']);
+    // console.log(response['response']);
+}
+
+
+async function captureChatMessage() {
+    // Define session and user variables if not already populated
+    let sessionId = new Date();
+    sessionId = sessionId.getTime();
+    let localSessionId = localStorage.getItem('123helpmestudy-messenger-session-id');
+    if (localSessionId == null) {
+        localStorage.setItem('123helpmestudy-messenger-session-id', `${sessionId}`);
+        localSessionId = `${sessionId}`;
+    }
+    let localSenderId = localStorage.getItem('123helpmestudy-messenger-sender-id');
+    if (localSenderId == null) {
+        localStorage.setItem('123helpmestudy-messenger-sender-id', `${sessionId}`);
+        localSenderId = `${sessionId}`;
+    }
+    // Get stored secret
+    let localSecret = localStorage.getItem('123helpmestudy-messenger-secret');
+    if (localSecret == null) {
+        let random = Math.random().toString(16);
+        random = random.substring(2, 15);
+        localStorage.setItem('123helpmestudy-messenger-secret', `${random}`);
+    }
+    // Get chat area
+    let chatInput = document.getElementById('live-chat-input');
+    let chatValue = chatInput.value;
+    if (chatValue == "") {
+        chatInput.classList.add('is-invalid');
+        return null;
+    }
+    chatInput.value = '';
+    let html = `
+    <div
+        class="m-3 p-2 ml-5 text-left border border-success light-green-card"
+        style=""
+        id=${sessionId}
+    >
+        <p class="mb-0">
+            ${chatValue.replace('\n', '<br/>')}
+        </p>
+    </div>
+    `;
+    let instantMessages = document.getElementById('instant-messages');
+    instantMessages.innerHTML = instantMessages.innerHTML + html;
+    instantMessages.scrollTop = instantMessages.scrollHeight;
+
+    // Submit message to the API
+    let path = '/api/messenger/send';
+    let headers = {};
+    let method = 'POST';
+    let payload = {
+        'type': 'new',
+        'session_id': localSessionId,
+        'sender_id': localSenderId,
+        'secret': localSecret,
+        'body': chatValue
+    };
+    let response = await api_call(
+        path,
+        headers,
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        let newMessage = document.getElementById(`${sessionId}`);
+        newMessage.innerHTML = newMessage.innerHTML + `
+        <p class="text-right text-muted p-0 m-0" style="font-size: 10px;">
+            Sent
+        </p>
+        `;
+    } else {
+        alert('Failed to send instant message');
+    }
     console.log(response['status']);
     console.log(response['response']);
 }
