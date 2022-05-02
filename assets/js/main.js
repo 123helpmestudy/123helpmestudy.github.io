@@ -152,10 +152,6 @@ function set_page_footer(base) {
 }
 
 function set_contact_buttons(base) {
-    /* 
-    Set Contact Buttons on page 
-    Requires: <div id="contact-buttons"></div>
-    */
    /*
     TODO:
     Add slack
@@ -179,13 +175,120 @@ function set_contact_buttons(base) {
                 <img class="comms-image" style="background-color: rgb(59, 59, 59); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="email 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/email-icon_T97mDAvjR.PNG">
             </div>
         </a>
-        <a href="https://join.skype.com/invite/brePqBzYCveV">
+        <a onclick="maximiseInstantMessengerBox();" href="#">
             <div class="skype">
                 <img class="comms-image" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);"  alt="skype 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/skype-icon_GsT8vFll7cwp.png">
             </div>
         </a>
     `;
     document.getElementById('contact-buttons').innerHTML = html;
+
+    html = `
+    <div
+        id="instant-message-box"
+        style="
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgb(255, 255, 255);
+            height: 0px;
+            width: 0px;
+            z-index: 999;
+            border-radius: 2px;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+        "
+    >
+        <div>
+            <h3>Live Chat</h3>
+            <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                onclick="minimiseInstantMessengerBox();"
+            >
+                <span
+                    aria-hidden="true"
+                    style="
+                        position: absolute;
+                        top: 5px;
+                        right: 10px;
+                        font-size: 30px;
+                    "
+                >
+                    &times;
+                </span>
+            </button>
+        </div>
+        <div
+            id="instant-messages"
+            style="
+                margin-top: 15px;
+                margin-bottom: 20px;
+                height: 400px;
+            "
+            class="border rounded"
+        >
+        </div>
+        <div class="row">
+            <div class="col pr-0">
+                <textarea class="form-control" rows="4" style="max-height: 110px;"></textarea>
+            </div>
+            <div class="col col-lg-2">
+                <button
+                    onclick="alert('Submit chat');"
+                    class="btn btn-success"
+                    style="
+                        position: absolute;
+                        bottom: 0;
+                        padding-left: 20px;
+                    "
+                >
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+    `;
+    document.getElementById('contact-buttons').innerHTML = (
+        document.getElementById('contact-buttons').innerHTML
+        + html);
+}
+
+function sleep(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+async function maximiseInstantMessengerBox() {
+    let instantMessageBox = document.getElementById('instant-message-box')
+    instantMessageBox.style.display = 'block';
+    let currentHeight = parseInt(instantMessageBox.style.height.toString().replace('px', ''));
+    let currentWidth = parseInt(instantMessageBox.style.width.toString().replace('px', ''));
+    while (currentHeight < 600 || currentWidth < 500) {
+        currentHeight = currentHeight + 10;
+        currentWidth = currentWidth + 10;
+        instantMessageBox.style.height = `${currentHeight}px`;
+        instantMessageBox.style.width = `${currentWidth}px`;
+        await sleep(5);
+    }
+}
+
+async function minimiseInstantMessengerBox() {
+    let instantMessageBox = document.getElementById('instant-message-box');
+    let currentHeight = parseInt(instantMessageBox.style.height.toString().replace('px', ''));
+    let currentWidth = parseInt(instantMessageBox.style.width.toString().replace('px', ''));
+    while (currentHeight > 0 || currentWidth > 0) {
+        currentHeight = currentHeight - 10;
+        currentWidth = currentWidth - 10;
+        instantMessageBox.style.height = `${currentHeight}px`;
+        instantMessageBox.style.width = `${currentWidth}px`;
+        // Hide at the last second
+        if (currentHeight <= 50) {
+            instantMessageBox.style.display = 'none';
+        }
+        await sleep(5);
+    }
 }
 
 function set_enter_submit(input_id, output_id) {
