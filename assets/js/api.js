@@ -706,6 +706,7 @@ async function home_page_load_page() {
                 document.getElementById('record-payment').style.display = 'block';
                 document.getElementById('remove-user').style.display = 'block';
                 document.getElementById('sensor-user-message').style.display = 'block';
+                document.getElementById('view-instant-messages').style.display = 'block';
                 document.getElementById('tutor-resources').style.display = 'block';
             }
         }
@@ -3189,6 +3190,7 @@ async function captureChatMessage() {
         let random = Math.random().toString(16);
         random = random.substring(2, 15);
         localStorage.setItem('123helpmestudy-messenger-secret', `${random}`);
+        localSecret = `${random}`;
     }
     // Get chat area
     let chatInput = document.getElementById('live-chat-input');
@@ -3237,8 +3239,116 @@ async function captureChatMessage() {
             Sent
         </p>
         `;
+        // Show someone typing - randomly
+        html = `
+        <div
+            id="live-chat-typing-${sessionId}"
+            class="ml-4 font-italic"
+            style="
+                display: none;
+                font-size: 12px;
+            "
+        >
+            <span>Typing</span><span id="live-chat-typing-dots-${sessionId}"></span>
+        </div>
+        `;
+        await sleep(15000);
+        instantMessages.innerHTML = instantMessages.innerHTML + html;
+        for (let h = 0; h < 3; h++) {
+            document.getElementById(`live-chat-typing-${sessionId}`).style.display = 'block';
+            for (let i = 0; i < 10; i++) {
+                for (let j = 0; j < 3; j++) {
+                    document.getElementById(`live-chat-typing-dots-${sessionId}`).innerHTML += '.';
+                    await sleep(500);
+                }
+                document.getElementById(`live-chat-typing-dots-${sessionId}`).innerHTML = '';
+            }
+            document.getElementById(`live-chat-typing-${sessionId}`).style.display = 'none';
+            await sleep(8000);
+        }
     } else {
         alert('Failed to send instant message');
+    }
+    console.log(response['status']);
+    console.log(response['response']);
+}
+
+
+async function fetchAllChatMessages() {
+    // Submit message to the API
+    let path = '/api/messenger/fetch';
+    let headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    let method = 'POST';
+    let payload = {
+        'type': 'all',
+    };
+    let response = await api_call(
+        path,
+        headers,
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        let messageBox = document.getElementById('instant-messages-list');
+        let sessions = response['response']['messages'];
+        for (session in sessions) {
+            let firstMessage = sessions[session][0];
+            let secret = firstMessage['secret'];
+            url = `${window.location.origin}/application/admin/instant-messenger.html`;
+            params = `?sessionId=${session}&secret=${secret}`;
+            url = `${url}${params}`;
+            let html = `
+            <a href="${url}">
+                <div class="border shadow rounded m-3 p-3">
+                    <p class="m-0 p-0">${session}</p>
+                    <p class="m-0 p-0">${firstMessage['message']}</p>
+                </div>
+            </a>
+            `;
+            messageBox.innerHTML = messageBox.innerHTML + html;
+        }
+    } else {
+    }
+    // console.log(response['status']);
+    // console.log(response['response']);
+}
+
+async function fetchConversationAdmin(params) {
+    // Submit message to the API
+    let path = '/api/messenger/fetch';
+    let headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    let method = 'POST';
+    let payload = {
+        'type': 'conversation',
+        'session_id': params.sessionId,
+        'secret': params.secret
+    };
+    let response = await api_call(
+        path,
+        headers,
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        let messageBox = document.getElementById('instant-messenger-messages-list');
+        let sessions = response['response']['messages'];
+        for (session in sessions) {
+            let messages = sessions[session];
+            console.log(messages);
+            for (let i = 0; i < messages.length; i++) {
+                let html = `
+                <div class="border shadow rounded m-3 p-3">
+                    <p class="m-0 p-0">${messages[i].message}</p>
+                </div>
+                `;
+                messageBox.innerHTML = messageBox.innerHTML + html;
+            }
+        }
+    } else {
     }
     console.log(response['status']);
     console.log(response['response']);

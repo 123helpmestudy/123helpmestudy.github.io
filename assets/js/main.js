@@ -723,6 +723,12 @@ function main(arg, base) {
     if (arg == '/application/admin/sensor-user-messages.html') {
         application_general_nav_only(base);
     }
+    if (arg == '/application/admin/view-instant-messages.html') {
+        application_general_nav_only(base);
+    }
+    if (arg == '/application/admin/instant-messenger.html') {
+        application_general_nav_only(base);
+    }
     if (arg == '/application/user/tutor-resources.html') {
         application_general_nav_only(base);
     }
