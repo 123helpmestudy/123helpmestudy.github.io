@@ -3316,6 +3316,8 @@ async function fetchAllChatMessages() {
 }
 
 async function fetchConversationAdmin(params) {
+    // Get admin ID
+    let adminId = await calculateAdminSenderId();
     // Submit message to the API
     let path = '/api/messenger/fetch';
     let headers = {
@@ -3327,6 +3329,112 @@ async function fetchConversationAdmin(params) {
         'session_id': params.sessionId,
         'secret': params.secret
     };
+    while (true) {
+        let response = await api_call(
+            path,
+            headers,
+            method,
+            payload
+        );
+        if (response['status'] == 200) {
+            let messageBox = document.getElementById('instant-messenger-messages-list');
+            messageBox.innerHTML = '';
+            let sessions = response['response']['messages'];
+            for (session in sessions) {
+                let messages = sessions[session];
+                // console.log(messages);
+                for (let i = 0; i < messages.length; i++) {
+                    // Define the base style for the chat bubble
+                    let extraClass = "border-info light-blue-card ml-3 mr-5";
+                    // Determine if message is from admin
+                    if (messages[i].sender_id == adminId) {
+                        extraClass = "border-success light-green-card ml-5 mr-3";
+                    }
+                    // Make the html
+                    let html = `
+                    <div class=" my-3  p-2 text-left border ${extraClass}">
+                        <p
+                            class="m-0 p-0"
+                            style="
+                                font-size: 10px;
+                                color: grey;
+                            "
+                        >
+                            ${new Date(messages[i].created_at)}
+                        </p>
+                        <p class="m-0 p-0">${messages[i].message}</p>
+                    </div>
+                    `;
+                    messageBox.innerHTML = messageBox.innerHTML + html;
+                }
+            }
+        } else {
+        }
+        // console.log(response['status']);
+        // console.log(response['response']);
+        window.scrollTo(0, document.body.scrollHeight);
+        await sleep(5000);
+    }
+}
+
+async function calculateAdminSenderId() {
+    // Calculate the admin's send_id
+    let email = localStorage.getItem('123helpmestudy-email');
+    let senderId = '';
+    for (let i = 0; i < email.length; i++) {
+        senderId = senderId + `${email[i].charCodeAt(0)}`;
+    }
+    let senderIdNumber = parseFloat(senderId) / senderId.length;
+    while (senderIdNumber > 999999999) {
+        senderIdNumber = parseFloat(senderId) / senderId.length;
+        senderId = `${parseFloat(parseFloat(senderId) / senderId.length)}`;
+    }
+    senderId = `${parseInt(senderId)}`;
+    return senderId;
+}
+
+async function captureChatMessageAdmin() {
+    let get_params = {};
+    if (window.location.search) {
+        let get_string = (window
+                        .location
+                        .search
+                        .toString()
+                        .replace('?', '')
+                        .split('&'));
+        for (let a = 0; a < get_string.length; a++) {
+            let key_value = get_string[a].split('=');
+            get_params[key_value[0]] = key_value[1];
+        }
+    } else {
+        alert('No parameters found in url string');
+        return null;
+    }
+    if ('sessionId' in get_params){} else {
+        console.error(' Could not find "sessionId" in get_params');
+        return null;
+    }
+    if ('secret' in get_params){} else {
+        console.error(' Could not find "secret" in get_params');
+        return null;
+    }
+    // Get admin ID
+    let adminId = await calculateAdminSenderId();
+
+    // Define the message
+    let body = document.getElementById('admin-live-chat-input').value;
+
+    // Submit message to the AP
+    let path = '/api/messenger/send';
+    let headers = {};
+    let method = 'POST';
+    let payload = {
+        'type': 'responses',
+        'session_id': get_params['sessionId'],
+        'sender_id': senderId,
+        'secret': get_params['secret'],
+        'body': body
+    };
     let response = await api_call(
         path,
         headers,
@@ -3335,20 +3443,32 @@ async function fetchConversationAdmin(params) {
     );
     if (response['status'] == 200) {
         let messageBox = document.getElementById('instant-messenger-messages-list');
-        let sessions = response['response']['messages'];
-        for (session in sessions) {
-            let messages = sessions[session];
-            console.log(messages);
-            for (let i = 0; i < messages.length; i++) {
-                let html = `
-                <div class="border shadow rounded m-3 p-3">
-                    <p class="m-0 p-0">${messages[i].message}</p>
-                </div>
-                `;
-                messageBox.innerHTML = messageBox.innerHTML + html;
-            }
-        }
+        let html = `
+        <div class="m-3 mr-5 p-2 text-left border border-success light-green-card">
+            <p
+                class="m-0 p-0"
+                style="
+                    font-size: 10px;
+                    color: grey;
+                "
+            >
+                ${new Date()}
+            </p>
+            <p class="m-0 p-0">${body}</p>
+            <p
+                class="m-0 p-0"
+                style="
+                    font-size: 10px;
+                    color: grey;
+                "
+            >
+                Sent
+            </p>
+        </div>
+        `;
+        messageBox.innerHTML = messageBox.innerHTML + html;
     } else {
+        alert('Failed to send instant message');
     }
     console.log(response['status']);
     console.log(response['response']);

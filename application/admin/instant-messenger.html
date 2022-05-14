@@ -49,8 +49,26 @@
                     </div>
                     <div class="col-12">
                         <div class="card shadow bg-white max-card mx-auto">
-                            <div id="instant-messenger-messages-list" class="card-body">
+                            <div class="card-body">
                                 <!-- CODE BLOCK -->
+                                <div id="instant-messenger-messages-list"></div>
+                                <div>
+                                    <div>
+                                        <textarea
+                                            id="admin-live-chat-input"
+                                            class="form-control"
+                                            rows="4"
+                                        ></textarea>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button
+                                            onclick="captureChatMessageAdmin();"
+                                            class="btn btn-success"
+                                        >
+                                            Send
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +83,7 @@
             </div>
             
         </div>
-        <script type="text/javascript">main('/application/admin/instant-messenger.html', window.location.pathname);</script>
+        <script type="text/javascript">main();</script>
         <script type="text/javascript">
             if (window.location.search) {
                 var get_params = {};

@@ -288,7 +288,8 @@ function set_contact_buttons(base) {
     `;
     document.getElementById('contact-buttons').innerHTML = (
         document.getElementById('contact-buttons').innerHTML
-        + html);
+        + html
+    );
 }
 
 function clearIsInvalid() {

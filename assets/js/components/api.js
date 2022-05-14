@@ -1,11 +1,7 @@
 var BASE_URL = 'http://127.0.0.1:8000';
 //var BASE_URL = 'https://api.123helpmestudy.com';
 
-function sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
-
-async function api_call(path, headers, method, payload) {
+async function apiCall(path, headers, method, payload) {
     var url = BASE_URL+path;
     var headings = {
         'Accept': 'application/json',
@@ -33,4 +29,4 @@ async function api_call(path, headers, method, payload) {
     };
 }
 
-export { sleep, api_call };
+export { apiCall };
