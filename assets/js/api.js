@@ -43,62 +43,6 @@ function validate_target(id) {
     return false;
 }
 
-async function index_page_test_api() {
-    var path = ('/api/status');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    /* For simplifying page */
-    try {
-        /* Execute API */
-        var response = await api_call(
-            path, 
-            headers, 
-            method,
-            payload
-        );
-        if (response['status'] == 200) {
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
-    } catch(e) {
-        //console.log(e);
-        document.getElementById('navigation-bar').style.display = 'none';
-        document.getElementById('getting-started-card').style.display = 'none';
-        document.getElementById('request-contact-form').style.display = 'none';
-        document.getElementById('api-fail-email-button').style.display = 'block';
-    }
-}
-
-async function index_page_load_page() {
-    var path = ('/api/salesorders/list_subjects');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    if (response['status'] == 200) {
-        var subjects = response['response']['data'];
-        var option_list;
-        for (var i = 0; i < subjects.length; i++) {
-            if (subjects[i]['lowest_price'] == 'Not available') {
-                continue;
-            }
-            var html = `
-            <option value=`+subjects[i]['subject_id']+`>`+subjects[i]['long_name']+`</option>
-            `;
-            option_list += html;
-        }
-        document.getElementById('subject-list').innerHTML = option_list;
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
-}
-
 async function index_page_submit_form() {
     /* Validate user input */
     var validate = false;
@@ -3362,7 +3306,11 @@ async function fetchConversationAdmin(params) {
                         >
                             ${new Date(messages[i].created_at)}
                         </p>
-                        <p class="m-0 p-0">${messages[i].message}</p>
+                        <p class="m-0 p-0">${
+                            messages[i].message
+                                .replace('\r\n', '<br/>')
+                                .replace('\n', '<br/>')
+                        }</p>
                     </div>
                     `;
                     messageBox.innerHTML = messageBox.innerHTML + html;
@@ -3423,6 +3371,10 @@ async function captureChatMessageAdmin() {
 
     // Define the message
     let body = document.getElementById('admin-live-chat-input').value;
+    if (body == '') {
+        alert('Please enter some text!');
+        return null;
+    }
 
     // Submit message to the AP
     let path = '/api/messenger/send';
@@ -3431,7 +3383,7 @@ async function captureChatMessageAdmin() {
     let payload = {
         'type': 'responses',
         'session_id': get_params['sessionId'],
-        'sender_id': senderId,
+        'sender_id': adminId,
         'secret': get_params['secret'],
         'body': body
     };
@@ -3467,6 +3419,7 @@ async function captureChatMessageAdmin() {
         </div>
         `;
         messageBox.innerHTML = messageBox.innerHTML + html;
+        document.getElementById('admin-live-chat-input').value = '';
     } else {
         alert('Failed to send instant message');
     }

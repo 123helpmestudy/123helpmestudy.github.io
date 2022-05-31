@@ -103,7 +103,7 @@
                                         <input id="lesson-location" type="text" class="form-control hidden-el" value="online">
                                         <input id="post-zip-code" onfocus="reset_invalid_input('post-zip-code');" type="text" class="form-control mt-2 hidden-el" placeholder="Postcode" value="">
                                         <div class="text-center mt-3">
-                                            <button onclick="index_to_tutor_page_submit();" class="btn btn-success">Submit</button>
+                                            <button id="submit-find-lesson" class="btn btn-success">Submit</button>
                                         </div>
                                         <!-- COVID 19 CARD -->
                                         <div class="card-body">
@@ -348,22 +348,6 @@
             <div id="page-footer"></div>
         </div>
         <script src="./assets/js/pages/index.js" type="module"></script>
-        <!-- <script type="text/javascript">main('/index.html', window.location.pathname);</script> -->
-        <script type="text/javascript">index_page_test_api();</script>
-        <script type="text/javascript">index_page_load_page();</script>
-        <script type="text/javascript">validate_user_interaction_page_load();</script>
-        <script type="text/javascript">
-            /* Page functions */
-            var min = 1;
-            var max = 21;
-            document.getElementById('first-number').innerHTML =  Math.floor(Math.random() * (max - min) + min);
-            document.getElementById('second-number').innerHTML = Math.floor(Math.random() * (max - min) + min);
-            function offline_reset_error() {
-                if (document.getElementById('offline-error-card') != null) {
-                    document.getElementById('offline-error-card').style.display = 'none';    
-                }
-            }
-        </script>
         <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
         <script src="./assets/js/jquery-3.5.1.slim.min.js"></script>
         <script src="./assets/js/bootstrap.bundle.min.js"></script>

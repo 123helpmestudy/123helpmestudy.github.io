@@ -1,13 +1,25 @@
 import { sleep } from './../components/utils.js';
+import { captureChatMessage, fetchConversation } from './apiCalls/instantMessenger.js';
 
+const chatBoxHeight = 600;
+const chatBoxWidth = 500;
+// For testing the chat box
+const chatWindowVisible = false;
+let chatBoxDisplay = 'block';
+let chatBoxViewHeight = '600px';
+let chatBoxViewWidth = '500px';
+if (!chatWindowVisible) {
+    chatBoxDisplay = 'none';
+    chatBoxViewHeight = '0px';
+    chatBoxViewWidth = '0px';
+}
 
 async function maximiseInstantMessengerBox() {
-    console.log('Clicked!');
-    let instantMessageBox = document.getElementById('instant-message-box')
+    const instantMessageBox = document.getElementById('instant-message-box');
     instantMessageBox.style.display = 'block';
     let currentHeight = parseInt(instantMessageBox.style.height.toString().replace('px', ''));
     let currentWidth = parseInt(instantMessageBox.style.width.toString().replace('px', ''));
-    while (currentHeight < 600 || currentWidth < 500) {
+    while (currentHeight < chatBoxHeight || currentWidth < chatBoxWidth) {
         currentHeight = currentHeight + 10;
         currentWidth = currentWidth + 10;
         instantMessageBox.style.height = `${currentHeight}px`;
@@ -43,14 +55,16 @@ async function setContactButtons(base) {
     */
 
     const contactButtons = document.getElementById('contact-buttons');
+    let childDiv;
+    let image;
 
     // Add mobile phone button
     const mobile = document.createElement('a');
     mobile.href = 'tel:07780570708';
-    let childDiv = document.createElement('div');
+    childDiv = document.createElement('div');
     childDiv.classList.add('phone');
-    let image = document.createElement('img');
-    image.classList.add(['comms-image']);
+    image = document.createElement('img');
+    image.classList.add('comms-image');
     image.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3)';
     image.alt = 'call or text 123 help me study';
     image.src = 'https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png';
@@ -58,163 +72,146 @@ async function setContactButtons(base) {
     mobile.appendChild(childDiv);
     contactButtons.appendChild(mobile);
 
-    // let html = `
-    // <a href="tel:07780570708">
-    //     <div class="phone">
-    //         <img class="comms-image" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="call or text 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png">
-    //     </div>
-    // </a>
-    // <!--<a href="${base}/information/contact-us.html" target="_parent">
-    //     <div class="email">
-    //         <img class="comms-image" style="background-color: rgb(59, 59, 59); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="email 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/email-icon_T97mDAvjR.PNG">
-    //     </div>
-    // </a>-->
-    // <a href="mailto: info@123helpmestudy.com" target="_parent">
-    //     <div class="email">
-    //         <img class="comms-image" style="background-color: rgb(59, 59, 59); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="email 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/email-icon_T97mDAvjR.PNG">
-    //     </div>
-    // </a>
-    // <a id="maximiseInstantMessengerBox" href="#">
-    //     <div class="instant-message">
-    //         <img
-    //             class="comms-image"
-    //             style="
-    //                 width: 50px;
-    //                 height: 50px;
-    //                 padding-top: 8px;
-    //                 padding-bottom: 6px;
-    //                 padding-left: 10px;
-    //                 padding-right: 10px;
-    //                 background-color: white;
-    //                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
-    //             "
-    //             alt="123 help me study Live Chat"
-    //             src="${base}/assets/images/live_chat.png">
-    //     </div>
-    // </a>
-    // `;
-    // document.getElementById('contact-buttons').innerHTML = html;
-    
-    // console.log(
-    //     document.getElementById('maximiseInstantMessengerBox').onclick
-    // );
-    // document.getElementById('maximiseInstantMessengerBox').onclick = maximiseInstantMessengerBox;
-    // console.log(
-    //     document.getElementById('maximiseInstantMessengerBox').onclick
-    // );
-    // let messengerButtons = document.querySelectorAll('#maximiseInstantMessengerBox');
-    // while (messengerButtons.length == 0) {
-    //     messengerButtons = document.querySelectorAll('#maximiseInstantMessengerBox');
-    //     await sleep(10);
-    // }
-    // for (let i = 0; i < messengerButtons.length; i++) {
-    //     messengerButtons[i].addEventListener(
-    //         'click', function() {alert('Lol');}
-    //     );
-    // }
-    // messengerButtons = document.querySelectorAll('#maximiseInstantMessengerBox');
-    // console.log(messengerButtons);
-    // while (messengerButtons.length == 0) {
-    //     messengerButtons = document.querySelectorAll('#maximiseInstantMessengerBox');
-    //     console.log(messengerButtons);
-    //     await sleep(10);
-    // }
+    // Add email button
+    const email = document.createElement('a');
+    email.href = 'mailto:info@123helpmestudy.com';
+    childDiv = document.createElement('div');
+    childDiv.classList.add('email');
+    image = document.createElement('img');
+    image.classList.add('comms-image');
+    image.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3)';
+    image.style.backgroundColor = 'rgb(59, 59, 59)';
+    image.alt = 'email 123 help me study';
+    image.src = 'https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/email-icon_T97mDAvjR.PNG';
+    childDiv.appendChild(image);
+    email.appendChild(childDiv);
+    contactButtons.appendChild(email);
 
- 
-    // TODO Change the below: display; height; width
-    // html = `
-    // <div
-    //     id="instant-message-box"
-    //     style="
-    //         display: none;
-    //         position: fixed;
-    //         bottom: 10px;
-    //         right: 10px;
-    //         background-color: rgb(197, 236, 249);
-    //         height: 0px;
-    //         width: 0px;
-    //         z-index: 999;
-    //         border-radius: 2px;
-    //         padding: 10px;
-    //         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
-    //     "
-    // >
-    //     <div>
-    //         <h3>Live Chat</h3>
-    //         <button
-    //             type="button"
-    //             class="close"
-    //             aria-label="Close"
-    //             onclick="minimiseInstantMessengerBox();"
-    //         >
-    //             <span
-    //                 aria-hidden="true"
-    //                 style="
-    //                     position: absolute;
-    //                     top: 5px;
-    //                     right: 10px;
-    //                     font-size: 30px;
-    //                 "
-    //             >
-    //                 &times;
-    //             </span>
-    //         </button>
-    //     </div>
-    //     <div
-    //         id="instant-messages"
-    //         style="
-    //             margin-top: 15px;
-    //             margin-bottom: 20px;
-    //             height: 400px;
-    //             background-color: rgb(255, 255, 255);
-    //             position: relative;
-    //             overflow: auto;
-    //         "
-    //         class="border rounded"
-    //     >
-    //         <div
-    //             id="bot-hello"
-    //             class="m-3 mr-5 p-2 text-left border border-info light-blue-card"
-    //             style=""
-    //         >
-    //             <p class="mb-0">
-    //                 Hello, can I help you to find a tutor today?
-    //             </p>
-    //         </div>
-    //     </div>
-    //     <div
-    //         class="row"
-    //         style="
-    //         "
-    //     >
-    //         <div class="col pr-0">
-    //             <textarea
-    //                 id="live-chat-input"
-    //                 class="form-control"
-    //                 rows="4"
-    //                 style="max-height: 110px;"
-    //                 onfocus="clearIsInvalid();"
-    //             ></textarea>
-    //         </div>
-    //         <div class="col col-lg-2 mr-2">
-    //             <button
-    //                 onclick="captureChatMessage();"
-    //                 class="btn btn-success"
-    //                 style="
-    //                     position: absolute;
-    //                     bottom: 0;
-    //                 "
-    //             >
-    //                 Send
-    //             </button>
-    //         </div>
-    //     </div>
-    // </div>
-    // `;
-    // document.getElementById('contact-buttons').innerHTML = (
-    //     document.getElementById('contact-buttons').innerHTML
-    //     + html
-    // );
+    // Add live chat button
+    const liveChat = document.createElement('a');
+    liveChat.href = '#';
+    liveChat.addEventListener('click', maximiseInstantMessengerBox);
+    childDiv = document.createElement('div');
+    childDiv.classList.add('instant-message');
+    image = document.createElement('img');
+    image.classList.add('comms-image');
+    image.style.width = '50px';
+    image.style.height = '50px';
+    image.style.paddingTop = '8px';
+    image.style.paddingBottom = '6px';
+    image.style.paddingLeft = '10px';
+    image.style.paddingRight = '10px';
+    image.style.backgroundColor = 'rgb(255, 255, 255)'; // White
+    image.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3)';
+    image.alt = 'live chat 123 help me study';
+    image.src = `${base}/assets/images/live_chat.png`;
+    childDiv.appendChild(image);
+    liveChat.appendChild(childDiv);
+    contactButtons.appendChild(liveChat);
+
+    // chat box window
+    const chatBoxWindow = document.createElement('div');
+    chatBoxWindow.id = 'instant-message-box';
+    chatBoxWindow.style.display = chatBoxDisplay;
+    chatBoxWindow.style.height = chatBoxViewHeight;
+    chatBoxWindow.style.width = chatBoxViewWidth;
+    chatBoxWindow.style.position = 'fixed';
+    chatBoxWindow.style.bottom = '5px';
+    chatBoxWindow.style.right = '5px';
+    chatBoxWindow.style.backgroundColor = 'rgb(197, 236, 249)';
+    chatBoxWindow.style.zIndex = 999;
+    chatBoxWindow.style.borderRadius = '2px';
+    chatBoxWindow.style.padding = '10px';
+    chatBoxWindow.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3)';
+
+    //* Header div
+    const liveChatHeaderBox = document.createElement('div');
+    const liveChatHeader = document.createElement('h3');
+    liveChatHeader.innerText = 'Live chat';
+    liveChatHeaderBox.appendChild(liveChatHeader);
+    //** Create close button for live chat header
+    const liveChatHeaderCloseBtn = document.createElement('button');
+    liveChatHeaderCloseBtn.type = 'button';
+    liveChatHeaderCloseBtn.classList.add('close');
+    liveChatHeaderCloseBtn.ariaLabel = 'Close';
+    liveChatHeaderCloseBtn.addEventListener('click', minimiseInstantMessengerBox);
+    const closeBtnImage = document.createElement('span');
+    closeBtnImage.ariaHidden = 'true';
+    closeBtnImage.style.position = 'absolute';
+    closeBtnImage.style.top = '5px';
+    closeBtnImage.style.right = '10px';
+    closeBtnImage.style.fontSize = '30px';
+    closeBtnImage.innerHTML = '&times';
+    liveChatHeaderCloseBtn.appendChild(closeBtnImage);
+    liveChatHeaderBox.appendChild(liveChatHeaderCloseBtn);
+
+    chatBoxWindow.append(liveChatHeaderBox);
+
+    // Instant messages box
+    const instantMessagesBox = document.createElement('div');
+    instantMessagesBox.id = 'instant-messages';
+    instantMessagesBox.style.marginTop = '15px';
+    instantMessagesBox.style.marginBottom = '20px';
+    instantMessagesBox.style.height = '400px';
+    instantMessagesBox.style.backgroundColor = 'rgb(255, 255, 255)';
+    instantMessagesBox.style.position = 'relative';
+    instantMessagesBox.style.overflow = 'auto';
+    instantMessagesBox.className = 'border rounded';
+    //* Chat bot hello box
+    const chatBotHelloBox = document.createElement('div');
+    chatBotHelloBox.id = 'bot-hello';
+    chatBotHelloBox.className = 'm-3 mr-5 p-2 text-left border border-info light-blue-card';
+    //** Chat bot text
+    const chatBotText = document.createElement('p');
+    chatBotText.classList.add('mb-0');
+    chatBotText.innerText = 'Hello, can I help you to find a tutor today?';
+    chatBotHelloBox.appendChild(chatBotText);
+    instantMessagesBox.appendChild(chatBotHelloBox);
+
+    chatBoxWindow.appendChild(instantMessagesBox);
+
+    // Add response section to chatBoxWindow
+    const responseSectionRow = document.createElement('div');
+    responseSectionRow.classList.add('row');
+    const responseSectionTextBox = document.createElement('div');
+    // responseSectionTextBox.className = 'col pr-0';
+    responseSectionTextBox.className = 'col';
+    responseSectionTextBox.style.minWidth = '410px';
+    //* Text area
+    const responseTextarea = document.createElement('textarea');
+    responseTextarea.id = 'live-chat-input';
+    responseTextarea.classList.add('form-control');
+    responseTextarea.rows = '4';
+    responseTextarea.style.maxHeight = '110px';
+    responseTextarea.addEventListener('focus', (event) => {
+        event.target.classList.remove('is-invalid');
+    });
+    responseSectionTextBox.appendChild(responseTextarea);
+    responseSectionRow.appendChild(responseSectionTextBox);
+
+    const responseSectionSubmitBtnBox = document.createElement('div');
+    // responseSectionSubmitBtnBox.className = 'col col-lg-2 mr-2';
+    responseSectionSubmitBtnBox.className = 'col';
+    //* Submit button
+    const responseSubmitBtn = document.createElement('button');
+    responseSubmitBtn.innerText = 'Send';
+    responseSubmitBtn.className = 'btn btn-success';
+    responseSubmitBtn.style.position = 'absolute';
+    responseSubmitBtn.style.bottom = '0px';
+    responseSubmitBtn.addEventListener('click', captureChatMessage);
+    responseSectionSubmitBtnBox.appendChild(responseSubmitBtn);
+    responseSectionRow.appendChild(responseSectionSubmitBtnBox);
+
+    chatBoxWindow.append(responseSectionRow);
+
+    // Final attach of chatBoxWindow to contactButtons section
+    contactButtons.appendChild(chatBoxWindow);
+
+    // Initiate chat fetch loop
+    while (true) {
+        fetchConversation();
+        await sleep(5000);
+    }
 }
 
 export { setContactButtons };

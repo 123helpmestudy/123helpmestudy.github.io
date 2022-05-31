@@ -179,30 +179,6 @@ function customer_advertisement_page_toggle_options(id) {
     }
 }
 
-function index_to_tutor_page_submit() {
-    var arg = '/index.html';
-    var base = window.location.pathname;
-    if (base == '/') {base = ''}
-    base = base.toString().replace(arg, '');
-    var subject = document.getElementById('subject-list').value;
-    var lesson_type = document.getElementById('lesson-location').value;
-    var post_zip_code = document.getElementById('post-zip-code').value;
-    if (lesson_type == 'face-to-face' && post_zip_code.length == 0) {
-        var class_list = document.getElementById('post-zip-code').className;
-        if (class_list.indexOf('is-invalid') == -1) {
-            document.getElementById('post-zip-code').className = (
-                class_list
-                +' is-invalid'
-            );
-        }
-        return false;
-    }
-    window.location.assign(
-        base+'/information/tutors.html?subject='+subject
-        +'&lesson_type='+lesson_type
-        +'&post_zip_code='+post_zip_code
-    );
-}
 
 function reset_error() {
     if (document.getElementById('error-card') != null) {
