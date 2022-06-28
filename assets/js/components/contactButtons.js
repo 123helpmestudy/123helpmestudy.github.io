@@ -176,13 +176,14 @@ async function setContactButtons(base) {
     const responseSectionTextBox = document.createElement('div');
     // responseSectionTextBox.className = 'col pr-0';
     responseSectionTextBox.className = 'col';
-    responseSectionTextBox.style.minWidth = '410px';
+    // responseSectionTextBox.style.width = '80%';
     //* Text area
     const responseTextarea = document.createElement('textarea');
     responseTextarea.id = 'live-chat-input';
     responseTextarea.classList.add('form-control');
     responseTextarea.rows = '4';
     responseTextarea.style.maxHeight = '110px';
+    responseTextarea.style.width = '208%';
     responseTextarea.addEventListener('focus', (event) => {
         event.target.classList.remove('is-invalid');
     });
@@ -192,6 +193,8 @@ async function setContactButtons(base) {
     const responseSectionSubmitBtnBox = document.createElement('div');
     // responseSectionSubmitBtnBox.className = 'col col-lg-2 mr-2';
     responseSectionSubmitBtnBox.className = 'col';
+    responseSectionSubmitBtnBox.style.paddingRight = '75px';
+    responseSectionSubmitBtnBox.style.textAlign = 'right';
     //* Submit button
     const responseSubmitBtn = document.createElement('button');
     responseSubmitBtn.innerText = 'Send';

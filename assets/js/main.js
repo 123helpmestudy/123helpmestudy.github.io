@@ -201,7 +201,7 @@ function set_contact_buttons(base) {
     <div
         id="instant-message-box"
         style="
-            display: block;
+            display: none;
             position: fixed;
             bottom: 10px;
             right: 10px;

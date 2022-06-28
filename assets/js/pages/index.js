@@ -3,150 +3,290 @@ import { setPageHeader } from './../components/pageHeader.js';
 import { setPageFooter } from './../components/pageFooter.js';
 import { setContactButtons } from './../components/contactButtons.js';
 import { apiCall } from './../components/api.js';
+import { resetError, validateTarget } from './../components/utils.js';
+
+// Lesson toggle elements
+const submitFindLesson = document.getElementById('submitFindLesson');
+const onlineLessonToggle = document.getElementById('checkOnline');
+const face2FaceLessonToggle = document.getElementById('checkFace2Face');
+// Request call back form elements
+const firstNameInput = document.getElementById('firstName');
+const lastNameInput = document.getElementById('lastName');
+const mobileInput = document.getElementById('mobile');
+const emailInput = document.getElementById('email');
+const submitCallBackFormBtn = document.getElementById('submitForm');
 
 window.addEventListener('DOMContentLoaded', main);
 function main() {
-    // Setup page navigation
-    const base = window.location.origin;
-    setNavigationBar(base);
-    setPageHeader();
-    setPageFooter(base);
-    setContactButtons(base);
+  // Setup page navigation
+  const base = window.location.origin;
+  setNavigationBar(base);
+  setPageHeader();
+  setPageFooter(base);
+  setContactButtons(base);
 
-    /* Test the API is alive an functioning, otherwise
-     * return error page.
-     */
-    testAPI();
+  /* Test the API is alive and functioning, otherwise
+  * return maintenance view.
+  */
+  testAPI();
 
-    // Get available subjects
-    loadSubjectsSelector();
+  // Get available subjects
+  loadSubjectsSelector();
 
-    // For managing the flag
-    validateUserInteraction();
+  // For managing the flag
+  // validateUserInteraction();
 
-    // Add event listener for submit redirect
-    document.getElementById('submit-find-lesson').addEventListener(
-        'click', redirectIndexToTutor
-    );
+  // Add event listener for submit redirect
+  submitFindLesson.addEventListener(
+  'click', redirectIndexToTutor
+  );
 
-    // Define page functions
-    // var min = 1;
-    // var max = 21;
-    // document.getElementById('first-number').innerHTML =  Math.floor(Math.random() * (max - min) + min);
-    // document.getElementById('second-number').innerHTML = Math.floor(Math.random() * (max - min) + min);
-    // function offline_reset_error() {
-    //     if (document.getElementById('offline-error-card') != null) {
-    //         document.getElementById('offline-error-card').style.display = 'none';    
-    //     }
-    // }
+  // Add event listeners to the toggle buttons for lesson location type
+  onlineLessonToggle.addEventListener('click', tutorSubjectToggle);
+  face2FaceLessonToggle.addEventListener('click', tutorSubjectToggle);
+
+  // Add event listeners to input fields in request call back form
+  firstNameInput.addEventListener('focus', resetInvalidInput);
+  lastNameInput.addEventListener('focus', resetInvalidInput);
+  mobileInput.addEventListener('focus', resetInvalidInput);
+  emailInput.addEventListener('focus', resetInvalidInput);
+
+  // Add event listener for call back form submit button
+  submitCallBackFormBtn.addEventListener(
+    'click', callBackFormSubmit
+  );
+
+  // Define page functions
+  // let min = 1;
+  // let max = 21;
+  // document.getElementById('first-number').innerHTML =  Math.floor(Math.random() * (max - min) + min);
+  // document.getElementById('second-number').innerHTML = Math.floor(Math.random() * (max - min) + min);
+  // function offline_reset_error() {
+  //     if (document.getElementById('offline-error-card') != null) {
+  //         document.getElementById('offline-error-card').style.display = 'none';    
+  //     }
+  // }
 }
 
 
 async function testAPI() {
-    var path = ('/api/status');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    /* For simplifying page */
-    try {
-        /* Execute API */
-        var response = await apiCall(
-            path, 
-            headers, 
-            method,
-            payload
-        );
-        if (response['status'] == 200) {
-            console.log('API is alive!');
-        }
-    } catch(e) {
-        //console.log(e);
-        document.getElementById('navigation-bar').style.display = 'none';
-        document.getElementById('getting-started-card').style.display = 'none';
-        document.getElementById('request-contact-form').style.display = 'none';
-        document.getElementById('api-fail-email-button').style.display = 'block';
+  let path = ('/api/status');
+  let headers = {};
+  let method = 'GET';
+  let payload = {};
+  /* For simplifying page */
+  try {
+    /* Execute API */
+    let response = await apiCall(
+      path, 
+      headers, 
+      method,
+      payload
+    );
+    if (response['status'] == 200) {
+      console.log('API is alive!');
     }
+  } catch(e) {
+    //console.log(e);
+    document.getElementById('navigation-bar').style.display = 'none';
+    document.getElementById('getting-started-card').style.display = 'none';
+    document.getElementById('request-contact-form').style.display = 'none';
+    document.getElementById('api-fail-email-button').style.display = 'block';
+  }
 }
 
 
 async function loadSubjectsSelector() {
-    var path = ('/api/salesorders/list_subjects');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    if (response.status == 200) {
-        var subjects = response.response.data;
-        var option_list;
-        for (var i = 0; i < subjects.length; i++) {
-            if (subjects[i]['lowest_price'] == 'Not available') {
-                continue;
-            }
-            var html = `
-            <option value=`+subjects[i]['subject_id']+`>`+subjects[i]['long_name']+`</option>
-            `;
-            option_list += html;
-        }
-        document.getElementById('subject-list').innerHTML = option_list;
+  let path = ('/api/salesorders/list_subjects');
+  let headers = {};
+  let method = 'GET';
+  let payload = {};
+  let response = await apiCall(
+    path, 
+    headers, 
+    method,
+    payload
+  );
+  if (response.status == 200) {
+    let subjects = response.response.data;
+    let option_list;
+    for (let i = 0; i < subjects.length; i++) {
+      if (subjects[i]['lowest_price'] == 'Not available') {
+          continue;
+      }
+      let html = `
+      <option value=`+subjects[i]['subject_id']+`>`+subjects[i]['long_name']+`</option>
+      `;
+      option_list += html;
     }
+    document.getElementById('subject-list').innerHTML = option_list;
+  }
 }
 
 
 async function validateUserInteraction() {
-    var path = ('/api/validate_user_interaction');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    if (response['status'] == 200) {
-        var attributes = response['response']['data'];
-        for (var i = 0; i < attributes.length; i++) {
-            html = `
-            <img onclick="validate_user_check(`+attributes[i]['number']+`);" class="hover-pointer little-flag" src="`+attributes[i]['icon']+`">
-            `;
-            document.getElementById('valid-img-'+(i+1)).innerHTML = html;
-        }
-        document.getElementById('find-country').innerHTML = (
-            "Can you identify the flag for "
-            +response['response']['find_country']
-            +"?"
-        );
-        document.getElementById('find-country-answer').innerHTML = response['response']['find_country_number'];
+  let path = ('/api/validate_user_interaction');
+  let headers = {};
+  let method = 'GET';
+  let payload = {};
+  let response = await apiCall(
+    path, 
+    headers, 
+    method,
+    payload
+  );
+  if (response['status'] == 200) {
+    let attributes = response['response']['data'];
+    for (let i = 0; i < attributes.length; i++) {
+      html = `
+      <img onclick="validate_user_check(`+attributes[i]['number']+`);" class="hover-pointer little-flag" src="`+attributes[i]['icon']+`">
+      `;
+      document.getElementById('valid-img-'+(i+1)).innerHTML = html;
     }
+    document.getElementById('find-country').innerHTML = (
+      "Can you identify the flag for "
+      +response['response']['find_country']
+      +"?"
+    );
+    document.getElementById('find-country-answer').innerHTML = response['response']['find_country_number'];
+  }
 }
 
 
 function redirectIndexToTutor() {
-    var arg = '/index.html';
-    var base = window.location.pathname;
-    if (base == '/') {base = ''}
-    base = base.toString().replace(arg, '');
-    var subject = document.getElementById('subject-list').value;
-    var lesson_type = document.getElementById('lesson-location').value;
-    var post_zip_code = document.getElementById('post-zip-code').value;
-    if (lesson_type == 'face-to-face' && post_zip_code.length == 0) {
-        var class_list = document.getElementById('post-zip-code').className;
-        if (class_list.indexOf('is-invalid') == -1) {
-            document.getElementById('post-zip-code').className = (
-                class_list
-                +' is-invalid'
-            );
-        }
-        return false;
+  let arg = '/index.html';
+  let base = window.location.pathname;
+  if (base == '/') {base = ''}
+  base = base.toString().replace(arg, '');
+  let subject = document.getElementById('subject-list').value;
+  let lesson_type = document.getElementById('lesson-location').value;
+  let post_zip_code = document.getElementById('post-zip-code').value;
+  if (lesson_type == 'face-to-face' && post_zip_code.length == 0) {
+    let class_list = document.getElementById('post-zip-code').className;
+    if (class_list.indexOf('is-invalid') == -1) {
+      document.getElementById('post-zip-code').className = (
+        class_list
+        +' is-invalid'
+      );
     }
-    window.location.assign(
-        base+'/information/tutors.html?subject='+subject
-        +'&lesson_type='+lesson_type
-        +'&post_zip_code='+post_zip_code
-    );
+    return false;
+  }
+  window.location.assign(
+    base+'/information/tutors.html?subject='+subject
+    +'&lesson_type='+lesson_type
+    +'&post_zip_code='+post_zip_code
+  );
+}
+
+
+/**
+ * First validates if the call back form is populated correctly,
+ * then submits the content to the API endpoint /api/salesorders/create_sales_leads
+ */
+async function callBackFormSubmit() {
+  /* Validate user input */
+  var validate = false;
+  if (validateTarget('firstName')) {validate = true;}
+  if (validateTarget('lastName')) {validate = true;}
+  if (validateTarget('mobile')) {validate = true;}
+  if (validateTarget('email')) {validate = true;}
+  if (validate) {return false;}
+  /* Validate user agreement and t & c's */
+  if (
+      document.getElementById('tick-terms-and-conditions').checked == false
+      ||
+      document.getElementById('tick-privacy-policy').checked == false
+  ) {
+      // Failed to tick terms and conditions and privacy policy
+      document.getElementById('error-card').style.display = 'block';
+      document.getElementById('error-response').innerHTML = (
+          'To proceed, please read and agree to our terms '
+          +'and conditions, and our privacy policy.');
+          return false;
+  }
+  /* Validate user robot */
+  var robot_status = document.getElementById('is-a-robot').innerHTML;
+  if (robot_status == 'yes') {
+      document.getElementById('submit-form').style.display = 'none';
+      document.getElementById('check-validator').style.display = 'block';
+      return false;
+  }
+  /* Disable submit button */
+  document.getElementById('pending-send').style.display = 'block';
+  document.getElementById('submit-form').style.display = 'none';
+  /* Execute API */
+  var path = '/api/salesorders/create_sales_leads';
+  var headers = {
+      'Access-Token': '',
+  };
+  var method = 'POST';
+  var payload = {
+      'first_name': document.getElementById('first_name').value,
+      'last_name': document.getElementById('last_name').value,
+      'email': document.getElementById('email').value,
+      'mobile': document.getElementById('mobile').value,
+  };
+  var response = await api_call(
+      path, 
+      headers, 
+      method,
+      payload
+  );
+  if (response['status'] == 200) {
+      document.getElementById('pending-send').style.display = 'none';
+      document.getElementById('request-contact-form').style.display = 'none';
+      document.getElementById('success-card').style.display = 'block';
+  } else {
+      document.getElementById('error-card').style.display = 'block';
+      document.getElementById('error-response').innerHTML = "An error has occured, please call us. Thanks.";
+  }
+  //console.log(response['status']);
+  //console.log(response['response']);
+}
+
+
+// Allows the user to toggle between online and face-to-face sessions
+const lessonLocation = document.getElementById('lesson-location');
+const postCode = document.getElementById('post-zip-code');
+const onlineBtn = document.getElementById('check-online');
+const face2FaceBtn = document.getElementById('check-face-2-face');
+let onlineLessons = true;
+function tutorSubjectToggle() {
+  if (!onlineLessons) {
+    lessonLocation.value = 'online';
+    postCode.style.display = 'none';
+    face2FaceBtn.className = "col btn m-0";
+    addActiveClasses(onlineBtn);
+    onlineLessons = true;
+  } else {
+    lessonLocation.value = 'face-to-face';
+    postCode.style.display = 'block';
+    onlineBtn.className = "col btn m-0";
+    addActiveClasses(face2FaceBtn);
+    onlineLessons = false;
+  }
+}
+
+function addActiveClasses(btn) {
+  const classNames = [
+    'col',
+    'btn',
+    'm-0',
+    'bg-primary',
+    'font-weight-bold',
+    'text-white'
+  ];
+  for (let i = 0; i < classNames.length; i++) {
+    btn.classList.add(classNames[i]);
+  }
+}
+
+/**
+ * Provides a way to reset the request a callback form
+ * After user has not filled out the required fields
+ */
+function resetInvalidInput() {
+  const id = this.id;
+  resetError();
+  document.getElementById(id).classList.remove('is-invalid');
 }

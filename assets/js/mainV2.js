@@ -153,19 +153,6 @@ function tutor_page_set_input_string_length(input_id, output_id) {
     });
 }
 
-function tutor_subject_page_toggle_options(id) {
-    if (id == 1) {
-        document.getElementById('lesson-location').value = 'online';
-        document.getElementById('post-zip-code').style.display = 'none';
-        document.getElementById('check-face-2-face').className = "col btn m-0";
-        document.getElementById('check-online').className = "col btn m-0 bg-primary font-weight-bold text-white";
-    } else if (id == 2) {
-        document.getElementById('lesson-location').value = 'face-to-face';
-        document.getElementById('post-zip-code').style.display = 'block';
-        document.getElementById('check-online').className = "col btn m-0";
-        document.getElementById('check-face-2-face').className = "col btn m-0 bg-primary font-weight-bold text-white";
-    }
-}
 
 function customer_advertisement_page_toggle_options(id) {
     if (id == 1) {
@@ -180,20 +167,7 @@ function customer_advertisement_page_toggle_options(id) {
 }
 
 
-function reset_error() {
-    if (document.getElementById('error-card') != null) {
-        document.getElementById('error-card').style.display = 'none';    
-    }
-}
 
-function reset_invalid_input(id) {
-    reset_error();
-    var class_list = document.getElementById(id).className;
-    class_list = class_list.replace('is-invalid', '').trim();
-    document.getElementById(id).className = (
-        class_list
-    );
-}
 
 
 function sign_up_page(base) {

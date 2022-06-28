@@ -43,66 +43,6 @@ function validate_target(id) {
     return false;
 }
 
-async function index_page_submit_form() {
-    /* Validate user input */
-    var validate = false;
-    if (validate_target('first_name')) {validate = true;}
-    if (validate_target('last_name')) {validate = true;}
-    if (validate_target('mobile')) {validate = true;}
-    if (validate_target('email')) {validate = true;}
-    if (validate) {return false;}
-    /* Validate user agreement and t & c's */
-    if (
-        document.getElementById('tick-terms-and-conditions').checked == false
-        ||
-        document.getElementById('tick-privacy-policy').checked == false
-    ) {
-        // Failed to tick terms and conditions and privacy policy
-        document.getElementById('error-card').style.display = 'block';
-        document.getElementById('error-response').innerHTML = (
-            'To proceed, please read and agree to our terms '
-            +'and conditions, and our privacy policy.');
-            return false;
-    }
-    /* Validate user robot */
-    var robot_status = document.getElementById('is-a-robot').innerHTML;
-    if (robot_status == 'yes') {
-        document.getElementById('submit-form').style.display = 'none';
-        document.getElementById('check-validator').style.display = 'block';
-        return false;
-    }
-    /* Disable submit button */
-    document.getElementById('pending-send').style.display = 'block';
-    document.getElementById('submit-form').style.display = 'none';
-    /* Execute API */
-    var path = '/api/salesorders/create_sales_leads';
-    var headers = {
-        'Access-Token': '',
-    };
-    var method = 'POST';
-    var payload = {
-        'first_name': document.getElementById('first_name').value,
-        'last_name': document.getElementById('last_name').value,
-        'email': document.getElementById('email').value,
-        'mobile': document.getElementById('mobile').value,
-    };
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    if (response['status'] == 200) {
-        document.getElementById('pending-send').style.display = 'none';
-        document.getElementById('request-contact-form').style.display = 'none';
-        document.getElementById('success-card').style.display = 'block';
-    } else {
-        document.getElementById('error-card').style.display = 'block';
-        document.getElementById('error-response').innerHTML = "An error has occured, please call us. Thanks.";
-    }
-    //console.log(response['status']);
-    //console.log(response['response']);
-}
 
 async function validate_user_interaction_page_load() {
     var path = ('/api/validate_user_interaction');
