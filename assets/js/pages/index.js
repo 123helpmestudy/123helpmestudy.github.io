@@ -36,7 +36,7 @@ function main() {
   loadSubjectsSelector();
 
   // For managing the flag
-  // validateUserInteraction();
+  validateUserInteraction();
 
   // Add event listener for submit redirect
   submitFindLesson.addEventListener(
@@ -117,7 +117,7 @@ async function loadSubjectsSelector() {
     let option_list;
     for (let i = 0; i < subjects.length; i++) {
       if (subjects[i]['lowest_price'] == 'Not available') {
-          continue;
+        continue;
       }
       let html = `
       <option value=`+subjects[i]['subject_id']+`>`+subjects[i]['long_name']+`</option>
@@ -140,13 +140,25 @@ async function validateUserInteraction() {
     method,
     payload
   );
-  if (response['status'] == 200) {
+  if (response.status === 200) {
     let attributes = response['response']['data'];
     for (let i = 0; i < attributes.length; i++) {
-      html = `
-      <img onclick="validate_user_check(`+attributes[i]['number']+`);" class="hover-pointer little-flag" src="`+attributes[i]['icon']+`">
-      `;
-      document.getElementById('valid-img-'+(i+1)).innerHTML = html;
+      let validImg = document.getElementById(`validImg${i + 1}`);
+      let img = document.createElement('img');
+      img.className = 'hover-pointer little-flag';
+      img.src = attributes[i].icon;
+      img.addEventListener('click', () => {
+        let findCountryNumber = document.getElementById('find-country-answer').innerHTML;
+        if (attributes[i].number == findCountryNumber) {
+          document.getElementById('is-a-robot').innerHTML = 'no';
+          document.getElementById('check-validator').style.display = 'none';
+          document.getElementById('submitForm').style.display = 'inline';
+        } else {
+          document.getElementById('check-validator').style.display = 'none';
+          document.getElementById('robot-error-card').style.display = 'block';
+        }
+      });
+      validImg.appendChild(img);
     }
     document.getElementById('find-country').innerHTML = (
       "Can you identify the flag for "
@@ -218,7 +230,7 @@ async function callBackFormSubmit() {
   }
   /* Disable submit button */
   document.getElementById('pending-send').style.display = 'block';
-  document.getElementById('submit-form').style.display = 'none';
+  document.getElementById('submitForm').style.display = 'none';
   /* Execute API */
   let path = '/api/salesorders/create_sales_leads';
   let headers = {
@@ -226,10 +238,10 @@ async function callBackFormSubmit() {
   };
   let method = 'POST';
   let payload = {
-    first_name: document.getElementById('first_name').value,
-    last_name: document.getElementById('last_name').value,
-    email: document.getElementById('email').value,
-    mobile: document.getElementById('mobile').value,
+    first_name: firstNameInput.value,
+    last_name: lastNameInput.value,
+    email: emailInput.value,
+    mobile: mobileInput.value,
   };
   let response = await apiCall(
     path, 
@@ -242,6 +254,7 @@ async function callBackFormSubmit() {
     document.getElementById('request-contact-form').style.display = 'none';
     document.getElementById('success-card').style.display = 'block';
   } else {
+    document.getElementById('pending-send').style.display = 'none';
     document.getElementById('error-card').style.display = 'block';
     document.getElementById('error-response').innerHTML = "An error has occured, please call us. Thanks.";
   }

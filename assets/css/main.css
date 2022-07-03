@@ -24,7 +24,6 @@ body {
     padding: 5px;
     bottom: 130px;
     right: 1%;
-    
 }
 .email {
     z-index: 4;
@@ -77,7 +76,17 @@ body {
 }
 .card-2-bg-img {
     background-image: url("https://ik.imagekit.io/123helpmestudy/tr:h-1080,w-1920/uc?export=view&id=1S9iR0AedruEzMRmmMvtwIaVTf5CGPHx5");
+    /* -webkit-animation: zoomin 2s 1; */
 }
+/* @keyframes zoomin {
+    0% {
+        -webkit-transform: scale(2);
+    }
+    100% {
+        -webkit-transform: scale(1);
+    }
+
+} */
 .paragraph-seperator {
     border: solid 1px;
     border-color: rgba(100,100,100);
@@ -218,7 +227,6 @@ body {
         width: 4rem;
     }
 }
-
 .social-media-icon-footer {
     margin-left: 10px;
     margin-right: 10px;
@@ -229,7 +237,6 @@ body {
     transition: 0.75s;
     transition-property: width height;
 }
-
 .social-media-icon-footer:hover {
     margin-left: 5px;
     margin-right: 5px;

@@ -3,106 +3,106 @@ import { apiCall } from './../api.js';
 
 
 async function captureChatMessage() {
-    // Define session and user variables if not already populated
-    let sessionId = new Date();
-    sessionId = sessionId.getTime();
-    let localSessionId = localStorage.getItem('123helpmestudy-messenger-session-id');
-    if (localSessionId == null) {
-        localStorage.setItem('123helpmestudy-messenger-session-id', `${sessionId}`);
-        localSessionId = `${sessionId}`;
-    }
-    let localSenderId = localStorage.getItem('123helpmestudy-messenger-sender-id');
-    if (localSenderId == null) {
-        localStorage.setItem('123helpmestudy-messenger-sender-id', `${sessionId}`);
-        localSenderId = `${sessionId}`;
-    }
-    // Get stored secret
-    let localSecret = localStorage.getItem('123helpmestudy-messenger-secret');
-    if (localSecret == null) {
-        let random = Math.random().toString(16);
-        random = random.substring(2, 15);
-        localStorage.setItem('123helpmestudy-messenger-secret', `${random}`);
-        localSecret = `${random}`;
-    }
-    // Get chat area
-    let chatInput = document.getElementById('live-chat-input');
-    let chatValue = chatInput.value;
-    if (chatValue == "") {
-        chatInput.classList.add('is-invalid');
-        return null;
-    }
-    chatInput.value = '';
-    let html = `
-    <div
-        class="m-3 p-2 ml-5 text-left border border-success light-green-card"
-        style=""
-        id=${sessionId}
-    >
-        <p class="mb-0">
-            ${chatValue.replace('\n', '<br/>')}
-        </p>
-    </div>
-    `;
-    let instantMessages = document.getElementById('instant-messages');
-    instantMessages.innerHTML = instantMessages.innerHTML + html;
-    instantMessages.scrollTop = instantMessages.scrollHeight;
+  // Define session and user variables if not already populated
+  let sessionId = new Date();
+  sessionId = sessionId.getTime();
+  let localSessionId = localStorage.getItem('123helpmestudy-messenger-session-id');
+  if (localSessionId == null) {
+      localStorage.setItem('123helpmestudy-messenger-session-id', `${sessionId}`);
+      localSessionId = `${sessionId}`;
+  }
+  let localSenderId = localStorage.getItem('123helpmestudy-messenger-sender-id');
+  if (localSenderId == null) {
+      localStorage.setItem('123helpmestudy-messenger-sender-id', `${sessionId}`);
+      localSenderId = `${sessionId}`;
+  }
+  // Get stored secret
+  let localSecret = localStorage.getItem('123helpmestudy-messenger-secret');
+  if (localSecret == null) {
+      let random = Math.random().toString(16);
+      random = random.substring(2, 15);
+      localStorage.setItem('123helpmestudy-messenger-secret', `${random}`);
+      localSecret = `${random}`;
+  }
+  // Get chat area
+  let chatInput = document.getElementById('live-chat-input');
+  let chatValue = chatInput.value;
+  if (chatValue == "") {
+      chatInput.classList.add('is-invalid');
+      return null;
+  }
+  chatInput.value = '';
+  let html = `
+  <div
+      class="m-3 p-2 ml-5 text-left border border-success light-green-card"
+      style=""
+      id=${sessionId}
+  >
+      <p class="mb-0">
+          ${chatValue.replace('\n', '<br/>')}
+      </p>
+  </div>
+  `;
+  let instantMessages = document.getElementById('instant-messages');
+  instantMessages.innerHTML = instantMessages.innerHTML + html;
+  instantMessages.scrollTop = instantMessages.scrollHeight;
 
-    // Submit message to the API
-    let path = '/api/messenger/send';
-    let headers = {};
-    let method = 'POST';
-    let payload = {
-        'type': 'new',
-        'session_id': localSessionId,
-        'sender_id': localSenderId,
-        'secret': localSecret,
-        'body': chatValue
-    };
-    let response = await apiCall(
-        path,
-        headers,
-        method,
-        payload
-    );
-    if (response['status'] == 200) {
-        let newMessage = document.getElementById(`${sessionId}`);
-        newMessage.innerHTML = newMessage.innerHTML + `
-        <p class="text-right text-muted p-0 m-0" style="font-size: 10px;">
-            Sent
-        </p>
-        `;
-        // Show someone typing - randomly
-        html = `
-        <div
-            id="live-chat-typing-${sessionId}"
-            class="ml-4 font-italic"
-            style="
-                display: none;
-                font-size: 12px;
-            "
-        >
-            <span>Typing</span><span id="live-chat-typing-dots-${sessionId}"></span>
-        </div>
-        `;
-        await sleep(15000);
-        instantMessages.innerHTML = instantMessages.innerHTML + html;
-        for (let h = 0; h < 3; h++) {
-            document.getElementById(`live-chat-typing-${sessionId}`).style.display = 'block';
-            for (let i = 0; i < 10; i++) {
-                for (let j = 0; j < 3; j++) {
-                    document.getElementById(`live-chat-typing-dots-${sessionId}`).innerHTML += '.';
-                    await sleep(500);
-                }
-                document.getElementById(`live-chat-typing-dots-${sessionId}`).innerHTML = '';
-            }
-            document.getElementById(`live-chat-typing-${sessionId}`).style.display = 'none';
-            await sleep(8000);
-        }
-    } else {
-        alert('Failed to send instant message');
-    }
-    // console.log(response['status']);
-    // console.log(response['response']);
+  // Submit message to the API
+  let path = '/api/messenger/send';
+  let headers = {};
+  let method = 'POST';
+  let payload = {
+      'type': 'new',
+      'session_id': localSessionId,
+      'sender_id': localSenderId,
+      'secret': localSecret,
+      'body': chatValue
+  };
+  let response = await apiCall(
+      path,
+      headers,
+      method,
+      payload
+  );
+  if (response['status'] == 200) {
+      let newMessage = document.getElementById(`${sessionId}`);
+      newMessage.innerHTML = newMessage.innerHTML + `
+      <p class="text-right text-muted p-0 m-0" style="font-size: 10px;">
+          Sent
+      </p>
+      `;
+      // Show someone typing - randomly
+      html = `
+      <div
+          id="live-chat-typing-${sessionId}"
+          class="ml-4 font-italic"
+          style="
+              display: none;
+              font-size: 12px;
+          "
+      >
+          <span>Typing</span><span id="live-chat-typing-dots-${sessionId}"></span>
+      </div>
+      `;
+      await sleep(15000);
+      instantMessages.innerHTML = instantMessages.innerHTML + html;
+      for (let h = 0; h < 3; h++) {
+          document.getElementById(`live-chat-typing-${sessionId}`).style.display = 'block';
+          for (let i = 0; i < 10; i++) {
+              for (let j = 0; j < 3; j++) {
+                  document.getElementById(`live-chat-typing-dots-${sessionId}`).innerHTML += '.';
+                  await sleep(500);
+              }
+              document.getElementById(`live-chat-typing-dots-${sessionId}`).innerHTML = '';
+          }
+          document.getElementById(`live-chat-typing-${sessionId}`).style.display = 'none';
+          await sleep(8000);
+      }
+  } else {
+      alert('Failed to send instant message');
+  }
+  // console.log(response['status']);
+  // console.log(response['response']);
 }
 
 
