@@ -127,8 +127,8 @@
                               </div>
                             </div>
                           </div>
-                          <input id="lesson-location" type="text" class="form-control hidden-el" value="online">
-                          <input id="post-zip-code" onfocus="reset_invalid_input('post-zip-code');" type="text" class="form-control mt-2 hidden-el" placeholder="Postcode" value="">
+                          <input id="lessonLocation" type="text" class="form-control hidden-el" value="online">
+                          <input id="postZipCode" type="text" class="form-control mt-2 hidden-el" placeholder="Postcode" value="">
                           <div class="text-center mt-3">
                             <button id="submitFindLesson" class="btn btn-success">Submit</button>
                           </div>
@@ -311,14 +311,29 @@
                             </small>
                           </div>
                           <div class="form-check mb-3 text-left">
-                              <input type="checkbox" onfocus="reset_error();" class="form-check-input" id="tick-terms-and-conditions">
-                              <label class="form-check-label">Agree to our <a href="./terms-and-conditions.html">terms and conditions</a></label>
+                            <input
+                              id="tickTermsAndConditions"
+                              type="checkbox"
+                              class="form-check-input"
+                            />
+                            <label class="form-check-label">
+                              Agree to our <a href="./terms-and-conditions.html">terms and conditions</a>
+                            </label>
                           </div>
                           <div class="form-check text-left mb-2">
-                              <input type="checkbox" onfocus="reset_error();" class="form-check-input" id="tick-privacy-policy">
-                              <label class="form-check-label">Agree to our <a href="./privacy-policy.html">privacy policy</a></label>
+                            <input
+                              id="tickPrivacyPolicy"
+                              type="checkbox"
+                              class="form-check-input"
+                            />
+                            <label class="form-check-label">
+                              Agree to our <a href="./privacy-policy.html">privacy policy</a>
+                            </label>
                           </div>
-                          <div id="check-validator" class="card pb-2 text-center hidden-el">
+                          <div
+                            id="check-validator"
+                            class="card pb-2 text-center hidden-el"
+                          >
                             <p id="is-a-robot" class="hidden-el">yes</p>
                             <p class="mt-2 mb-0 font-weight-bold">Are you a robot?</p>
                             <div class="text-center">
@@ -347,60 +362,68 @@
                           </div>
                           <button
                             id="submitForm"
-                            class="btn btn-success mt-2">
-                              Submit
+                            class="btn btn-success mt-2"
+                          >
+                            Submit
                           </button>
-                          <div id="pending-send" class="text-center hidden-el">
-                              <p class="text-secondary mb-1">Sending, please wait</p>
-                              <div class="spinner-border text-info" role="status"></div>
+                          <div
+                            id="pending-send"
+                            class="text-center hidden-el"
+                          >
+                            <p class="text-secondary mb-1">Sending, please wait</p>
+                            <div class="spinner-border text-info" role="status"></div>
                           </div>
-                          <div id="error-card" class="card mt-3 border border-danger warning-bg hidden-el">
-                              <div class="card-body">
-                                  <p id="error-response" class="text-center font-weight-bold m-0"></p>
-                              </div>
+                          <div
+                            id="error-card"
+                            class="card mt-3 border border-danger warning-bg hidden-el"
+                          >
+                            <div class="card-body">
+                              <p id="error-response" class="text-center font-weight-bold m-0"></p>
+                            </div>
                           </div>
                           <div id="robot-error-card" class="card mt-3 border border-danger warning-bg hidden-el">
-                              <div class="card-body text-center">
-                                  <img class="little-flag" src="./assets/images/robot_attack_image.svg">
-                                  <p class="font-weight-bold m-0">
-                                      We are under attack by robots! Save yourself!
-                                  </p>
-                                  <p class="font-weight-bold m-0">
-                                      If you are a human, please reload the page to try again.
-                                  </p>
-                              </div>
+                            <div class="card-body text-center">
+                              <img class="little-flag" src="./assets/images/robot_attack_image.svg">
+                              <p class="font-weight-bold m-0">
+                                We are under attack by robots! Save yourself!
+                              </p>
+                              <p class="font-weight-bold m-0">
+                                If you are a human, please reload the page to try again.
+                              </p>
+                            </div>
                           </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div id="success-card" class="pd-5 card max-card mx-auto hidden-el">
-                                  <div class="card-body">
-                                      <div class="card border border-success success-bg">
-                                          <div class="card-body">
-                                              <p class="text-center font-weight-bold m-0">
-                                                  Thank you for your request.
-                                              </p>
-                                              <p class="text-center font-weight-bold m-0">
-                                                  We aim to be in touch within the next 4 hours.
-                                              </p>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <br>
-                              <img class="my-3" alt="100 percent satisfaction guarantee" src="https://ik.imagekit.io/123helpmestudy/tr:h-150/123_Help_Me_Study/Website_Media/satisfaction_guarentee_4tuz06cY8Ga.png">
-                              <p>We are extremely proud of our five star reviews on Trustpilot! Head on over to see what others are saying about us.</p>
-                              <div class="mb-3">
-                                  <a href="https://uk.trustpilot.com/review/123helpmestudy.droppages.com" rel="noreferrer noopener" target="_blank">
-                                      <img alt="123 Help Me Study Trustpilot" src="https://ik.imagekit.io/123helpmestudy/tr:h-60/uc?export=view&amp;id=1dbJoi-DPX0qKdFkM_wcL2iVzJxiPgwOm">
-                                  </a>
-                              </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="success-card" class="pd-5 card max-card mx-auto hidden-el">
+                      <div class="card-body">
+                        <div class="card border border-success success-bg">
+                          <div class="card-body">
+                              <p class="text-center font-weight-bold m-0">
+                                Thank you for your request.
+                              </p>
+                              <p class="text-center font-weight-bold m-0">
+                                We aim to be in touch within the next 4 hours.
+                              </p>
                           </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <img class="my-3" alt="100 percent satisfaction guarantee" src="https://ik.imagekit.io/123helpmestudy/tr:h-150/123_Help_Me_Study/Website_Media/satisfaction_guarentee_4tuz06cY8Ga.png">
+                    <p>
+                      We are extremely proud of our five star reviews on Trustpilot! Head on over to see what others are saying about us.
+                    </p>
+                    <div class="mb-3">
+                      <a href="https://uk.trustpilot.com/review/123helpmestudy.droppages.com" rel="noreferrer noopener" target="_blank">
+                        <img alt="123 Help Me Study Trustpilot" src="https://ik.imagekit.io/123helpmestudy/tr:h-60/uc?export=view&amp;id=1dbJoi-DPX0qKdFkM_wcL2iVzJxiPgwOm">
+                      </a>
+                    </div>
                   </div>
+                </div>
               </div>
-              <div class="col">
-              </div>
-              </div>
+              <div class="col"></div>
+            </div>
           </div>
           <!-- SPACER -->
           <div class="container-fluid card-1-bg">

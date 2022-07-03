@@ -4,8 +4,8 @@ function sleep(milliseconds) {
 }
 
 function hasUniqueId() {
-  var unique = localStorage.getItem('123helpmestudy-unique');
-  var now = new Date();
+  let unique = localStorage.getItem('123helpmestudy-unique');
+  let now = new Date();
   if (unique == null) {
     localStorage.setItem(
       '123helpmestudy-unique',

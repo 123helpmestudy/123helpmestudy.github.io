@@ -15,6 +15,8 @@ const lastNameInput = document.getElementById('lastName');
 const mobileInput = document.getElementById('mobile');
 const emailInput = document.getElementById('email');
 const submitCallBackFormBtn = document.getElementById('submitForm');
+const termsAndConditions = document.getElementById('tickTermsAndConditions');
+const privacyPolicy = document.getElementById('tickPrivacyPolicy');
 
 window.addEventListener('DOMContentLoaded', main);
 function main() {
@@ -42,6 +44,7 @@ function main() {
   );
 
   // Add event listeners to the toggle buttons for lesson location type
+  postCode.addEventListener('focus', resetInvalidInput);
   onlineLessonToggle.addEventListener('click', tutorSubjectToggle);
   face2FaceLessonToggle.addEventListener('click', tutorSubjectToggle);
 
@@ -50,6 +53,8 @@ function main() {
   lastNameInput.addEventListener('focus', resetInvalidInput);
   mobileInput.addEventListener('focus', resetInvalidInput);
   emailInput.addEventListener('focus', resetInvalidInput);
+  termsAndConditions.addEventListener('focus', resetInvalidInput);
+  privacyPolicy.addEventListener('focus', resetInvalidInput);
 
   // Add event listener for call back form submit button
   submitCallBackFormBtn.addEventListener(
@@ -159,12 +164,12 @@ function redirectIndexToTutor() {
   if (base == '/') {base = ''}
   base = base.toString().replace(arg, '');
   let subject = document.getElementById('subject-list').value;
-  let lesson_type = document.getElementById('lesson-location').value;
-  let post_zip_code = document.getElementById('post-zip-code').value;
+  let lesson_type = document.getElementById('lessonLocation').value;
+  let post_zip_code = document.getElementById('postZipCode').value;
   if (lesson_type == 'face-to-face' && post_zip_code.length == 0) {
-    let class_list = document.getElementById('post-zip-code').className;
+    let class_list = document.getElementById('postZipCode').className;
     if (class_list.indexOf('is-invalid') == -1) {
-      document.getElementById('post-zip-code').className = (
+      document.getElementById('postZipCode').className = (
         class_list
         +' is-invalid'
       );
@@ -185,71 +190,69 @@ function redirectIndexToTutor() {
  */
 async function callBackFormSubmit() {
   /* Validate user input */
-  var validate = false;
-  if (validateTarget('firstName')) {validate = true;}
-  if (validateTarget('lastName')) {validate = true;}
-  if (validateTarget('mobile')) {validate = true;}
-  if (validateTarget('email')) {validate = true;}
-  if (validate) {return false;}
+  let validate = false;
+  if (validateTarget('firstName')) validate = true;
+  if (validateTarget('lastName')) validate = true;
+  if (validateTarget('mobile')) validate = true;
+  if (validateTarget('email')) validate = true;
+  if (validate) return false;
   /* Validate user agreement and t & c's */
   if (
-      document.getElementById('tick-terms-and-conditions').checked == false
-      ||
-      document.getElementById('tick-privacy-policy').checked == false
+    document.getElementById('tickTermsAndConditions').checked == false ||
+    document.getElementById('tickPrivacyPolicy').checked == false
   ) {
-      // Failed to tick terms and conditions and privacy policy
-      document.getElementById('error-card').style.display = 'block';
-      document.getElementById('error-response').innerHTML = (
-          'To proceed, please read and agree to our terms '
-          +'and conditions, and our privacy policy.');
-          return false;
+    // Failed to tick terms and conditions and privacy policy
+    document.getElementById('error-card').style.display = 'block';
+    document.getElementById('error-response').innerHTML = (
+      'To proceed, please read and agree to our terms '
+      +'and conditions, and our privacy policy.'
+    );
+    return false;
   }
   /* Validate user robot */
-  var robot_status = document.getElementById('is-a-robot').innerHTML;
-  if (robot_status == 'yes') {
-      document.getElementById('submit-form').style.display = 'none';
-      document.getElementById('check-validator').style.display = 'block';
-      return false;
+  let robotStatus = document.getElementById('is-a-robot').innerHTML;
+  if (robotStatus === 'yes') {
+    document.getElementById('submitForm').style.display = 'none';
+    document.getElementById('check-validator').style.display = 'block';
+    return false;
   }
   /* Disable submit button */
   document.getElementById('pending-send').style.display = 'block';
   document.getElementById('submit-form').style.display = 'none';
   /* Execute API */
-  var path = '/api/salesorders/create_sales_leads';
-  var headers = {
-      'Access-Token': '',
+  let path = '/api/salesorders/create_sales_leads';
+  let headers = {
+    'Access-Token': '',
   };
-  var method = 'POST';
-  var payload = {
-      'first_name': document.getElementById('first_name').value,
-      'last_name': document.getElementById('last_name').value,
-      'email': document.getElementById('email').value,
-      'mobile': document.getElementById('mobile').value,
+  let method = 'POST';
+  let payload = {
+    first_name: document.getElementById('first_name').value,
+    last_name: document.getElementById('last_name').value,
+    email: document.getElementById('email').value,
+    mobile: document.getElementById('mobile').value,
   };
-  var response = await api_call(
-      path, 
-      headers, 
-      method,
-      payload
+  let response = await apiCall(
+    path, 
+    headers, 
+    method,
+    payload
   );
-  if (response['status'] == 200) {
-      document.getElementById('pending-send').style.display = 'none';
-      document.getElementById('request-contact-form').style.display = 'none';
-      document.getElementById('success-card').style.display = 'block';
+  if (response.status === 200) {
+    document.getElementById('pending-send').style.display = 'none';
+    document.getElementById('request-contact-form').style.display = 'none';
+    document.getElementById('success-card').style.display = 'block';
   } else {
-      document.getElementById('error-card').style.display = 'block';
-      document.getElementById('error-response').innerHTML = "An error has occured, please call us. Thanks.";
+    document.getElementById('error-card').style.display = 'block';
+    document.getElementById('error-response').innerHTML = "An error has occured, please call us. Thanks.";
   }
-  //console.log(response['status']);
-  //console.log(response['response']);
 }
 
 
 // Allows the user to toggle between online and face-to-face sessions
-const lessonLocation = document.getElementById('lesson-location');
-const postCode = document.getElementById('post-zip-code');
-const onlineBtn = document.getElementById('check-online');
-const face2FaceBtn = document.getElementById('check-face-2-face');
+const lessonLocation = document.getElementById('lessonLocation');
+const postCode = document.getElementById('postZipCode');
+const onlineBtn = document.getElementById('checkOnline');
+const face2FaceBtn = document.getElementById('checkFace2Face');
 let onlineLessons = true;
 function tutorSubjectToggle() {
   if (!onlineLessons) {
