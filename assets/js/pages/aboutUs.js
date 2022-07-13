@@ -5,9 +5,8 @@ import { setContactButtons } from './../components/contactButtons.js';
 
 window.addEventListener('DOMContentLoaded', main);
 function main() {
-  const base = window.location.origin;
-  setNavigationBar(base);
+  setNavigationBar();
   setPageHeader();
-  setPageFooter(base);
-  setContactButtons(base);
+  setPageFooter();
+  setContactButtons();
 }

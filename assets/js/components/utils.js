@@ -20,6 +20,16 @@ function resetError() {
   }
 }
 
+/**
+ * Provides a way to reset the request a callback form
+ * After user has not filled out the required fields
+ */
+ function resetInvalidInput() {
+  const id = this.id;
+  resetError();
+  document.getElementById(id).classList.remove('is-invalid');
+}
+
 function validateTarget(id) {
   const target = document.getElementById(id);
   const targetLength = target.value.length;
@@ -30,9 +40,47 @@ function validateTarget(id) {
   return false;
 }
 
+// Allows the user to toggle between online and face-to-face sessions
+const tutorSubjectToggle = () => {
+  const lessonLocation = document.getElementById('lessonLocation');
+  const postCode = document.getElementById('postZipCode');
+  const onlineBtn = document.getElementById('checkOnline');
+  const face2FaceBtn = document.getElementById('checkFace2Face');
+  let onlineLessons = (onlineBtn.className.indexOf('bg-primary') > -1) ? true : false;
+  if (!onlineLessons) {
+    lessonLocation.value = 'online';
+    postCode.style.display = 'none';
+    face2FaceBtn.className = "col btn m-0";
+    addActiveClasses(onlineBtn);
+    onlineLessons = true;
+  } else {
+    lessonLocation.value = 'face-to-face';
+    postCode.style.display = 'block';
+    onlineBtn.className = "col btn m-0";
+    addActiveClasses(face2FaceBtn);
+    onlineLessons = false;
+  }
+};
+
+const addActiveClasses = (btn) => {
+  const classNames = [
+    'col',
+    'btn',
+    'm-0',
+    'bg-primary',
+    'font-weight-bold',
+    'text-white'
+  ];
+  for (let i = 0; i < classNames.length; i++) {
+    btn.classList.add(classNames[i]);
+  }
+};
+
 export {
   sleep,
   hasUniqueId,
   resetError,
-  validateTarget
+  resetInvalidInput,
+  validateTarget,
+  tutorSubjectToggle
 };

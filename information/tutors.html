@@ -99,15 +99,13 @@
                     <div class="card-body m-0 p-0">
                       <div class="row m-0">
                         <div
-                          id="check-online"
-                          onclick="tutor_subject_page_toggle_options(1);"
+                          id="checkOnline"
                           class="col btn m-0 bg-primary font-weight-bold text-white"
                         >
                           Online
                         </div>
                         <div
-                          id="check-face-2-face"
-                          onclick="tutor_subject_page_toggle_options(2);"
+                          id="checkFace2Face"
                           class="col btn m-0"
                         >
                           Face to face
@@ -116,13 +114,13 @@
                     </div>
                   </div>
                   <input
-                    id="lesson-location"
+                    id="lessonLocation"
                     type="text"
                     class="form-control hidden-el"
                     value="online"
                   />
                   <input
-                    id="post-zip-code"
+                    id="postZipCode"
                     onfocus="reset_invalid_input('post-zip-code');"
                     type="text"
                     class="form-control mt-2 hidden-el"
@@ -163,7 +161,7 @@
                         <!-- CODE BLOCK -->
                       </div>
                       <div
-                        onclick="go_to_contact_us();"
+                        id="go-to-contact-us"
                         class="card mb-1 light-warning-card"
                       >
                         <div class="card-body dashboard-button">
@@ -194,7 +192,7 @@
               <div class="card-body text-center">
                 <div class="text-left mb-4">
                   <button
-                    onclick="display_subjects();"
+                    id="back-to-subjects"
                     class="btn btn-primary"
                   >
                     Back To Subjects
@@ -252,53 +250,6 @@
       <div id="page-footer"></div>
     </div>
     <script src="../assets/js/pages/tutors.js" type="module"></script>
-    <!-- <script type="text/javascript">tutor_subjects_load_page();</script> -->
-    <!-- <script type="text/javascript">
-        function display_subjects() {
-            document.getElementById('tutors-card').style.display = 'none';
-            document.getElementById('tutors-card-disclaimer').style.display = 'none';
-            document.getElementById('subject-card').style.display = 'block';
-        }
-        function go_to_tutor_profile(id) {
-            var subject_id = document.getElementById('subject-selected').innerHTML;
-            var base = window.location.pathname;
-            base = base.toString().replace('/information/tutors.html', '');
-            window.location.assign(base+'/information/profile.html'
-                +'?tutor='+id
-                +'&subject='+subject_id
-            );
-        }
-        function go_to_contact_us() {
-            var base = window.location.pathname;
-            base = base.toString().replace('/information/tutors.html', '');
-            window.location.assign(base+'/information/contact-us.html?subject=Subject not listed');
-        }
-        /* Unpack search parameters locally */
-        if (window.location.search) {
-            var get_params = {};
-            var get_string = (window
-                            .location
-                            .search
-                            .toString()
-                            .replace('?', '')
-                            .split('&'));
-            for (var a = 0; a < get_string.length; a++) {
-                var key_value = get_string[a].split('=');
-                get_params[key_value[0]] = key_value[1];
-            }
-            if ('subject' in get_params
-                && 'lesson_type' in get_params
-                && 'post_zip_code' in get_params
-            ) {
-                if (get_params['lesson_type'] == 'face-to-face') {
-                    tutor_subject_page_toggle_options(2);
-                }
-                document.getElementById('lesson-location').value = get_params['lesson_type'];
-                document.getElementById('post-zip-code').value = get_params['post_zip_code'].replace('%20', ' ');
-                tutor_subject_display_tutors_load_page(parseInt(get_params['subject']));
-            }
-        }
-    </script> -->
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="../assets/js/jquery-3.5.1.slim.min.js"></script>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>

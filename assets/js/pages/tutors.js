@@ -3,18 +3,71 @@ import { setPageHeader } from './../components/pageHeader.js';
 import { setPageFooter } from './../components/pageFooter.js';
 import { setContactButtons } from './../components/contactButtons.js';
 import { apiCall } from '../components/api.js';
+import { home, contactUs } from '../components/routes.js';
+import { resetInvalidInput, tutorSubjectToggle } from './../components/utils.js';
+
+const onlineLessonToggle = document.getElementById('checkOnline');
+const face2FaceLessonToggle = document.getElementById('checkFace2Face');
+const postCode = document.getElementById('postZipCode');
 
 window.addEventListener('DOMContentLoaded', main);
 function main() {
-  const base = window.location.origin;
-  setNavigationBar(base);
+  setNavigationBar();
   setPageHeader();
-  setPageFooter(base);
-  setContactButtons(base);
+  setPageFooter();
+  setContactButtons();
 
   // Fetch a list of subjects available
   tutorSubjects();
+
+  // Add event  listener for back to subjects
+  document.getElementById('back-to-subjects').addEventListener('click', () => {
+    document.getElementById('tutors-card').style.display = 'none';
+    document.getElementById('tutors-card-disclaimer').style.display = 'none';
+    document.getElementById('subject-card').style.display = 'block';
+    tutorListSection.innerHTML = '';
+  });
+
+  // Add event listeners to the toggle buttons for lesson location type
+  postCode.addEventListener('focus', resetInvalidInput);
+  onlineLessonToggle.addEventListener('click', tutorSubjectToggle);
+  face2FaceLessonToggle.addEventListener('click', tutorSubjectToggle);
+
+  /**
+   * Add event listener for  navigating to contact us
+   * for the subject not found / on list card
+   */
+  document.getElementById('go-to-contact-us').addEventListener('click', contactUs);
+
+  // Unpack search parameters locally
+  unpackSearchParams();
+
 }
+
+const unpackSearchParams = () => {
+  if (!window.location.search) return;
+  let params = {};
+  const keyValList = window.location.search.substring(1).split('&');
+  for (let i = 0; i < keyValList.length; i++) {
+    let [key, val] = keyValList[i].split('=');
+    params[key] = val;
+  }
+  if (
+    'subject' in params &&
+    'lesson_type' in params &&
+    'post_zip_code' in params
+  ) {
+    if (params.lesson_type === 'face-to-face') {
+      tutorSubjectToggle();
+    }
+    document.getElementById('lessonLocation').value = params.lesson_type;
+    document.getElementById('postZipCode').value = params.post_zip_code.replace('%20', ' ');
+    displayTutors(parseInt(params.subject));
+  } else {
+    alert('Invalid location criteria!');
+    home();
+  }
+};
 
 const defineColour = (lineNumber) => {
   let colour = 'light-blue-card';
@@ -67,8 +120,8 @@ const tutorSubjects = async () => {
       // Create the subject card
       let subjectCard = document.createElement('div');
       subjectCard.className = `card mb-1 ${colour} rounded`;
-      subjectCard.addEventListener('click', () => {
-        displayTutors(subjects[i].subject_id);
+      subjectCard.addEventListener('click', async () => {
+        await displayTutors(subjects[i].subject_id);
       });
       let subSubjectCard = document.createElement('div');
       subSubjectCard.className = 'card-body dashboard-button pt-1 px-0';
@@ -97,8 +150,8 @@ const tutorSubjects = async () => {
 }
 
 const displayTutors = async (id) => {
-  let lessonType = document.getElementById('lesson-location').value;
-  let postZipCode = document.getElementById('post-zip-code');
+  let lessonType = document.getElementById('lessonLocation').value;
+  let postZipCode = document.getElementById('postZipCode');
   /**
    * Validate if face to face lessons are selected
    * that the postal code is populated
@@ -112,9 +165,9 @@ const displayTutors = async (id) => {
   document.getElementById('subject-selected').innerHTML = id;
   let path = (
     '/api/salesorders/list_tutors_by_subject'
-    +'?subject='+id
-    +'&lesson_type='+lessonType
-    +'&post_zip_code='+postZipCode.value
+    + `?subject=${id}`
+    + `&lesson_type=${lessonType}`
+    + `&post_zip_code=${postZipCode.value}`
   );
   let headers = {};
   let method = 'GET';
@@ -126,16 +179,15 @@ const displayTutors = async (id) => {
     payload
   );
   if (response.status === 200) {
-    let tutors = response['response']['data'];
+    let tutors = response.response.data;
     // Store all the tutors for future load
     localStorage.setItem('all-tutors', JSON.stringify(
       tutors
     ));
     
     // Reset the tutors list
-    document.getElementById('tutor-list').innerHTML = '';
     if (tutors.length == 0) {
-      document.getElementById('tutor-list').innerHTML = `
+      tutorListSection.innerHTML = `
         <br><br><br><br>
           <p class="px-5 font-weight-bold font-italic">
             Unfortunately, at this time, none of our registered tutors match your criteria. 
@@ -145,76 +197,156 @@ const displayTutors = async (id) => {
       `;
     } else {
       // Using a function to render the tutor cards    
-      renderTutors('price-low-to-high');
+      await renderTutors('price-low-to-high');
     }
     document.getElementById('subject-card').style.display = 'none';
     document.getElementById('tutors-card').style.display = 'block';
     document.getElementById('tutors-card-disclaimer').style.display = 'block';
-  } else if (response['status'] == 480) {
+  } else if (response.status === 480) {
     document.getElementById('error-card').style.display = 'block';
     document.getElementById('error-response').innerHTML = response.response.message;
   }
-  console.log(response['status']);
-  console.log(response['response']);
-}
+};
 
-const renderTutors = (method) => {
-  let tutors = localStorage.getItem('all-tutors');
-  tutors = JSON.parse(tutors);
-  let sortByBtnText;
-  [tutors, sortByBtnText] = sortTutorDisplay(tutors, method);
-  document.getElementById('tutor-sort-by-button').innerHTML = `Sort by: ${sortByBtnText}`;
 
-  // Create sort by dropdown list
-  document.getElementById('tutor-list').innerHTML = '';
-  document.getElementById('tutor-list').innerHTML += '<h3>Browse the tutors that cover your subject</h3>';
-  document.getElementById('tutor-list').innerHTML += `
-  <div class="mb-3 text-left dropdown">
-      <button 
-          id="tutor-sort-by-button" 
-          type="button" 
-          data-toggle="dropdown" 
-          class="btn btn-info dropdown-toggle"
-      >
-          Sort by: Price (lowest to highest)
-      </button>
-      <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton">
-          <a onclick="render_tutors_page('price-low-to-high');" class="hover-pointer dropdown-item bg-dark text-white">Price (lowest to highest)</a>
-          <a onclick="render_tutors_page('price-high-to-low');" class="hover-pointer dropdown-item bg-dark text-white">Price (highest to lowest)</a>
-          <a onclick="render_tutors_page('hours-low-to-high');" class="hover-pointer dropdown-item bg-dark text-white">Hours taught (lowest to highest)</a>
-          <a onclick="render_tutors_page('hours-high-to-low');" class="hover-pointer dropdown-item bg-dark text-white">Hours taught (highest to lowest)</a>
-      </div>
-  </div>
-  `;
+const tutorListSection = document.getElementById('tutor-list');
+const renderTutors = async (method) => {
+  // Set tutors
+  const [tutors, sortByBtnText] = await sortTutorDisplay(
+    JSON.parse(localStorage.getItem('all-tutors')),
+    method
+  );
+
+  // Add a title to the section
+  const heading = document.createElement('h3');
+  heading.innerText = 'Browse the tutors that cover your subject';
+  tutorListSection.appendChild(heading);
   
-  // Display all tutors for a subject
-  for (var i = 0; i < tutors.length; i++) {
-      var miles_button = '';
-      if ('distance_miles' in tutors[i]) {
-          miles_button = `<button class="btn btn-success shadow"><b>`+tutors[i]['distance_miles']+` miles away</b></button>`;
-      }
-      var html = `
-      <div class="card mb-2 shadow">
-          <div onclick="go_to_tutor_profile(`+tutors[i]['profile_id']+`);" class="card-body dashboard-button">
-              <div class="text-right mb-2">
-                  `+miles_button+`
-                  <button class="btn btn-primary shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
-                      <b>£`+tutors[i]['hourly_rate']+`/hr</b>
-                  </button>
-              </div>
-              <img class="circle-img-profile-list" src="`+tutors[i]['profile_photo']+`">
-              <p class="my-0">`+tutors[i]['first_name']+' '+tutors[i]['last_name_initial']+`</p>
-              <p class="my-0"><em>`+tutors[i]['profile_header']+`</em></p>
-              <p class="my-0">Hours Taught: <b>`+tutors[i]['hours_taught']+`</b></p>
-              <p class="my-0">Highest Qualification: <b>`+tutors[i]['highest_qualification']+`<b/></p>
-          </div>
-      </div>
-      `;
-      document.getElementById('tutor-list').innerHTML += html;
-  }
-}
+  // Create sort by dropdown list
+  const orderBtnSection = document.createElement('div');
+  orderBtnSection.className = 'my-3 text-right dropdown';
 
-const sortTutorDisplay = (tutors, method) => {
+  // Ordering button
+  const orderBtn = document.createElement('button');
+  orderBtn.type = 'button';
+  orderBtn.className = 'btn btn-info dropdown-toggle';
+  orderBtn.dataset.toggle = 'dropdown';
+  orderBtn.innerText = `Sort by: ${sortByBtnText}`;
+  // Attach button to ordering button section
+  orderBtnSection.appendChild(orderBtn);
+
+  // Dropdown option section
+  const sortOptSection = document.createElement('div');
+  sortOptSection.className = 'dropdown-menu bg-dark';
+  sortOptSection.ariaLabelledby = 'dropdownMenuButton';
+
+  // Dropdown option
+  const sortOption = [
+    {
+      sort: 'price-low-to-high',
+      sortText: 'Price (lowest to highest)'
+    },
+    {
+      sort: 'price-high-to-low',
+      sortText: 'Price (highest to lowest)'
+    },
+    {
+      sort: 'hours-low-to-high',
+      sortText: 'Hours taught (lowest to highest)'
+    },
+    {
+      sort: 'hours-high-to-low',
+      sortText: 'Hours taught (highest to lowest)'
+    },
+  ];
+  for (let i = 0; i < sortOption.length; i++) {
+    let option = document.createElement('a');
+    option.id = `option-${i}`;
+    option.className = 'hover-pointer dropdown-item bg-dark text-white';
+    option.innerText = sortOption[i].sortText;
+    option.addEventListener('click', () => {
+      tutorListSection.innerHTML = '';
+      renderTutors(sortOption[i].sort);
+    });
+    // Attach option to dropdown
+    sortOptSection.appendChild(option);
+  }
+  
+  // Attach  sort option section to order section
+  orderBtnSection.appendChild(sortOptSection);
+
+  // Append button section tutor list section
+  tutorListSection.appendChild(orderBtnSection);
+
+  // Iterate over tutor's to build the cards
+  for (let i = 0; i < tutors.length; i++) {
+    // Tutor profile section
+    let tutorCardSection = document.createElement('div');
+    tutorCardSection.className = 'card mb-2 shadow';
+    // Tutor card nav section
+    let tutorNavCard = document.createElement('div');
+    tutorNavCard.className = 'card-body dashboard-button';
+    tutorNavCard.addEventListener('click', () => {
+      const subject = document.getElementById('subject-selected').innerHTML;
+      window.location.assign(
+        `${window.location.origin}/information/profile.html?tutor=${tutors[i].profile_id}&subject=${subject}`
+      );
+    });
+    // Mileage & price button section
+    let btnSection = document.createElement('div');
+    btnSection.className = 'text-right mb-2';
+    if ('distance_miles' in tutors[i]) {
+      let milesBtn = document.createElement('button');
+      milesBtn.className = 'btn btn-success shadow';
+      milesBtn.style.marginRight = '5px';
+      milesBtn.innerText = `${tutors[i].distance_miles} miles away`;
+      btnSection.appendChild(milesBtn);
+    }
+    let priceBtn = document.createElement('button');
+    priceBtn.className = 'btn btn-primary shadow';
+    priceBtn.innerText = `£${tutors[i].hourly_rate}/hr`;
+    btnSection.appendChild(priceBtn)
+    // Attach btn section
+    tutorNavCard.appendChild(btnSection);
+
+    // Tutor image
+    let tutorImage = document.createElement('img');
+    tutorImage.className = 'circle-img-profile-list';
+    tutorImage.src = tutors[i].profile_photo;
+    tutorNavCard.appendChild(tutorImage);
+
+    // Tutor Name
+    let tutorName = document.createElement('p');
+    tutorName.className = 'my-0';
+    tutorName.innerText = `${tutors[i].first_name} ${tutors[i].last_name_initial}`;
+    tutorNavCard.appendChild(tutorName);
+
+    // Tutor header
+    let tutorHeader = document.createElement('p');
+    tutorHeader.className = 'my-0'; // Add emphasis attribute
+    tutorHeader.innerHTML = `<em>${tutors[i].profile_header}</em>`;
+    tutorNavCard.appendChild(tutorHeader);
+
+    // Tutor: hours taught
+    let hoursTaught = document.createElement('p');
+    hoursTaught.className = 'my-0';
+    hoursTaught.innerHTML = `<b>Hours Taught: ${tutors[i].hours_taught}</b>`;
+    tutorNavCard.appendChild(hoursTaught);
+
+    // Tutor: highest qualification
+    let qualification = document.createElement('p');
+    qualification.className = 'my-0';
+    qualification.innerHTML = `<b>Highest Qualification: ${tutors[i].highest_qualification}</b>`;
+    tutorNavCard.appendChild(qualification);
+
+    // Attach nav card section
+    tutorCardSection.appendChild(tutorNavCard);
+    // Attach tutor card section
+    tutorListSection.appendChild(tutorCardSection);
+  }
+};
+
+const sortTutorDisplay = async (tutors, method) => {
   let sortByBtnText = 'Price (lowest to highest)';
   if (method == 'price-low-to-high') {
     sortByBtnText = 'Price (lowest to highest)';
@@ -238,4 +370,4 @@ const sortTutorDisplay = (tutors, method) => {
     });
   }
   return [tutors, sortByBtnText];
-}
+};

@@ -6,8 +6,8 @@ const chatBoxWidth = 500;
 // For testing the chat box
 const chatWindowVisible = false;
 let chatBoxDisplay = 'block';
-let chatBoxViewHeight = '600px';
-let chatBoxViewWidth = '500px';
+let chatBoxViewHeight = `${chatBoxHeight}px`;
+let chatBoxViewWidth = `${chatBoxWidth}px`;
 if (!chatWindowVisible) {
     chatBoxDisplay = 'none';
     chatBoxViewHeight = '0px';
@@ -19,9 +19,32 @@ async function maximiseInstantMessengerBox() {
     instantMessageBox.style.display = 'block';
     let currentHeight = parseInt(instantMessageBox.style.height.toString().replace('px', ''));
     let currentWidth = parseInt(instantMessageBox.style.width.toString().replace('px', ''));
-    while (currentHeight < chatBoxHeight || currentWidth < chatBoxWidth) {
-        currentHeight = currentHeight + 10;
-        currentWidth = currentWidth + 10;
+    let resizeWidth = true;
+    let resizeHeight = true;
+    let stopResize = false;
+    while (!stopResize) {
+        // Manage WIDTH
+        if (resizeWidth) currentWidth = currentWidth + 10;
+        // Check for smaller device sizes
+        if (currentWidth > window.innerWidth) {
+            currentWidth = currentWidth - (currentWidth - window.innerWidth) - 10;
+            resizeWidth = false;
+        }
+        // Check if chat window has passed the box size threshold
+        if (currentWidth > chatBoxWidth) {
+            resizeWidth = false;
+        }
+
+        // Manage HEIGHT
+        if (resizeHeight) currentHeight = currentHeight + 10;
+        if (currentHeight > chatBoxHeight) {
+            resizeHeight = false;
+        }
+
+        // Check if we need to continue resizing
+        if (!resizeWidth && !resizeHeight) {
+            stopResize = true;
+        }
         instantMessageBox.style.height = `${currentHeight}px`;
         instantMessageBox.style.width = `${currentWidth}px`;
         await sleep(5);
@@ -30,6 +53,7 @@ async function maximiseInstantMessengerBox() {
 
 async function minimiseInstantMessengerBox() {
     let instantMessageBox = document.getElementById('instant-message-box');
+    if (instantMessageBox === undefined) return;
     let currentHeight = parseInt(instantMessageBox.style.height.toString().replace('px', ''));
     let currentWidth = parseInt(instantMessageBox.style.width.toString().replace('px', ''));
     while (currentHeight > 0 || currentWidth > 0) {
@@ -45,7 +69,7 @@ async function minimiseInstantMessengerBox() {
     }
 }
 
-async function setContactButtons(base) {
+async function setContactButtons() {
     /*
      TODO:
      Add slack
@@ -104,7 +128,7 @@ async function setContactButtons(base) {
     image.style.backgroundColor = 'rgb(255, 255, 255)'; // White
     image.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3)';
     image.alt = 'live chat 123 help me study';
-    image.src = `${base}/assets/images/live_chat.png`;
+    image.src = `${window.location.origin}/assets/images/live_chat.png`;
     childDiv.appendChild(image);
     liveChat.appendChild(childDiv);
     contactButtons.appendChild(liveChat);
@@ -217,4 +241,4 @@ async function setContactButtons(base) {
     }
 }
 
-export { setContactButtons };
+export { setContactButtons, minimiseInstantMessengerBox };
