@@ -41,7 +41,6 @@ function main() {
 
   // Unpack search parameters locally
   unpackSearchParams();
-
 }
 
 const unpackSearchParams = () => {

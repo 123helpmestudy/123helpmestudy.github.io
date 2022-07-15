@@ -24,7 +24,7 @@ function resetError() {
  * Provides a way to reset the request a callback form
  * After user has not filled out the required fields
  */
- function resetInvalidInput() {
+function resetInvalidInput() {
   const id = this.id;
   resetError();
   document.getElementById(id).classList.remove('is-invalid');

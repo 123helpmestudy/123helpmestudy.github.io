@@ -83,18 +83,18 @@ async function setContactButtons() {
     let image;
 
     // Add mobile phone button
-    const mobile = document.createElement('a');
-    mobile.href = 'tel:07780570708';
-    childDiv = document.createElement('div');
-    childDiv.classList.add('phone');
-    image = document.createElement('img');
-    image.classList.add('comms-image');
-    image.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3)';
-    image.alt = 'call or text 123 help me study';
-    image.src = 'https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png';
-    childDiv.appendChild(image);
-    mobile.appendChild(childDiv);
-    contactButtons.appendChild(mobile);
+    // const mobile = document.createElement('a');
+    // mobile.href = 'tel:07780570708';
+    // childDiv = document.createElement('div');
+    // childDiv.classList.add('phone');
+    // image = document.createElement('img');
+    // image.classList.add('comms-image');
+    // image.style.boxShadow = '0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3)';
+    // image.alt = 'call or text 123 help me study';
+    // image.src = 'https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png';
+    // childDiv.appendChild(image);
+    // mobile.appendChild(childDiv);
+    // contactButtons.appendChild(mobile);
 
     // Add email button
     const email = document.createElement('a');

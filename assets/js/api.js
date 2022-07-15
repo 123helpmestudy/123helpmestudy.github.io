@@ -1251,69 +1251,6 @@ async function contact_us_page_submit() {
     //console.log(response['response']);
 }
 
-async function message_tutor_load_page(id) {
-    /* Load stored email address */
-    var email = localStorage.getItem('123helpmestudy-email');
-    if (email != null) {
-        document.getElementById('email').value = email;
-    }
-    /* Load subject attributes */
-    var subject_id = document.getElementById('subject-selected').innerHTML;
-    var path = ('/api/salesorders/list_subjects');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    var subject_request = '{subject}';
-    if (response['status'] == 200) {
-        var subjects = response['response']['data'];
-        for (var i = 0; i < subjects.length; i++) {
-            if (subjects[i]['subject_id'] == subject_id) {
-                //console.log(subjects[i]['long_name']);
-                subject_request = subjects[i]['long_name'];
-            }
-        }
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
-    /* Load tutor attributes */
-    var tutor_id = document.getElementById('tutor-selected').innerHTML;
-    var path = ('/api/salesorders/show_tutor?tutor='+tutor_id);
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    var tutor = '{tutor}';
-    if (response['status'] == 200) {
-        tutor = response['response']['data']['first_name'];
-        document.getElementById('profile-photo').src = response['response']['data']['profile_photo'];
-    } else {}
-    var html = (
-        "Hello "+tutor+",\n\n"
-        +"I am looking for help with "+subject_request+".\n"
-        +"I came across your profile and feel like you would be a great fit for me.\n"
-        +"Please could you let me know when you would be free for a first lesson.\n\n"
-        +"Thanks"
-    );
-    document.getElementById('message').value = html;
-    document.getElementById('message-str-len').innerHTML = (
-        html.length.toString()
-        +' / 500'
-    );
-    //console.log(response['status']);
-    //console.log(response['response']);
-}
-
 async function message_tutor_page_submit() {
     /* Validate user input */
     var validate = false;
