@@ -4,6 +4,7 @@ import { setPageFooter } from './../components/pageFooter.js';
 import { setContactButtons } from './../components/contactButtons.js';
 import { apiCall } from '../components/api.js';
 import { fetchTutor } from '../components/apiCalls/tutorProfile.js';
+import { home } from '../components/routes.js';
 
 // Detail storage
 const tutorSelected = document.getElementById('tutor-selected');
