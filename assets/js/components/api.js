@@ -1,7 +1,7 @@
-import { baseUrl } from '../vars.js';
+import vars from '../vars.js';
 
 async function apiCall(path, headers, method, payload) {
-  const url = `${baseUrl}${path}`;
+  const url = `${vars.baseUrl}${path}`;
   let headings = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',

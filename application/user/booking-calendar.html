@@ -61,6 +61,7 @@
       }
     }
     </script>
+    <script src="https://js.stripe.com/v3/"></script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -110,7 +111,139 @@
                         <i class="fa fa-angle-double-right"></i>
                       </div>
                     </div>
-                    <div id="build-calendar"></div>
+                    <div id="pending-load-calendar" class="text-center my-4">
+                      <br><br><br><br>
+                      <p class="text-secondary mb-1">Loading...</p>
+                      <div class="spinner-border text-info" role="status"></div>
+                      <br><br><br><br>
+                    </div>
+                    <div id="build-calendar" class="mb-3"></div>
+                    <div id="availability-picker" style="margin-top: 75px; margin-bottom: 75px;"></div>
+                    <div id="back-to-top" class="hover-pointer hidden-el" style="margin-top: 50px;">
+                      <i class="fa fa-angle-double-up"></i>
+                    </div>
+                    <!-- User login section -->
+                    <div id="login-section" class="hidden-el my-4">
+                      <h2 class="mb-4">Login</h2>
+                      <div class="form-group text-left">
+                        <label>Email address</label>
+                        <input id="login-email" type="email" class="form-control" value="" />
+                      </div>
+                      <div class="form-group text-left">
+                        <label>Password</label>
+                        <input id="login-password" type="password" class="form-control" value="" />
+                      </div>
+                      <button
+                        id="login-submit"
+                        class="btn btn-primary"
+                      >
+                        Login
+                      </button>
+                      <div id="pending-login" class="text-center hidden-el">
+                        <p class="text-secondary mb-1">Logging in, please wait</p>
+                        <div class="spinner-border text-info" role="status"></div>
+                      </div>
+                      <div id="login-error-card" class="card mt-3 border border-danger warning-bg hidden-el">
+                        <div class="card-body">
+                          <p id="login-error-response" class="text-center font-weight-bold m-0"></p>
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <p class="mt-3 mb-2">
+                          <a href="#" id="login-no-account">Don't have an account? Sign Up</a>
+                        </p>
+                      </div>
+                    </div>
+                    <!-- Session details section -->
+                    <div id="details-form" class="hidden-el">
+                      <h2 class="mb-4">Session details</h2>
+                      <div class="form-group text-left">
+                        <label>Date</label>
+                        <input id="date" class="form-control" value="" type="date" disabled/>
+                      </div>
+                      <div class="form-group text-left">
+                        <label>Time slot</label>
+                        <input id="time-slot" class="form-control" value="" type="text" disabled/>
+                      </div>
+                      <div class="form-group text-left">
+                        <label>Duration (minutes)</label>
+                        <input id="duration" class="form-control" value="" type="text" disabled/>
+                      </div>
+                      <div class="form-group text-left mb-0">
+                        <label>Discount code</label>
+                        <div style="display: flex;">
+                          <input id="discount-code" class="form-control" style="width: 50%;" value="" type="text"/>
+                          <button id="submit-discount-code" class="btn btn-primary ml-2">Apply</button>
+                        </div>
+                      </div>
+                      <div id="discount-code-message-section" class="text-left">
+                        <small id="discount-code-message"></small>
+                      </div>
+                      <div class="form-group text-left mt-2">
+                        <label>Price</label>
+                        <input id="price" class="form-control" value="" type="text" disabled/>
+                      </div>
+                      <div class="form-group text-left">
+                        <label>Email</label>
+                        <input id="email" class="form-control" value="" type="email" disabled/>
+                      </div>
+                      <div class="form-group text-left">
+                        <label>Message</label>
+                        <textarea
+                          id="message"
+                          class="form-control"
+                          rows="7"
+                        ></textarea>
+                        <p class="my-0 pt-0 pr-1 text-right">
+                          <small id="message-str-len">0 / 500</small>
+                        </p>
+                      </div>
+                      <!-- Payment management section -->
+                      <div id="payment-section" class="my-4">
+                        <div id="stripe-input-card" class="card py-4 px-2">
+                          <!-- Stripe elements here -->
+                          <div id="card-element">
+                            <!-- Elements will create input elements here -->
+                          </div>
+                          <!-- We'll put the error messages in this element -->
+                          <div id="card-errors" role="alert" class="text-danger font-italic"></div>
+                          <!-- Stripe elements here -->
+                        </div>
+                        <div id="pending-card-payment" class="text-center mt-4 hidden-el">
+                          <p class="text-secondary mb-1">Processing payment</p>
+                          <div class="spinner-border text-info" role="status"></div>
+                          <small>
+                            <p class="text-secondary mt-3 mb-1">
+                              Please wait for a successful payment message
+                            </p>
+                          </small>
+                        </div>
+                        <div id="error-card-payment-card" class="card mt-3 border border-danger warning-bg hidden-el">
+                          <div class="card-body">
+                            <p id="error-response-card-payment" class="text-center font-weight-bold m-0"></p>
+                          </div>
+                        </div>
+                        <div id="success-card-payment-card" class="card mt-3 border border-success success-bg hidden-el">
+                          <div class="card-body">
+                            <p class="text-center font-weight-bold m-0">
+                              Your payment has been successfully processed.
+                            </p>
+                            <p id="success-response-card-payment" class="text-center m-0">
+                              <!-- Payment reference here -->
+                            </p>
+                          </div>
+                        </div>        
+                      </div>
+                      <div style="margin-top: 40px; margin-bottom: 40px;">
+                        <button
+                          id="submit-calendar"
+                          class="btn btn-success"
+                          style="width: 150px; font-size: 20px;"
+                        >
+                          Pay
+                        </button>
+                      </div>
+                    </div>
                   </div>
                   <!-- -- -->
                 </div>

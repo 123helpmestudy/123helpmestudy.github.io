@@ -120,7 +120,7 @@ const sendMessage = async () => {
   if (validateTarget('email')) {validate = true;}
   if (validateTarget('mobile')) {validate = true;}
   if (validateTarget('message')) {validate = true;}
-  if (validate) {return false;}
+  if (validate) {return;}
   /* Validate user agreement and t & c's */
   if (
     termsAndConditions.checked == false ||

@@ -76,11 +76,27 @@ const addActiveClasses = (btn) => {
   }
 };
 
+const messageCounter = (input_id, output_id) => {
+  const input = document.getElementById(input_id);
+  input.addEventListener("keyup", (event) => {
+      let stringLength = input.value.length;
+      if (stringLength > 500) {
+          document.getElementById(output_id).style.color = 'rgb(255, 0, 0)';
+      } else {
+          document.getElementById(output_id).style.color = 'rgb(0, 0, 0)';
+      }
+      document.getElementById(output_id).innerHTML = (
+        stringLength.toString() + ' / 500'
+      );
+  });
+};
+
 export {
   sleep,
   hasUniqueId,
   resetError,
   resetInvalidInput,
   validateTarget,
-  tutorSubjectToggle
+  tutorSubjectToggle,
+  messageCounter
 };
