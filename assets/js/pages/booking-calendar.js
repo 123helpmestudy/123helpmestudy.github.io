@@ -882,6 +882,7 @@ const applyDiscountCode = async (automatic) => {
             stripeSuccessSection.style.display = 'block';
             stripeSuccessMessage.innerHTML = `Your payment reference is <b>123-STUDY-${salesOrderDetails.order_id}</b>`;
             formMessage.disabled = true;
+            formSubmit.style.display = 'none';
           }
         });
       } else {
