@@ -614,7 +614,6 @@ function message_tutor_page(base) {
 
 function application_message_thread_page(base) {
     set_application_navigation_bar(base);
-    set_contact_buttons(base);
     tutor_page_set_input_string_length('new-message', 'message-str-len');
 }
 

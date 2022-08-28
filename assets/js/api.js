@@ -69,9 +69,7 @@ async function validate_user_interaction_page_load() {
             +"?"
         );
         document.getElementById('find-country-answer').innerHTML = response['response']['find_country_number'];
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 function validate_user_check(id) {
@@ -152,8 +150,6 @@ async function login_page_submit_form() {
         document.getElementById('pending-login').style.display = 'none';
         document.getElementById('login-submit').style.display = 'block';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function login_page_reset_password_submit_form() {
@@ -192,8 +188,6 @@ async function login_page_reset_password_submit_form() {
         document.getElementById('for-forgot-password-login-submit').style.display = 'block';
         document.getElementById('pending-password-reset').style.display = 'none';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function sign_up_page_submit_form() {
@@ -248,8 +242,6 @@ async function sign_up_page_submit_form() {
         document.getElementById('pending-send').style.display = 'none';
         document.getElementById('sign-up-submit').style.display = 'block';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function email_verification_submit_form() {
@@ -276,8 +268,6 @@ async function email_verification_submit_form() {
         document.getElementById('error-card').style.display = 'block';
         document.getElementById('error-response').innerHTML = response['response']['message'];
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function home_page_submit_user_type_form(user_type) {
@@ -301,9 +291,7 @@ async function home_page_submit_user_type_form(user_type) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
     if (user_type == 'tutor') {
         document.getElementById('initialise-user-type').style.display = 'none';
         document.getElementById('first-tutor-walkthrough').style.display = 'block';
@@ -362,9 +350,7 @@ async function home_page_submit_parent_form() {
         } else if (response['status'] == 401) {
             var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
@@ -459,9 +445,7 @@ async function home_page_submit_tutor_form() {
         } else if (response['status'] == 401) {
             var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
@@ -601,9 +585,7 @@ async function home_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function account_page_submit_form() {
@@ -718,9 +700,7 @@ async function account_page_submit_form() {
         } else if (response['status'] == 401) {
             let base = (window.location.pathname).toString().replace('/application/user/account.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     /* Update user password */
     if (update_password) {
@@ -769,9 +749,7 @@ async function account_page_submit_form() {
         } else if (response['status'] == 401) {
             let base = (window.location.pathname).toString().replace('/application/user/account.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
@@ -846,9 +824,7 @@ async function account_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function tutor_profile_page_load_page() {
@@ -910,8 +886,6 @@ async function tutor_profile_page_load_page() {
             }
             if (attributes[i]['attribute'] == 'highest_qualification') {
                 document.getElementById('highest-qualification').value = attributes[i]['value'];
-                //console.log(attributes[i]['value']);
-                //console.log(document.getElementById('highest-qualification').value);
             }
             if (attributes[i]['attribute'] == 'qualification_support_document') {
                 if (attributes[i]['value'] == 'confirmed') {
@@ -968,9 +942,7 @@ async function tutor_profile_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function tutor_profile_page_submit_form() {
@@ -1073,9 +1045,7 @@ async function tutor_profile_page_submit_form() {
         } else if (response['status'] == 401) {
             var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
@@ -1163,9 +1133,7 @@ async function profile_page_load_page(id) {
         document.getElementById('disclaimer-card').style.display = 'block';
         document.getElementById('disclaimer-card-spacer').style.display = 'block';
         document.getElementById('loading-card').style.display = 'none';
-    } else {}
-    //console.log(response['status']);
-    // console.log(response['response']);
+    }
 }
 
 function contact_us_load_page() {
@@ -1246,9 +1214,7 @@ async function contact_us_page_submit() {
         document.getElementById('contact-us-form').style.display = 'none';
         document.getElementById('pending-send').style.display = 'none';
         document.getElementById('message-successfully-sent').style.display = 'block';
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function message_tutor_page_submit() {
@@ -1303,9 +1269,7 @@ async function message_tutor_page_submit() {
         document.getElementById('pending-send').style.display = 'none';
         document.getElementById('message').value = '';
         document.getElementById('message-sent-successfully').style.display = 'block';
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function remove_users_load_page() {
@@ -1350,9 +1314,7 @@ async function remove_users_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 function remove_users_validate(parameter, id, answer) {
@@ -1390,10 +1352,8 @@ async function remove_users_submit_page(id) {
         method,
         payload
     );
-    if (response['status'] == 200) {
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    // if (response['status'] == 200) {
+    // }
     window.location.reload();
 }
 
@@ -1459,9 +1419,7 @@ async function messages_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/messages.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    // console.log(response['response']);
+    }
 }
 
 async function messages_page_submit_page(id) {
@@ -1487,9 +1445,7 @@ async function messages_page_submit_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/message.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function message_thread_page_load_page(id) {
@@ -1567,9 +1523,7 @@ async function message_thread_page_load_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function message_thread_send_message_page_submit_page() {
@@ -1621,8 +1575,6 @@ async function message_thread_send_message_page_submit_page() {
         document.getElementById('pending-send').style.display = 'none';
         document.getElementById('submit-new-message').style.display = 'block';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function message_thread_book_lesson_submit_page() {
@@ -1708,8 +1660,6 @@ async function message_thread_book_lesson_submit_page() {
         document.getElementById('submit-book-lesson').style.display = 'block';
         document.getElementById('error-response-2').innerHTML = response['response']['message'];
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 
@@ -1768,7 +1718,7 @@ async function lessons_page_load_page() {
                 }
             }
             var html = `
-            <div class="mb-1">                        
+            <div id="lesson-card-${lessons[i]['lesson_id']}" class="mb-1">                        
                 <div class="col p-0">
                     <div class="card shadow-sm">
                         <div class="card-body text-left">
@@ -1878,13 +1828,13 @@ async function lessons_page_load_page() {
             document.getElementById('historical-lessons-list').innerHTML += html;
         }
 
+        // Hide the loading section
+        document.getElementById('pending-load-page').style.display = 'none';
 
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/lessons.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    //console.log(response['status']);
-    console.log(response['response']);
 }
 
 async function lessons_page_cancel_order(id) {
@@ -1903,8 +1853,11 @@ async function lessons_page_cancel_order(id) {
         payload
     );
     if (response['status'] == 200) {
-        document.getElementById('success-response-cancel-'+id).innerHTML = response['message'];
+        document.getElementById('success-response-cancel-'+id).innerHTML = response.response.message;
         document.getElementById('success-card-cancel-'+id).style.display = 'block';
+        setTimeout(() => {
+            document.getElementById(`lesson-card-${id}`).style.display = 'none';
+        }, 5000);
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/lessons.html', '');
         window.location.assign(base+'/information/login.html');
@@ -1912,8 +1865,6 @@ async function lessons_page_cancel_order(id) {
         document.getElementById('error-response-cancel-'+id).innerHTML = response['message'];
         document.getElementById('error-card-cancel-'+id).style.display = 'block';
     }
-    //console.log(response['status']);
-    // console.log(response['response']);
 }
 
 async function lessons_page_change_date_time_on_order(id) {
@@ -1954,13 +1905,10 @@ async function lessons_page_change_date_time_on_order(id) {
         var base = (window.location.pathname).toString().replace('/application/user/lessons.html', '');
         window.location.assign(base+'/information/login.html');
     } else {
-        //console.log(response['response']);
         document.getElementById('error-card-date-time-'+id).style.display = 'block';
         document.getElementById('error-response-date-time-'+id).innerHTML = response['response']['message'];
         return false;
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
     window.location.reload();
 }
 
@@ -1986,8 +1934,6 @@ async function payment_options_change_payment_method_submit_form(id, payment_met
         var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function payment_options_create_stripe_payment_intent_submit_form() {
@@ -2013,8 +1959,6 @@ async function payment_options_create_stripe_payment_intent_submit_form() {
         var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function record_stripe_payment_submit_page(id, reference) {
@@ -2039,10 +1983,7 @@ async function record_stripe_payment_submit_page(id, reference) {
     } else if (response['status'] == 401) {
         //var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         //window.location.assign(base+'/information/login.html');
-    } else {
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
     //window.location.reload();
 }
 
@@ -2065,7 +2006,6 @@ async function payment_options_load_page(id) {
     );
     if (response['status'] == 200) {
         var order_details = response['response']['data'];
-        console.log(order_details);
         if (order_details['payment_received'] == 'complete') {
             var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
             window.location.assign(base+'/application/user/lessons.html');
@@ -2115,17 +2055,13 @@ async function payment_options_load_page(id) {
                 // Seems redundant to check it twice
                 //var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
                 //window.location.assign(base+'/information/login.html');
-            } else {}
-            //console.log(response['status']);
-            //console.log(response['response']);
+            }
             /* End New API call */
         }
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function payment_options_bacs_evidence_page_submit_form() {
@@ -2161,9 +2097,7 @@ async function payment_options_bacs_evidence_page_submit_form() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function customer_profile_page_submit_form() {
@@ -2209,9 +2143,7 @@ async function customer_profile_page_submit_form() {
         } else if (response['status'] == 401) {
             var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
@@ -2268,9 +2200,7 @@ async function customer_profile_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function sensor_user_messages_load_page() {
@@ -2320,9 +2250,7 @@ async function sensor_user_messages_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function sensor_user_messages_submit_page(id) {
@@ -2344,9 +2272,7 @@ async function sensor_user_messages_submit_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/sensor-user-messages.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
     window.location.reload();
 }
 
@@ -2409,8 +2335,6 @@ async function record_payment_load_page() {
         var base = (window.location.pathname).toString().replace('/application/admin/record-payment.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function record_payment_submit_page(id) {
@@ -2433,9 +2357,7 @@ async function record_payment_submit_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/record-payment.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
     window.location.reload();
 }
 
@@ -2501,9 +2423,7 @@ async function validate_user_document_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/validate-user-document.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function validate_user_document_submit_page(id) {
@@ -2527,9 +2447,7 @@ async function validate_user_document_submit_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/validate-user-document.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
     window.location.reload();
 }
 
@@ -2600,9 +2518,7 @@ async function tutoring_opportunities_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutoring-opportunities.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function tutoring_opportunities_submit_page(id) {
@@ -2633,8 +2549,6 @@ async function tutoring_opportunities_submit_page(id) {
         document.getElementById('error-response-'+id).innerHTML = response['response']['message'];
         document.getElementById('error-card-'+id).style.display = 'block';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function students_page_load_page() {
@@ -2679,13 +2593,10 @@ async function students_page_load_page() {
             `;
             document.getElementById('students-list').innerHTML += html;
         }
-        // console.log(students);
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/students.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    // console.log(response['response']);
+    }
 }
 
 async function all_tutors_page_load_page() {
@@ -2756,9 +2667,7 @@ async function all_tutors_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    // console.log(response['status']);
-    // console.log(response['response']);
+    }
 }
 
 async function all_tutors_page_submit_form(id, email, status) {
@@ -2793,8 +2702,6 @@ async function all_tutors_page_submit_form(id, email, status) {
     } else {
         console.error('Got an undesirable error code');
     }
-    // console.log(response['status']);
-    // console.log(response['response']);
 }
 
 
@@ -2897,8 +2804,6 @@ async function captureChatMessage() {
     } else {
         alert('Failed to send instant message');
     }
-    console.log(response['status']);
-    console.log(response['response']);
 }
 
 
@@ -2937,10 +2842,7 @@ async function fetchAllChatMessages() {
             `;
             messageBox.innerHTML = messageBox.innerHTML + html;
         }
-    } else {
     }
-    // console.log(response['status']);
-    // console.log(response['response']);
 }
 
 async function fetchConversationAdmin(params) {
@@ -2970,7 +2872,6 @@ async function fetchConversationAdmin(params) {
             let sessions = response['response']['messages'];
             for (session in sessions) {
                 let messages = sessions[session];
-                // console.log(messages);
                 for (let i = 0; i < messages.length; i++) {
                     // Define the base style for the chat bubble
                     let extraClass = "border-info light-blue-card ml-3 mr-5";
@@ -3000,10 +2901,7 @@ async function fetchConversationAdmin(params) {
                     messageBox.innerHTML = messageBox.innerHTML + html;
                 }
             }
-        } else {
         }
-        // console.log(response['status']);
-        // console.log(response['response']);
         window.scrollTo(0, document.body.scrollHeight);
         await sleep(5000);
     }
@@ -3107,6 +3005,4 @@ async function captureChatMessageAdmin() {
     } else {
         alert('Failed to send instant message');
     }
-    console.log(response['status']);
-    console.log(response['response']);
 }

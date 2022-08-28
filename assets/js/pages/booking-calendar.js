@@ -74,6 +74,10 @@ const formEmail = document.getElementById('email');
 const formMessage = document.getElementById('message');
 const formSubmit = document.getElementById('submit-calendar');
 const pendingPaymentLoader = document.getElementById('pending-card-payment');
+const stripePaymentSection = document.getElementById('payment-section');
+const stripeInputBox = document.getElementById('stripe-input-card');
+const stripeSuccessSection = document.getElementById('success-card-payment-card');
+const stripeSuccessMessage = document.getElementById('success-response-card-payment');
 
 // Stripe
 const errorWithCardPaymentBox = document.getElementById('error-card-payment-card');
@@ -620,10 +624,6 @@ const createStripeCustomerId = async () => {
 };
 
 const makePayment = (email) => {
-  const stripeInputBox = document.getElementById('stripe-input-card');
-  const stripeSuccessSection = document.getElementById('success-card-payment-card');
-  const stripeSuccessMessage = document.getElementById('success-response-card-payment');
-
   errorWithCardPaymentBox.style.display = 'none';
   formSubmit.style.display = 'none';
   pendingPaymentLoader.style.display = 'block';
@@ -644,14 +644,16 @@ const makePayment = (email) => {
       formSubmit.style.display = 'inline';
     } else {
       if (result.paymentIntent.status === 'succeeded') {
-        recordStripePayment(
+        const recordedPayment = recordPayment(
           salesOrderDetails.order_id,
           result.paymentIntent.payment_method
         );
-        stripeSuccessSection.style.display = 'block';
-        stripeSuccessMessage.innerHTML = `Your payment reference is <b>123-STUDY-${salesOrderDetails.order_id}</b>`;
-        stripeInputBox.style.display = 'none';
-        formMessage.disabled = true;
+        if (recordedPayment !== null) {
+          stripeSuccessSection.style.display = 'block';
+          stripeSuccessMessage.innerHTML = `Your payment reference is <b>123-STUDY-${salesOrderDetails.order_id}</b>`;
+          stripeInputBox.style.display = 'none';
+          formMessage.disabled = true;
+        }
       }
     }
     // Hide payment pending loader
@@ -666,7 +668,7 @@ const paymentError = (error) => {
 };
 
 
-const recordStripePayment = async (salesOrderId, stripeReference) => {
+const recordPayment = async (salesOrderId, stripeReference) => {
   const path = '/api/salesorders/confirm_payment_received';
   const headers = {
     'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
@@ -686,7 +688,7 @@ const recordStripePayment = async (salesOrderId, stripeReference) => {
   );
   if (response.status !== 200) {
     paymentError(response.response.message);
-    return;
+    return null;
   }
 };
 
@@ -736,8 +738,13 @@ const submitLogin = async () => {
       // Apply discount code if it exists
       if (discountCode) await applyDiscountCode(true);
       // Create stripe payment intent
-      clientSecret = await createStripePaymentIntent();
-      if (salesOrderDetails && clientSecret) {
+      if (lessonFee > 0) clientSecret = await createStripePaymentIntent();
+      if (lessonFee > 0 && salesOrderDetails && clientSecret) {
+        // Hide loading section
+        loginSection.style.display = 'none';
+        // Show order details section
+        formSection.style.display = 'block';
+      } else if (discountCode && lessonFee === 0 && salesOrderDetails) {
         // Hide loading section
         loginSection.style.display = 'none';
         // Show order details section
@@ -857,7 +864,29 @@ const applyDiscountCode = async (automatic) => {
       // Disable the field and hide apply button
       formDiscountCodeBtn.style.display = 'none';
       formDiscountCode.disabled = true;
-      clientSecret = await createStripePaymentIntent(customerId, discountDetails.discount_amount);
+      // Check if the code amount results in nothing to pay
+      if (discountDetails.discount_amount === 0) {
+        // Hide the payment section
+        stripeInputBox.style.display = 'none';
+        // Remove the standard recording functionality for payments
+        formSubmit.removeEventListener('click', submitForm);
+        // Change the text of the payment button to submit instead
+        formSubmit.innerText = 'Submit';
+        // Add the recording process for payment
+        formSubmit.addEventListener('click', () => {
+          const recordedPayment = recordPayment(
+            salesOrderDetails.order_id,
+            `Discount code: ${discountCode}`
+          );
+          if (recordedPayment !== null) {
+            stripeSuccessSection.style.display = 'block';
+            stripeSuccessMessage.innerHTML = `Your payment reference is <b>123-STUDY-${salesOrderDetails.order_id}</b>`;
+            formMessage.disabled = true;
+          }
+        });
+      } else {
+        clientSecret = await createStripePaymentIntent(customerId, discountDetails.discount_amount);
+      }
     } else {
       formDiscountMsg.innerText = 'Invalid discount code';
       formDiscountMsg.style.color = '#dc3545'; // red
