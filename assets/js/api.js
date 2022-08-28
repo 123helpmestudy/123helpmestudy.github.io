@@ -1728,9 +1728,9 @@ async function lessons_page_load_page() {
                                 <div class="mt-3">
                                     `+payment_activity+`
                                 </div>
-                                <div class="mt-3">
+                                <!--<div class="mt-3">
                                     <button onclick="display_change_date_time_lessons_card(`+lessons[i]['lesson_id']+`);" class="btn btn-info">Change lesson date and time</button>
-                                </div>
+                                </div>-->
                                 <div id="change-lesson-date-time-`+lessons[i]['lesson_id']+`" class="mt-3 hidden-el">
                                     <input id="lesson-date-`+lessons[i]['lesson_id']+`" onfocus="reset_invalid_date_time('lesson-date-`+lessons[i]['lesson_id']+`'); reset_error_card_date_time(`+lessons[i]['lesson_id']+`);" class="form-control mb-2" type="date" value="`+lessons[i]['lesson_date_js']+`">
                                     <input id="lesson-time-`+lessons[i]['lesson_id']+`" onfocus="reset_invalid_date_time('lesson-time-`+lessons[i]['lesson_id']+`'); reset_error_card_date_time(`+lessons[i]['lesson_id']+`);" class="form-control mb-2" type="time" value="`+lessons[i]['lesson_time_js']+`">
