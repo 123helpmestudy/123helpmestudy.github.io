@@ -1,6 +1,6 @@
 
 // Define if the environment is development
-const devEnv = true;
+const devEnv = false;
 
 // Set all the static variables in the project
 
