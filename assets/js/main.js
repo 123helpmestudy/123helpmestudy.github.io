@@ -135,15 +135,15 @@ function set_page_footer(base) {
     <div class="container-fluid bg-dark p-4">
         <p class="text-light">Established in August 2019</p>
         <p class="text-light">Trading as <i>"123 Help Me Study"</i></p>
-        <a class="text-light" href="`+base+`/information/privacy-policy.html" target="_parent"><p>Privacy Policy</p></a>
-        <a class="text-light" href="`+base+`/information/terms-and-conditions.html" target="_parent"><p>Terms &amp; Conditions</p></a>
-        <a class="text-light" href="`+base+`/information/site-map.html" target="_parent"><p>Site Map</p></a>
+        <a class="text-light" href="${base}/information/privacy-policy.html" target="_parent"><p>Privacy Policy</p></a>
+        <a class="text-light" href="${base}/information/terms-and-conditions.html" target="_parent"><p>Terms &amp; Conditions</p></a>
+        <a class="text-light" href="${base}/information/site-map.html" target="_parent"><p>Site Map</p></a>
         <div class="text-center">
             <a class="strip-link" href="https://www.facebook.com/123helpmestudy" target="_blank" alt="facebook link">
-                <img class=" social-media-icon-footer" src="`+base+`/assets/images/f_logo_RGB-White_144.png"/>
+                <img class=" social-media-icon-footer" src="${base}/assets/images/facebook.png"/>
             </a>
             <a class="strip-link" href="https://www.instagram.com/123helpmestudy" target="_blank" alt="instagram link">
-                <img class="social-media-icon-footer" src="`+base+`/assets/images/glyph-logo_May2016_white_edit.png"/>
+                <img class="social-media-icon-footer" src="${base}/assets/images/instagram.png"/>
             </a>
         </div>           
     </div>
@@ -152,10 +152,6 @@ function set_page_footer(base) {
 }
 
 function set_contact_buttons(base) {
-    /* 
-    Set Contact Buttons on page 
-    Requires: <div id="contact-buttons"></div>
-    */
    /*
     TODO:
     Add slack
@@ -169,7 +165,7 @@ function set_contact_buttons(base) {
                 <img class="comms-image" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="call or text 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/phone-icon_vfkqE-lLC.png">
             </div>
         </a>
-        <!--<a href="`+base+`/information/contact-us.html" target="_parent">
+        <!--<a href="${base}/information/contact-us.html" target="_parent">
             <div class="email">
                 <img class="comms-image" style="background-color: rgb(59, 59, 59); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="email 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/email-icon_T97mDAvjR.PNG">
             </div>
@@ -179,13 +175,160 @@ function set_contact_buttons(base) {
                 <img class="comms-image" style="background-color: rgb(59, 59, 59); box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);" alt="email 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/email-icon_T97mDAvjR.PNG">
             </div>
         </a>
-        <a href="https://join.skype.com/invite/brePqBzYCveV">
-            <div class="skype">
-                <img class="comms-image" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);"  alt="skype 123 help me study" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study/Website_Media/skype-icon_GsT8vFll7cwp.png">
+        <a onclick="maximiseInstantMessengerBox();" href="#">
+            <div class="instant-message">
+                <img
+                    class="comms-image"
+                    style="
+                        width: 50px;
+                        height: 50px;
+                        padding-top: 8px;
+                        padding-bottom: 6px;
+                        padding-left: 10px;
+                        padding-right: 10px;
+                        background-color: white;
+                        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+                    "
+                    alt="123 help me study Live Chat"
+                    src="${base}/assets/images/live_chat.png">
             </div>
         </a>
     `;
     document.getElementById('contact-buttons').innerHTML = html;
+
+    // TODO Change the below: display; height; width
+    html = `
+    <div
+        id="instant-message-box"
+        style="
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgb(197, 236, 249);
+            height: 600px;
+            width: 500px;
+            z-index: 999;
+            border-radius: 2px;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+        "
+    >
+        <div>
+            <h3>Live Chat</h3>
+            <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                onclick="minimiseInstantMessengerBox();"
+            >
+                <span
+                    aria-hidden="true"
+                    style="
+                        position: absolute;
+                        top: 5px;
+                        right: 10px;
+                        font-size: 30px;
+                    "
+                >
+                    &times;
+                </span>
+            </button>
+        </div>
+        <div
+            id="instant-messages"
+            style="
+                margin-top: 15px;
+                margin-bottom: 20px;
+                height: 400px;
+                background-color: rgb(255, 255, 255);
+                position: relative;
+                overflow: auto;
+            "
+            class="border rounded"
+        >
+            <div
+                id="bot-hello"
+                class="m-3 mr-5 p-2 text-left border border-info light-blue-card"
+                style=""
+            >
+                <p class="mb-0">
+                    Hello, can I help you to find a tutor today?
+                </p>
+            </div>
+        </div>
+        <div
+            class="row"
+            style="
+            "
+        >
+            <div class="col pr-0">
+                <textarea
+                    id="live-chat-input"
+                    class="form-control"
+                    rows="4"
+                    style="max-height: 110px;"
+                    onfocus="clearIsInvalid();"
+                ></textarea>
+            </div>
+            <div class="col col-lg-2 mr-2">
+                <button
+                    onclick="captureChatMessage();"
+                    class="btn btn-success"
+                    style="
+                        position: absolute;
+                        bottom: 0;
+                    "
+                >
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+    `;
+    document.getElementById('contact-buttons').innerHTML = (
+        document.getElementById('contact-buttons').innerHTML
+        + html
+    );
+}
+
+function clearIsInvalid() {
+    document.getElementById('live-chat-input').classList.remove('is-invalid');
+}
+
+function sleep(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+async function maximiseInstantMessengerBox() {
+    let instantMessageBox = document.getElementById('instant-message-box')
+    instantMessageBox.style.display = 'block';
+    let currentHeight = parseInt(instantMessageBox.style.height.toString().replace('px', ''));
+    let currentWidth = parseInt(instantMessageBox.style.width.toString().replace('px', ''));
+    while (currentHeight < 600 || currentWidth < 500) {
+        currentHeight = currentHeight + 10;
+        currentWidth = currentWidth + 10;
+        instantMessageBox.style.height = `${currentHeight}px`;
+        instantMessageBox.style.width = `${currentWidth}px`;
+        await sleep(5);
+    }
+}
+
+async function minimiseInstantMessengerBox() {
+    let instantMessageBox = document.getElementById('instant-message-box');
+    let currentHeight = parseInt(instantMessageBox.style.height.toString().replace('px', ''));
+    let currentWidth = parseInt(instantMessageBox.style.width.toString().replace('px', ''));
+    while (currentHeight > 0 || currentWidth > 0) {
+        currentHeight = currentHeight - 10;
+        currentWidth = currentWidth - 10;
+        instantMessageBox.style.height = `${currentHeight}px`;
+        instantMessageBox.style.width = `${currentWidth}px`;
+        // Hide at the last second
+        if (currentHeight <= 50) {
+            instantMessageBox.style.display = 'none';
+        }
+        await sleep(5);
+    }
 }
 
 function set_enter_submit(input_id, output_id) {
@@ -471,13 +614,12 @@ function message_tutor_page(base) {
 
 function application_message_thread_page(base) {
     set_application_navigation_bar(base);
-    set_contact_buttons(base);
     tutor_page_set_input_string_length('new-message', 'message-str-len');
 }
 
 function application_tutor_profile_page(base) {
     set_application_navigation_bar(base);
-    set_contact_buttons(base);
+    // set_contact_buttons(base);
     set_tutor_page_subject_options();
     tutor_page_set_input_string_length('about-tutor', 'about-tutor-str-len');
     tutor_page_set_input_string_length('background-tutor', 'background-tutor-str-len');
@@ -485,7 +627,7 @@ function application_tutor_profile_page(base) {
 
 function application_customer_profile_page(base) {
     set_application_navigation_bar(base);
-    set_contact_buttons(base);
+    // set_contact_buttons(base);
     set_tutor_page_subject_options();
     tutor_page_set_input_string_length('about-customer', 'customer-requirements-str-len');
 }
@@ -552,19 +694,19 @@ function main(arg, base) {
     }
     /* Application pages */
     if (arg == '/application/home.html') {
-        application_general_nav_and_contact(base);
+        application_general_nav_only(base)
     }
     if (arg == '/application/user/messages.html') {
-        application_general_nav_and_contact(base);
+        application_general_nav_only(base)
     }
     if (arg == '/application/user/lessons.html') {
-        application_general_nav_and_contact(base);
+        application_general_nav_only(base)
     }
     if (arg == '/application/user/message-thread.html') {
         application_message_thread_page(base);
     }
     if (arg == '/application/user/account.html') {
-        application_general_nav_and_contact(base);
+        application_general_nav_only(base)
     }
     if (arg == '/application/user/tutor-profile.html') {
         application_tutor_profile_page(base);
@@ -581,6 +723,12 @@ function main(arg, base) {
     if (arg == '/application/admin/sensor-user-messages.html') {
         application_general_nav_only(base);
     }
+    if (arg == '/application/admin/view-instant-messages.html') {
+        application_general_nav_only(base);
+    }
+    if (arg == '/application/admin/instant-messenger.html') {
+        application_general_nav_only(base);
+    }
     if (arg == '/application/user/tutor-resources.html') {
         application_general_nav_only(base);
     }
@@ -591,10 +739,10 @@ function main(arg, base) {
         application_general_nav_only(base);
     }
     if (arg == '/application/user/tutoring-opportunities.html') {
-        application_general_nav_and_contact(base);
+        application_general_nav_only(base);
     }
     if (arg == '/application/user/students.html') {
-        application_general_nav_and_contact(base);
+        application_general_nav_only(base);
     }
     if (arg == '/application/admin/all-tutors.html') {
         application_general_nav_only(base);

@@ -1,393 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Styling -->
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <!-- End Styling -->
-        <!-- SEO -->
-        <title>
-            123 Help Me Study | Lessons
-        </title>
-        <meta charset="UTF-8">
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        <meta name="author" content="123 Help Me Study">
-        <meta name="theme-color" content="#00AAFF" />
-        <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
-        <!-- End SEO -->
-        <!-- Custom styling -->
-        <script src="../../assets/js/main.js" type="text/javascript"></script>
-        <script src="../../assets/js/api.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="../../assets/css/main.css">
-        <!-- Just for the checkout page -->
-        <script src="https://js.stripe.com/v3/"></script>
-        <!-- Just for the checkout page -->
-    </head>
-    <body>
-        <div id="main">
-            <!-- NAVBAR -->
-            <div id="navigation-bar"></div>
-            <!-- EASY CONTACT BUTTONS -->
-            <div id="contact-buttons"></div>
-            <!-- CARD 2 -->
-            <!-- SPACER -->
-            <div class="container-fluid">
-                <div class="row py-5">
-                </div>
-            </div>
-            <!-- Storage Card -->
-            <input id="sales-order-id" type="text" class="hidden-el">
-            <input id="customer-id" type="text" class="hidden-el">
-            <input id="customer-name" type="text" class="hidden-el">
-            <input id="payment-intent-client-secret" type="text" class="hidden-el">
-            <!-- CARD 1 -->
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col">
-                    </div>
-                    <div class="col-12">
-                        <div id="page-title" class="max-card mx-auto mb-2 hidden-el">
-                            <h4 class="pl-2">
-                                Payment Method
-                            </h4>
-                        </div>
-                        <div id="show-back-button" class="max-card mx-auto text-right mb-2 hidden-el">
-                            <button onclick="return_to_payment_choices();" class="btn btn-primary">Back</button>
-                        </div>
-                        <!-- Card payment -->
-                        <div id="pay-by-card-card" onclick="display_card_details();" class="card shadow bg-white max-card mx-auto mb-2 hidden-el">
-                            <div class="card-body text-center dashboard-button">
-                                <p class="mb-2">
-                                    Card Payment
-                                </p>
-                                <small>
-                                    <p id="card-tutor-fee" class="mb-0 font-italic">
-                                        Tutor fee: £0.00
-                                    </p>
-                                    <p id="card-admin-fee" class="mb-0 font-italic">
-                                        Admin fee: £0.00
-                                    </p>
-                                </small>
-                                <p id="card-total-fee" class="mb-0 font-weight-bold">
-                                    Total charge: £0.00
-                                </p>
-                                <input id="card-total-fee-value" type="text" class="hidden-el">
-                            </div>
-                        </div>
-                        <!-- Card payment form -->
-                        <div id="card-payment-form" class="card shadow bg-white max-card mx-auto mb-2 hidden-el">
-                            <div id="card-body-payment-form" class="card-body text-justify">
-                                <p class="mt-2 mb-1">
-                                    Please enter your card details below to secure your lesson.
-                                </p>
-                                <p class="mb-1">
-                                    Your first lesson will be charged immediately, all 
-                                    subsequent lessons booked in by 
-                                    <b id="tutors-name">tutor's name here</b>
-                                    will be charged two hours before the lesson takes place.
-                                    We will charge this card for all future lessons.
-                                </p>
-                                <p class="mb-3">
-                                    You and <b id="tutors-name">tutor's name here</b> will receive
-                                    a confirmation email once payment for the lesson is cleared 
-                                    and the lesson can proceed as scheduled.
-                                </p>
-                                <div id="stripe-input-card" class="card shadow py-4 px-2">
-                                    <!-- Stripe elements here -->
-                                    <div id="card-element">
-                                        <!-- Elements will create input elements here -->
-                                    </div>
-                                    <!-- We'll put the error messages in this element -->
-                                    <div id="card-errors" role="alert" class="text-danger font-italic"></div>
-                                    <!-- Stripe elements here -->
-                                </div>
-                                <div id="pay-now-button" class="mt-3 text-right">
-                                    <button id="submit" onclick="make_payment();" class="btn btn-success">Pay</button>
-                                </div>
-                                <div id="pending-card-payment" class="text-center mt-4 hidden-el">
-                                    <p class="text-secondary mb-1">Processing payment</p>
-                                    <div class="spinner-border text-info" role="status"></div>
-                                    <small>
-                                        <p class="text-secondary mt-3 mb-1">
-                                            Please wait for a successful payment message
-                                        </p>
-                                    </small>
-                                </div>
-                                <div id="error-card-payment-card" class="card mt-3 border border-danger warning-bg hidden-el">
-                                    <div class="card-body">
-                                        <p id="error-response-card-payment" class="text-center font-weight-bold m-0"></p>
-                                    </div>
-                                </div>
-                                <div id="success-card-payment-card" class="card mt-3 border border-success success-bg hidden-el">
-                                    <div class="card-body">
-                                        <p class="text-center font-weight-bold m-0">
-                                            Your payment has been successfully processed.
-                                        </p>
-                                        <p id="success-response-card-payment" class="text-center m-0">
-                                            <!-- Payment reference here -->
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Bank transfer -->
-                        <div id="pay-by-bank-card" onclick="display_bank_details();" class="card shadow bg-white max-card mx-auto mb-2 hidden-el">
-                            <div class="card-body text-center dashboard-button">
-                                <p class="mb-2 font-weight-bold">
-                                    Bank Transfer
-                                </p>
-                                <small>
-                                    <p id="BACS-tutor-fee" class="mb-0 font-italic">
-                                        Tutor fee: £0.00
-                                    </p>
-                                    <p id="BACS-admin-fee" class="mb-0 font-italic">
-                                        Admin fee: £0.00
-                                    </p>
-                                </small>
-                                <p id="BACS-total-fee" class="mb-0 font-weight-bold">
-                                    Total charge: £0.00
-                                </p>
-                            </div>
-                        </div>
-                        <!-- Bank transfer details -->
-                        <div id="show-bank-details" class="card shadow bg-white max-card mx-auto mb-2 hidden-el">
-                            <div id="card-body-bank-details" class="card-body text-left">
-                                <p>
-                                    Please use the below details to transfer
-                                    the balance of <b id="BACS-charge-amount">£0.00</b> to us at your earliest 
-                                    convenience.
-                                </p>
-                                <p>
-                                    Account Name: <b id="account-name">Account Name</b>
-                                </p>
-                                <p>
-                                    Account Number: <b id="account-number">Account Number</b>
-                                </p>
-                                <p>
-                                    Sort code: <b id="sort-code">Sort Code</b>
-                                </p>
-                                <p>
-                                    Bank Name: <b id="bank-name">Bank Name</b>
-                                </p>
-                                <small>
-                                    <p>
-                                        To speed up the process, please feel free to upload evidence of your transfer here.
-                                    </p>
-                                </small>
-                                <div class="custom-file mb-2">
-                                    <input id="bacs-evidence-upload" onfocus="reset_error();" onchange="set_file_on_submit('bacs-evidence-base64', 'bacs-evidence-upload', ''); bacs_evidence_label_change();" type="file" class="custom-file-input hover-pointer">
-                                    <label id="bacs-evidence-label" class="custom-file-label">Choose file</label>
-                                </div>
-                                <div id="submit-bacs-evidence-file" class="mb-3">
-                                    <button onclick="payment_options_bacs_evidence_page_submit_form();" class="btn btn-primary">Submit file</button>
-                                </div>
-                                <div id="error-card" class="card mt-3 border border-danger warning-bg hidden-el">
-                                    <div class="card-body">
-                                        <p id="error-response" class="text-center font-weight-bold m-0">
-                                            You have not selected a file to upload.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div id="pending-send" class="text-center mb-3 hidden-el">
-                                    <p class="text-secondary mb-1">Sending, please wait</p>
-                                    <div class="spinner-border text-info" role="status"></div>
-                                </div>
-                                <small>
-                                    <p>
-                                        Note: You will receive an email confirmation as soon as we 
-                                        have added payment to your lesson.
-                                    </p>
-                                </small>
-                                <span id="bacs-evidence-base64" class="hidden-el"></span>
-                            </div>
-                        </div>
-                        <!-- Card end -->
-                    </div>
-                    <div class="col">
-                    </div>
-                </div>
-            </div>
-            <!-- SPACER -->
-            <div class="container-fluid">
-                <div class="row py-5">
-                </div>
-            </div>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Styling -->
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <!-- End Styling -->
+    <!-- SEO -->
+    <title>
+      123 Help Me Study | Lessons
+    </title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="123 Help Me Study">
+    <meta name="theme-color" content="#00AAFF" />
+    <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
+    <!-- End SEO -->
+    <!-- Javascript -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="../../assets/js/main.js" type="text/javascript"></script>
+    <script src="../../assets/js/api.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="main">
+      <!-- NAVBAR -->
+      <div id="navigation-bar"></div>
+      <!-- EASY CONTACT BUTTONS -->
+      <div id="contact-buttons"></div>
+      <!-- CARD 2 -->
+      <!-- SPACER -->
+      <div class="container-fluid">
+        <div class="row py-5">
         </div>
-        <script type="text/javascript">main('/application/user/payment-option.html', window.location.pathname);</script>
-        <script type="text/javascript">
-            var display_width = screen.width;
-            if (display_width > 480) {
-                document.getElementById('card-body-payment-form').classList += ' px-5';
-                document.getElementById('card-body-bank-details').classList += ' px-5';
-            } else {
-                document.getElementById('card-body-payment-form').classList += ' px-4';
-                document.getElementById('card-body-bank-details').classList += ' px-4';
-            }
-            /* Unpack parameters */
-            if (window.location.search) {
-                var get_params = {};
-                var get_string = (window
-                                .location
-                                .search
-                                .toString()
-                                .replace('?', '')
-                                .split('&'));
-                for (var a = 0; a < get_string.length; a++) {
-                    var key_value = get_string[a].split('=');
-                    get_params[key_value[0]] = key_value[1];
-                }
-                if ('id' in get_params) {
-                    payment_options_load_page(get_params['id']);
-                }
-            }
-            /* Display bank details */
-            function display_bank_details() {
-                if (
-                    document.getElementById('show-bank-details').style.display == 'none'
-                    ||
-                    document.getElementById('show-bank-details').style.display == ''
-                ) {
-                    document.getElementById('show-back-button').style.display = 'block';
-                    document.getElementById('show-bank-details').style.display = 'block';
-                    document.getElementById('pay-by-card-card').style.display = 'none';
-                } else {
-                    document.getElementById('show-back-button').style.display = 'none';
-                    document.getElementById('show-bank-details').style.display = 'none';
-                    document.getElementById('pay-by-card-card').style.display = 'block';
-                }
-                var sales_order_id = document.getElementById('sales-order-id').value;
-                payment_options_change_payment_method_submit_form(
-                    sales_order_id,
-                    1 // 1 == BACS !!Dangerous if the payment method ID's change at any point
-                );
-            }
-            /* Display card payment form */
-            function display_card_details() {
-                if (
-                    document.getElementById('card-payment-form').style.display == 'none'
-                    ||
-                    document.getElementById('card-payment-form').style.display == ''
-                ) {
-                    document.getElementById('show-back-button').style.display = 'block';
-                    document.getElementById('card-payment-form').style.display = 'block';
-                    document.getElementById('pay-by-bank-card').style.display = 'none';
-                } else {
-                    document.getElementById('show-back-button').style.display = 'none';
-                    document.getElementById('card-payment-form').style.display = 'none';
-                    document.getElementById('pay-by-bank-card').style.display = 'block';
-                }
-                var sales_order_id = document.getElementById('sales-order-id').value;
-                payment_options_change_payment_method_submit_form(
-                    sales_order_id,
-                    4 // 1 == Stripe !!Dangerous if the payment method ID's change at any point
-                );
-                var client_secret = document.getElementById('payment-intent-client-secret').value;
-                if (client_secret == '') {
-                    payment_options_create_stripe_payment_intent_submit_form();
-                }
-            }
-            /* Reset page to payment */
-            function return_to_payment_choices() {
-                document.getElementById('show-back-button').style.display = 'none';
-                document.getElementById('show-bank-details').style.display = 'none';
-                document.getElementById('card-payment-form').style.display = 'none';
-                document.getElementById('pay-by-bank-card').style.display = 'block';
-                document.getElementById('pay-by-card-card').style.display = 'block';
-            }
-            /* Add BACS evidence file label */
-            function bacs_evidence_label_change() {
-                document.getElementById('bacs-evidence-label').innerHTML = 'File attached';
-            }
-        </script>
-        <!-- Stripe JS -->
-        <script type="text/javascript">
-            var stripe = Stripe('pk_live_9mCCKga6w9sl8XyZFOEKkaXZ00T0bptR46');
-            var elements = stripe.elements();
-            var display_width = screen.width;
-            if (display_width > 480) {
-                var card_font = '18px';
-            } else {
-                var card_font = '13px';
-            }
-            var style = {
-                base: {
-                    color: "#32325d",
-                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                    fontSize: card_font,
-                    fontSmoothing: "antialiased",
-                    "::placeholder": {
-                        color: "#444f5a"
-                    },
-                    iconColor: "#268df4"
-                },
-                invalid: {
-                    color: "#fa755a",
-                    iconColor: "#fa755a"
-                },
-                complete: {
-                    iconColor: "#1cce1f"
-                }
-            };
-            var card = elements.create("card", { style: style });
-            card.mount("#card-element");
+      </div>
+      <!-- Storage Card -->
+      <input id="sales-order-id" type="text" class="hidden-el">
+      <input id="customer-id" type="text" class="hidden-el">
+      <input id="customer-name" type="text" class="hidden-el">
+      <input id="payment-intent-client-secret" type="text" class="hidden-el">
+      <!-- CARD 1 -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+          </div>
+          <div class="col-12">
+            <div id="page-title" class="max-card mx-auto mb-2 hidden-el">
+              <h4 class="pl-2">
+                Payment Method
+              </h4>
+            </div>
+            <div id="show-back-button" class="max-card mx-auto text-right mb-2 hidden-el">
+              <button
+                onclick="return_to_payment_choices();"
+                class="btn btn-primary"
+              >
+                Back
+              </button>
+            </div>
+            <!-- Card payment -->
+            <div
+              id="pay-by-card-card"
+              onclick="display_card_details();"
+              class="card shadow bg-white max-card mx-auto mb-2 hidden-el"
+            >
+              <div class="card-body text-center dashboard-button">
+                <p class="mb-2">
+                  Card Payment
+                </p>
+                <small>
+                  <p id="card-tutor-fee" class="mb-0 font-italic">
+                    Tutor fee: £0.00
+                  </p>
+                  <p id="card-admin-fee" class="mb-0 font-italic">
+                    Admin fee: £0.00
+                  </p>
+                </small>
+                <p id="card-total-fee" class="mb-0 font-weight-bold">
+                  Total charge: £0.00
+                </p>
+                <input id="card-total-fee-value" type="text" class="hidden-el">
+              </div>
+            </div>
+            <!-- Card payment form -->
+            <div id="card-payment-form" class="card shadow bg-white max-card mx-auto mb-2 hidden-el">
+              <div id="card-body-payment-form" class="card-body text-justify">
+                <p class="mt-2 mb-1">
+                  Please enter your card details below to secure your lesson.
+                </p>
+                <p class="mb-1">
+                  Your first lesson will be charged immediately, all
+                  subsequent lessons booked in by
+                  <b id="tutors-name">tutor's name here</b>
+                  will be charged two hours before the lesson takes place.
+                  We will charge this card for all future lessons.
+                </p>
+                <p class="mb-3">
+                  You and <b id="tutors-name">tutor's name here</b> will receive
+                  a confirmation email once payment for the lesson is cleared
+                  and the lesson can proceed as scheduled.
+                </p>
+                <div id="stripe-input-card" class="card shadow py-4 px-2">
+                  <!-- Stripe elements here -->
+                  <div id="card-element">
+                    <!-- Elements will create input elements here -->
+                  </div>
+                  <!-- We'll put the error messages in this element -->
+                  <div id="card-errors" role="alert" class="text-danger font-italic"></div>
+                  <!-- Stripe elements here -->
+                </div>
+                <div id="pay-now-button" class="mt-3 text-right">
+                  <button
+                    id="submit"
+                    onclick="make_payment();"
+                    class="btn btn-success"
+                  >
+                    Pay
+                  </button>
+                </div>
+                <div id="pending-card-payment" class="text-center mt-4 hidden-el">
+                  <p class="text-secondary mb-1">Processing payment</p>
+                  <div class="spinner-border text-info" role="status"></div>
+                  <small>
+                    <p class="text-secondary mt-3 mb-1">
+                      Please wait for a successful payment message
+                    </p>
+                  </small>
+                </div>
+                <div id="error-card-payment-card" class="card mt-3 border border-danger warning-bg hidden-el">
+                  <div class="card-body">
+                    <p id="error-response-card-payment" class="text-center font-weight-bold m-0"></p>
+                  </div>
+                </div>
+                <div id="success-card-payment-card" class="card mt-3 border border-success success-bg hidden-el">
+                  <div class="card-body">
+                    <p class="text-center font-weight-bold m-0">
+                      Your payment has been successfully processed.
+                    </p>
+                    <p id="success-response-card-payment" class="text-center m-0">
+                      <!-- Payment reference here -->
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Bank transfer -->
+            <div id="pay-by-bank-card" onclick="display_bank_details();"
+              class="card shadow bg-white max-card mx-auto mb-2 hidden-el">
+              <div class="card-body text-center dashboard-button">
+                <p class="mb-2 font-weight-bold">
+                  Bank Transfer
+                </p>
+                <small>
+                  <p id="BACS-tutor-fee" class="mb-0 font-italic">
+                    Tutor fee: £0.00
+                  </p>
+                  <p id="BACS-admin-fee" class="mb-0 font-italic">
+                    Admin fee: £0.00
+                  </p>
+                </small>
+                <p id="BACS-total-fee" class="mb-0 font-weight-bold">
+                  Total charge: £0.00
+                </p>
+              </div>
+            </div>
+            <!-- Bank transfer details -->
+            <div id="show-bank-details" class="card shadow bg-white max-card mx-auto mb-2 hidden-el">
+              <div id="card-body-bank-details" class="card-body text-left">
+                <p>
+                  Please use the below details to transfer
+                  the balance of <b id="BACS-charge-amount">£0.00</b> to us at your earliest
+                  convenience.
+                </p>
+                <p>
+                  Account Name: <b id="account-name">Account Name</b>
+                </p>
+                <p>
+                  Account Number: <b id="account-number">Account Number</b>
+                </p>
+                <p>
+                  Sort code: <b id="sort-code">Sort Code</b>
+                </p>
+                <p>
+                  Bank Name: <b id="bank-name">Bank Name</b>
+                </p>
+                <small>
+                  <p>
+                    To speed up the process, please feel free to upload evidence of your transfer here.
+                  </p>
+                </small>
+                <div class="custom-file mb-2">
+                  <input id="bacs-evidence-upload" onfocus="reset_error();"
+                    onchange="set_file_on_submit('bacs-evidence-base64', 'bacs-evidence-upload', ''); bacs_evidence_label_change();"
+                    type="file" class="custom-file-input hover-pointer">
+                  <label id="bacs-evidence-label" class="custom-file-label">Choose file</label>
+                </div>
+                <div id="submit-bacs-evidence-file" class="mb-3">
+                  <button onclick="payment_options_bacs_evidence_page_submit_form();" class="btn btn-primary">Submit
+                    file</button>
+                </div>
+                <div id="error-card" class="card mt-3 border border-danger warning-bg hidden-el">
+                  <div class="card-body">
+                    <p id="error-response" class="text-center font-weight-bold m-0">
+                      You have not selected a file to upload.
+                    </p>
+                  </div>
+                </div>
+                <div id="pending-send" class="text-center mb-3 hidden-el">
+                  <p class="text-secondary mb-1">Sending, please wait</p>
+                  <div class="spinner-border text-info" role="status"></div>
+                </div>
+                <small>
+                  <p>
+                    Note: You will receive an email confirmation as soon as we
+                    have added payment to your lesson.
+                  </p>
+                </small>
+                <span id="bacs-evidence-base64" class="hidden-el"></span>
+              </div>
+            </div>
+            <!-- Card end -->
+          </div>
+          <div class="col">
+          </div>
+        </div>
+      </div>
+      <!-- SPACER -->
+      <div class="container-fluid">
+        <div class="row py-5">
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">main('/application/user/payment-option.html', window.location.pathname);</script>
+    <script type="text/javascript">
+      var display_width = screen.width;
+      if (display_width > 480) {
+        document.getElementById('card-body-payment-form').classList += ' px-5';
+        document.getElementById('card-body-bank-details').classList += ' px-5';
+      } else {
+        document.getElementById('card-body-payment-form').classList += ' px-4';
+        document.getElementById('card-body-bank-details').classList += ' px-4';
+      }
+      /* Unpack parameters */
+      if (window.location.search) {
+        var get_params = {};
+        var get_string = (window
+          .location
+          .search
+          .toString()
+          .replace('?', '')
+          .split('&'));
+        for (var a = 0; a < get_string.length; a++) {
+          var key_value = get_string[a].split('=');
+          get_params[key_value[0]] = key_value[1];
+        }
+        if ('id' in get_params) {
+          payment_options_load_page(get_params['id']);
+        }
+      }
+      /* Display bank details */
+      function display_bank_details() {
+        if (
+          document.getElementById('show-bank-details').style.display == 'none'
+          ||
+          document.getElementById('show-bank-details').style.display == ''
+        ) {
+          document.getElementById('show-back-button').style.display = 'block';
+          document.getElementById('show-bank-details').style.display = 'block';
+          document.getElementById('pay-by-card-card').style.display = 'none';
+        } else {
+          document.getElementById('show-back-button').style.display = 'none';
+          document.getElementById('show-bank-details').style.display = 'none';
+          document.getElementById('pay-by-card-card').style.display = 'block';
+        }
+        var sales_order_id = document.getElementById('sales-order-id').value;
+        payment_options_change_payment_method_submit_form(
+          sales_order_id,
+          1 // 1 == BACS !!Dangerous if the payment method ID's change at any point
+        );
+      }
+      /* Display card payment form */
+      function display_card_details() {
+        if (
+          document.getElementById('card-payment-form').style.display == 'none'
+          ||
+          document.getElementById('card-payment-form').style.display == ''
+        ) {
+          document.getElementById('show-back-button').style.display = 'block';
+          document.getElementById('card-payment-form').style.display = 'block';
+          document.getElementById('pay-by-bank-card').style.display = 'none';
+        } else {
+          document.getElementById('show-back-button').style.display = 'none';
+          document.getElementById('card-payment-form').style.display = 'none';
+          document.getElementById('pay-by-bank-card').style.display = 'block';
+        }
+        var sales_order_id = document.getElementById('sales-order-id').value;
+        payment_options_change_payment_method_submit_form(
+          sales_order_id,
+          4 // 1 == Stripe !!Dangerous if the payment method ID's change at any point
+        );
+        var client_secret = document.getElementById('payment-intent-client-secret').value;
+        if (client_secret == '') {
+          payment_options_create_stripe_payment_intent_submit_form();
+        }
+      }
+      /* Reset page to payment */
+      function return_to_payment_choices() {
+        document.getElementById('show-back-button').style.display = 'none';
+        document.getElementById('show-bank-details').style.display = 'none';
+        document.getElementById('card-payment-form').style.display = 'none';
+        document.getElementById('pay-by-bank-card').style.display = 'block';
+        document.getElementById('pay-by-card-card').style.display = 'block';
+      }
+      /* Add BACS evidence file label */
+      function bacs_evidence_label_change() {
+        document.getElementById('bacs-evidence-label').innerHTML = 'File attached';
+      }
+    </script>
+    <!-- Stripe JS -->
+    <script type="text/javascript">
+      var stripe = Stripe('pk_live_9mCCKga6w9sl8XyZFOEKkaXZ00T0bptR46');
+      var elements = stripe.elements();
+      var display_width = screen.width;
+      if (display_width > 480) {
+        var card_font = '18px';
+      } else {
+        var card_font = '13px';
+      }
+      var style = {
+        base: {
+          color: "#32325d",
+          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          fontSize: card_font,
+          fontSmoothing: "antialiased",
+          "::placeholder": {
+            color: "#444f5a"
+          },
+          iconColor: "#268df4"
+        },
+        invalid: {
+          color: "#fa755a",
+          iconColor: "#fa755a"
+        },
+        complete: {
+          iconColor: "#1cce1f"
+        }
+      };
+      var card = elements.create("card", { style: style });
+      card.mount("#card-element");
 
-            card.on('change', function(event) {
-                var displayError = document.getElementById('card-errors');
-                if (event.error) {
-                    displayError.textContent = event.error.message;
-                } else {
-                    displayError.textContent = '';
-                }
-            });
+      card.on('change', function (event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+          displayError.textContent = event.error.message;
+        } else {
+          displayError.textContent = '';
+        }
+      });
 
-            function make_payment() {
-                document.getElementById('error-card-payment-card').style.display = 'none';
-                document.getElementById('pay-now-button').style.display = 'none';
-                document.getElementById('pending-card-payment').style.display = 'block';
-                var clientSecret = document.getElementById('payment-intent-client-secret').value;
-                var customer_name = document.getElementById('customer-name').value;
-                if (customer_name.length == 0) {
-                    customer_name = 'New Customer'
-                }
-                stripe.confirmCardPayment(clientSecret, {
-                    payment_method: {
-                            card: card,
-                            billing_details: {
-                            name: customer_name
-                        }
-                    },
-                    setup_future_usage: 'off_session'
-                }).then(function(result) {
-                    if (result.error) {
-                        /* Inform customer of error */
-                        document.getElementById('error-card-payment-card').style.display = 'block';
-                        document.getElementById('error-response-card-payment').innerHTML = result.error.message;
-                        document.getElementById('pay-now-button').style.display = 'block';
-                        document.getElementById('pending-card-payment').style.display = 'none';
-                    } else {
-                        if (result.paymentIntent.status === 'succeeded') {
-                            var sales_order_id = document.getElementById('sales-order-id').value;
-                            record_stripe_payment_submit_page(
-                                sales_order_id, 
-                                result.paymentIntent.payment_method
-                            );
-                            document.getElementById('success-card-payment-card').style.display = 'block';
-                            document.getElementById('success-response-card-payment').innerHTML = (
-                                'Your payment reference is <b>' + result.paymentIntent.payment_method + '</b>'
-                            );
-                            document.getElementById('pending-card-payment').style.display = 'none';
-                            document.getElementById('stripe-input-card').style.display = 'none';
-                        }
-                    }
-                });
+      function make_payment() {
+        document.getElementById('error-card-payment-card').style.display = 'none';
+        document.getElementById('pay-now-button').style.display = 'none';
+        document.getElementById('pending-card-payment').style.display = 'block';
+        var clientSecret = document.getElementById('payment-intent-client-secret').value;
+        var customer_name = document.getElementById('customer-name').value;
+        if (customer_name.length == 0) {
+          customer_name = 'New Customer'
+        }
+        stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: card,
+            billing_details: {
+              name: customer_name
             }
-        </script>
-        <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    </body>
+          },
+          setup_future_usage: 'off_session'
+        }).then(function (result) {
+          if (result.error) {
+            /* Inform customer of error */
+            document.getElementById('error-card-payment-card').style.display = 'block';
+            document.getElementById('error-response-card-payment').innerHTML = result.error.message;
+            document.getElementById('pay-now-button').style.display = 'block';
+            document.getElementById('pending-card-payment').style.display = 'none';
+          } else {
+            if (result.paymentIntent.status === 'succeeded') {
+              var sales_order_id = document.getElementById('sales-order-id').value;
+              record_stripe_payment_submit_page(
+                sales_order_id,
+                result.paymentIntent.payment_method
+              );
+              document.getElementById('success-card-payment-card').style.display = 'block';
+              document.getElementById('success-response-card-payment').innerHTML = (
+                'Your payment reference is <b>' + result.paymentIntent.payment_method + '</b>'
+              );
+              document.getElementById('pending-card-payment').style.display = 'none';
+              document.getElementById('stripe-input-card').style.display = 'none';
+            }
+          }
+        });
+      }
+    </script>
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="../../assets/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

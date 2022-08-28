@@ -1,371 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- GDPR Compliance -->
-        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="5f9b8c19-d69c-42f3-9b9d-35a7ac357acc" data-blockingmode="auto" type="text/javascript"></script>
-        <!-- End GDPR Compliance -->
-        <!-- Styling -->
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
-        <!-- End Styling -->
-        <!-- SEO -->
-        <title>
-            123 Help Me Study | Online Tutors
-        </title>
-        <meta charset="UTF-8">
-        <meta name="description" content="Maths online tutors, based in Southampton. We help students, in Mathematics, Combined Science, Chemistry, Physics and Biology, through our online platform. We cover GCSE maths, GCSE combined science, AS maths and A Level mathematics. 123 Help Me Study (Founded in August 2019) is a group of online Maths tutors based in Southampton, United Kingdom.">
-        <meta name="keywords" content="help me study, study help, online maths tutor, maths tutor southampton, 123 Help Me Study, online help math, maths past papers">
-        <meta name="author" content="123 Help Me Study">
-        <meta name="theme-color" content="#00AAFF" />
-        <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
-        <link rel="preconnect" href="https://www.googletagmanager.com/gtm.js" as="GoogleTagManager">
-        <link rel="preconnect" href="https://www.google-analytics.com" as="GoogleAnalytics">
-        <!-- End SEO -->
-        <!-- Google Tag Manager -->
-        <script async>
-            (function(w,d,s,l,i){
-                    w[l]=w[l]||[];
-                    w[l].push({
-                        'gtm.start':new Date().getTime(),event:'gtm.js'
-                    });
-                    var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-                    j.async=true;
-                    j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-                    f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-NH3D9DG');
-        </script>
-        <!-- End Google Tag Manager -->
-        <!-- Custom styling -->
-        <script src="./assets/js/main.js" type="text/javascript"></script>
-        <script src="./assets/js/api.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="./assets/css/main.css">
-        <script type="application/ld+json">
-        {
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "url": "www.123helpmestudy.com",
-          "name": "123 Help Me Study",
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "email": "123helpmestudy@gmail.com",
-            "contactType": "Customer service"
-          }
-        }
-        </script>
-    </head>
-    <body>
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NH3D9DG"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
-        <div id="main">
-            <!-- NAVBAR -->
-            <div id="navigation-bar"></div>
-            <!-- EASY CONTACT BUTTONS -->
-            <div id="contact-buttons"></div>
-            <!-- HEADER -->
-            <div id="page-header"></div>
-            <!-- CARD 1 -->
-            <!-- SPACER -->
-            <div class="container-fluid card-1-bg">
-                <div class="row py-3">
-                </div>
-            </div>
-            <!-- CARD -->
-            <div class="container-fluid card-1-bg">
-                <div class="row">
-                    <div class="col">
-                    </div>
-                    <div class="col-12">
-                        <div class="card bg-white max-view mx-auto">
-                            <div class="card-body text-center">
-                                <img class="img-fluid mb-3 circle-img-profile-list" alt="123 Help Me Study Logo" src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
-                                <p class="font-italic">"Your future success is our tutors' priority"</p>
-                                <h3 class="text-center mb-4">Find a dedicated tutor in a matter of seconds</h3>
-                                <div id="getting-started-card" class="card max-card mx-auto mb-5 shadow">
-                                    <div class="card-body text-left">
-                                        <h3 class="text-center">Getting Started</h3>
-                                        <p class="mt-2">What subject are you looking for?</p>
-                                        <select id="subject-list" class="form-control hover-pointer">
-                                            <option>Loading...</option>
-                                        </select>
-                                        <p class="mt-4">Are you looking for online or face to face lessons?</p>
-                                        <div class="card">
-                                            <div class="card-body m-0 p-0">
-                                                <div class="row m-0">
-                                                    <div id="check-online" onclick="tutor_subject_page_toggle_options(1);" class="col btn m-0 bg-primary font-weight-bold text-white">Online</div>
-                                                    <div id="check-face-2-face" onclick="tutor_subject_page_toggle_options(2);" class="col btn m-0">Face to face</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <input id="lesson-location" type="text" class="form-control hidden-el" value="online">
-                                        <input id="post-zip-code" onfocus="reset_invalid_input('post-zip-code');" type="text" class="form-control mt-2 hidden-el" placeholder="Postcode" value="">
-                                        <div class="text-center mt-3">
-                                            <button onclick="index_to_tutor_page_submit();" class="btn btn-success">Submit</button>
-                                        </div>
-                                        <!-- COVID 19 CARD -->
-                                        <div class="card-body">
-                                            <div class="card border border-success success-bg">
-                                                <div class="card-body">
-                                                    <p class="text-center font-weight-bold m-0">
-                                                        COVID-19 NOTICE
-                                                    </p>
-                                                    <p class="text-center font-weight-bold m-0">
-                                                        We do not endorse any face to face lessons. 
-                                                        We ask that individuals abide by their
-                                                        government guidelines.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- COVID 19 CARD -->
-                                    </div>
-                                </div>
-                                <div id="api-fail-email-button" class="text-center mb-5 hidden-el">
-                                    <!-- OFFLINE CONTACT FORM -->
-                                    <div class="pd-5 card max-card mx-auto shadow">
-                                        <div class="card-body">
-                                            <div class="text-center mb-3">
-                                                <img class="little-flag" src="./assets/images/under-construction.svg">
-                                            </div>
-                                            <p class="font-italic">Our system is currently down for maintenance.</p>
-                                            <p class="text-justify mb-4 px-3">
-                                                As an apology, we are glad to offer you the <b>first lesson
-                                                free of charge*</b>, simply call one of our friendly staff using
-                                                the phone at the bottom of the screen.
-                                            </p>
-                                            <p class="mt-4 mb-2">
-                                                Alternatively, feel free to Skype or 
-                                                email us using the buttons below.
-                                            </p>
-                                            <p class="mt-4 mb-2 px-3">
-                                                <small>
-                                                    * Subject to 123 Help Me Study choosing the 
-                                                    available tutor who complies with this policy. 
-                                                    Sadly, we cannot guarantee that we have a tutor 
-                                                    that will be able to support this gesture at 
-                                                    all times.
-                                                </small>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <!-- OFFLINE CONTACT FORM END -->
-                                </div>                  
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                    </div>
-                </div>
-            </div>
-            <!-- SPACER -->
-            <div class="container-fluid card-1-bg">
-                <div class="row py-3">
-                </div>
-            </div>
-            <!-- CARD 2 -->
-            <!-- SPACER -->
-            <!-- <div class="container-fluid card-2-bg">
-                <div class="row py-3">
-                </div>
-            </div> -->
-            <!-- CARD -->
-            <div class="container-fluid card-2-bg-img">
-                <div class="row">
-                    <div class="col">
-                    </div>
-                    <div class="col-12">
-                        <div class="card bg-white max-view mx-auto my-4">
-                            <div class="card-body text-justify p-5">
-                                <h2 class="text-center">How we work</h2>
-                                <p>
-                                    Many of the tutors that run and help <b>123 Help Me Study</b>
-                                    have been tutoring for over 5 years. We pride ourselves
-                                    on building strong lasting relationships with the families
-                                    we help. We do this because we want our students to 
-                                    succeed.
-                                </p>
-                                <p>
-                                    This platform is designed to allow parents, students and 
-                                    tutors to sign-up and manage their lessons effectively, 
-                                    taking all the background work and admin away, leaving 
-                                    students and tutors to focus on learning. <b>The best part is,
-                                    the affordable price you see, is the price you pay!</b>
-                                </p>
-                                <p>
-                                    On our system you will be able to view all tutors who 
-                                    can help build your confidence in a subject you need. 
-                                    Likewise, tutors can view posts of students who haven't 
-                                    been paired with a subject-matter expert yet.
-                                </p>
-                                <p>
-                                    You can view all your upcoming appointments and how
-                                    much each appointment will cost you. You can at all times
-                                    speak with as many tutors you wish, in order for you to
-                                    find the perfect match for you. Should you not be able to
-                                    find what you need, do not hesitate to call us, our team
-                                    is always on hand to help.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                    </div>
-                </div>
-            </div>
-            <!-- SPACER -->
-            <!-- <div class="container-fluid card-2-bg">
-                <div class="row py-3">
-                </div>
-            </div> -->
-            <!-- SPACER -->
-            <div class="container-fluid card-1-bg">
-                <div class="row py-3">
-                </div>
-            </div>
-            <!-- CARD -->
-            <div class="container-fluid card-1-bg">
-                <div class="row">
-                <div class="col">
-                </div>
-                <div class="col-12">
-                    <div class="card bg-white max-view mx-auto">
-                            <div class="card-body text-center">
-                                <!--<a href="./information/about-us.html"><img class="img-fluid pb-3" alt="Meet our team of tutors" src="https://ik.imagekit.io/123helpmestudy/tr:h-200,w-200/123_Help_Me_Study/Website_Media/team-icon_og1TX1V14fv.png"></a>
-                                <h3 class="pb-5"><a href="./information/about-us.html" class="strip-link-black">Meet The Team<br>Behind<br>123 Help Me Study</a></h3>-->
-                                <div id="request-contact-form" class="mt-3">
-                                    <div class="pd-5 card max-card mx-auto shadow">
-                                        <div class="card-body">
-                                            <h3 class="mb-3">Request a call back</h3>
-                                            <div class="row pb-3">
-                                                <div class="col">
-                                                    <input id="first_name" onfocus="reset_invalid_input('first_name');" type="text" class="form-control" placeholder="First name">
-                                                </div>
-                                                <div class="col">
-                                                    <input id="last_name" onfocus="reset_invalid_input('last_name');" type="text" class="form-control" placeholder="Last name">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <input id="mobile" onfocus="reset_invalid_input('mobile');" type="tel" class="form-control" placeholder="Mobile">
-                                            </div>
-                                            <div class="form-group">
-                                                <input id="email" onfocus="reset_invalid_input('email');" type="email" class="form-control" placeholder="Email">
-                                                <small class="pl-1 form-text text-muted text-left">We'll never share your details with anyone outside of our company.</small>
-                                            </div>
-                                            <div class="form-check mb-3 text-left">
-                                                <input type="checkbox" onfocus="reset_error();" class="form-check-input" id="tick-terms-and-conditions">
-                                                <label class="form-check-label">Agree to our <a href="./terms-and-conditions.html">terms and conditions</a></label>
-                                            </div>
-                                            <div class="form-check text-left mb-2">
-                                                <input type="checkbox" onfocus="reset_error();" class="form-check-input" id="tick-privacy-policy">
-                                                <label class="form-check-label">Agree to our <a href="./privacy-policy.html">privacy policy</a></label>
-                                            </div>
-                                            <div id="check-validator" class="card pb-2 text-center hidden-el">
-                                                <p id="is-a-robot" class="hidden-el">yes</p>
-                                                <p class="mt-2 mb-0 font-weight-bold">Are you a robot?</p>
-                                                <div class="text-center">
-                                                    <img class="little-flag" src="./assets/images/robot_image.svg">
-                                                </div>
-                                                <p id="find-country" class="my-2 font-weight-bold"></p>
-                                                <div>
-                                                    <span id="valid-img-1"></span>
-                                                    <span id="valid-img-2"></span>
-                                                    <span id="valid-img-3"></span>
-                                                </div>
-                                                <div>
-                                                    <span id="valid-img-4"></span>
-                                                    <span id="valid-img-5"></span>
-                                                    <span id="valid-img-6"></span>
-                                                </div>
-                                                <div>
-                                                    <span id="valid-img-7"></span>
-                                                    <span id="valid-img-8"></span>
-                                                    <span id="valid-img-9"></span>
-                                                </div>
-                                                <p id="find-country-answer" class="hidden-el"></p>
-                                            </div>
-                                            <button id="submit-form" onclick="index_page_submit_form();" class="btn btn-success mt-2">Submit</button>
-                                            <div id="pending-send" class="text-center hidden-el">
-                                                <p class="text-secondary mb-1">Sending, please wait</p>
-                                                <div class="spinner-border text-info" role="status"></div>
-                                            </div>
-                                            <div id="error-card" class="card mt-3 border border-danger warning-bg hidden-el">
-                                                <div class="card-body">
-                                                    <p id="error-response" class="text-center font-weight-bold m-0"></p>
-                                                </div>
-                                            </div>
-                                            <div id="robot-error-card" class="card mt-3 border border-danger warning-bg hidden-el">
-                                                <div class="card-body text-center">
-                                                    <img class="little-flag" src="./assets/images/robot_attack_image.svg">
-                                                    <p class="font-weight-bold m-0">
-                                                        We are under attack by robots! Save yourself!
-                                                    </p>
-                                                    <p class="font-weight-bold m-0">
-                                                        If you are a human, please reload the page to try again.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="success-card" class="pd-5 card max-card mx-auto hidden-el">
-                                    <div class="card-body">
-                                        <div class="card border border-success success-bg">
-                                            <div class="card-body">
-                                                <p class="text-center font-weight-bold m-0">
-                                                    Thank you for your request.
-                                                </p>
-                                                <p class="text-center font-weight-bold m-0">
-                                                    We aim to be in touch within the next 4 hours.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <img class="my-3" alt="100 percent satisfaction guarantee" src="https://ik.imagekit.io/123helpmestudy/tr:h-150/123_Help_Me_Study/Website_Media/satisfaction_guarentee_4tuz06cY8Ga.png">
-                                <p>We are extremely proud of our five star reviews on Trustpilot! Head on over to see what others are saying about us.</p>
-                                <div class="mb-3">
-                                    <a href="https://uk.trustpilot.com/review/123helpmestudy.droppages.com" rel="noreferrer noopener" target="_blank">
-                                        <img alt="123 Help Me Study Trustpilot" src="https://ik.imagekit.io/123helpmestudy/tr:h-60/uc?export=view&amp;id=1dbJoi-DPX0qKdFkM_wcL2iVzJxiPgwOm">
-                                    </a>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <div class="col">
-                </div>
-                </div>
-            </div>
-            <!-- SPACER -->
-            <div class="container-fluid card-1-bg">
-                <div class="row py-3">
-                </div>
-            </div>
-            <!-- FOOTER -->
-            <div id="page-footer"></div>
+  <head>
+    <!-- GDPR Compliance -->
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="5f9b8c19-d69c-42f3-9b9d-35a7ac357acc" data-blockingmode="auto" type="text/javascript"></script>
+    <!-- End GDPR Compliance -->
+    <!-- Styling -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <!-- End Styling -->
+    <!-- SEO -->
+    <title>
+        123 Help Me Study | Online Tutors
+    </title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Maths online tutors, based in Southampton. We help students, in Mathematics, Combined Science, Chemistry, Physics and Biology, through our online platform. We cover GCSE maths, GCSE combined science, AS maths and A Level mathematics. 123 Help Me Study (Founded in August 2019) is a group of online Maths tutors based in Southampton, United Kingdom.">
+    <meta name="keywords" content="help me study, study help, online maths tutor, maths tutor southampton, 123 Help Me Study, online help math, maths past papers">
+    <meta name="author" content="123 Help Me Study">
+    <meta name="theme-color" content="#00AAFF" />
+    <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
+    <link rel="preconnect" href="https://www.googletagmanager.com/gtm.js" as="GoogleTagManager">
+    <link rel="preconnect" href="https://www.google-analytics.com" as="GoogleAnalytics">
+    <!-- End SEO -->
+    <!-- Google Tag Manager -->
+    <script async>
+        (function(w,d,s,l,i){
+          w[l]=w[l]||[];
+          w[l].push({
+              'gtm.start':new Date().getTime(),event:'gtm.js'
+          });
+          var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+          j.async=true;
+          j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+          f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-NH3D9DG');
+    </script>
+    <!-- End Google Tag Manager -->
+    <!-- Custom styling -->
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "url": "www.123helpmestudy.com",
+      "name": "123 Help Me Study",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "123helpmestudy@gmail.com",
+        "contactType": "Customer service"
+      }
+    }
+    </script>
+  </head>
+  <body>
+      <!-- Google Tag Manager (noscript) -->
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NH3D9DG"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- End Google Tag Manager (noscript) -->
+      <div id="main">
+        <!-- NAVBAR -->
+        <div id="navigation-bar"></div>
+        <!-- EASY CONTACT BUTTONS -->
+        <div id="contact-buttons"></div>
+        <!-- HEADER -->
+        <div id="page-header"></div>
+        <!-- CARD 1 -->
+        <!-- SPACER -->
+        <div class="container-fluid card-1-bg">
+          <div class="row py-3"></div>
         </div>
-        <script type="text/javascript">main('/index.html', window.location.pathname);</script>
-        <script type="text/javascript">index_page_test_api();</script>
-        <script type="text/javascript">index_page_load_page();</script>
-        <script type="text/javascript">validate_user_interaction_page_load();</script>
-        <script type="text/javascript">
-            /* Page functions */
-            var min = 1;
-            var max = 21;
-            document.getElementById('first-number').innerHTML =  Math.floor(Math.random() * (max - min) + min);
-            document.getElementById('second-number').innerHTML = Math.floor(Math.random() * (max - min) + min);
-            function offline_reset_error() {
-                if (document.getElementById('offline-error-card') != null) {
-                    document.getElementById('offline-error-card').style.display = 'none';    
-                }
-            }
-        </script>
-        <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-        <script src="./assets/js/jquery-3.5.1.slim.min.js"></script>
-        <script src="./assets/js/bootstrap.bundle.min.js"></script>
-    </body>
+          <!-- CARD -->
+          <div class="container-fluid card-1-bg">
+            <div class="row">
+              <div class="col"></div>
+              <div class="col-12">
+                <div class="card bg-white max-view mx-auto">
+                  <div class="card-body text-center">
+                    <img 
+                      class="img-fluid mb-3 circle-img-profile-list"
+                      alt="123 Help Me Study Logo"
+                      src="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png"
+                    />
+                      <p class="font-italic">
+                        "Your future success is our tutors' priority"
+                      </p>
+                      <h3 class="text-center mb-4">
+                        Find a dedicated tutor in a matter of seconds
+                      </h3>
+                      <div
+                        id="getting-started-card"
+                        class="card max-card mx-auto mb-5 shadow"
+                      >
+                        <div class="card-body text-left">
+                          <h3 class="text-center">
+                            Getting Started
+                          </h3>
+                          <p class="mt-2">
+                            What subject are you looking for?
+                          </p>
+                          <select
+                            id="subject-list"
+                            class="form-control hover-pointer"
+                          >
+                            <option>Loading...</option>
+                          </select>
+                          <p class="mt-4">
+                            Are you looking for online or face to face lessons?
+                          </p>
+                          <div class="card">
+                            <div class="card-body m-0 p-0">
+                              <div class="row m-0">
+                                <div
+                                  id="checkOnline"
+                                  class="col btn m-0 bg-primary font-weight-bold text-white"
+                                >
+                                  Online
+                                </div>
+                                <div
+                                  id="checkFace2Face"
+                                  class="col btn m-0"
+                                >
+                                  Face to face
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <input id="lessonLocation" type="text" class="form-control hidden-el" value="online">
+                          <input id="postZipCode" type="text" class="form-control mt-2 hidden-el" placeholder="Postcode" value="">
+                          <div class="text-center mt-3">
+                            <button id="submitFindLesson" class="btn btn-success">Submit</button>
+                          </div>
+                          <!-- COVID 19 CARD -->
+                          <div class="card-body">
+                            <div class="card border border-success success-bg">
+                              <div class="card-body">
+                                <p class="text-center font-weight-bold m-0">
+                                  COVID-19 NOTICE
+                                </p>
+                                <p class="text-center font-weight-bold m-0">
+                                  We do not endorse any face to face lessons. 
+                                  We ask that individuals abide by their
+                                  government guidelines.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- COVID 19 CARD -->
+                        </div>
+                      </div>
+                      <div
+                        id="api-fail-email-button"
+                        class="text-center mb-5 hidden-el"
+                      >
+                        <!-- OFFLINE CONTACT FORM -->
+                        <div class="pd-5 card max-card mx-auto shadow">
+                          <div class="card-body">
+                            <div class="text-center mb-3">
+                              <img
+                                class="little-flag"
+                                src="./assets/images/under-construction.svg"
+                              />
+                            </div>
+                              <p class="font-italic">
+                                Our system is currently down for maintenance.
+                              </p>
+                              <p class="text-justify mb-4 px-3">
+                                As an apology, we are glad to offer you the <b>first lesson
+                                free of charge*</b>, simply <a href="mailto:info@123helpmestudy?subject=Site down for maintenance tutor request">
+                                email us</a> with the subject
+                                "site down for maintenance tutor request".
+                              </p>
+                              <p class="mt-4 mb-2 px-3">
+                                <small>
+                                  * Subject to 123 Help Me Study choosing the 
+                                  available tutor who complies with this policy. 
+                                  Sadly, we cannot guarantee that we have a tutor 
+                                  that will be able to support this gesture at 
+                                  all times.
+                                </small>
+                              </p>
+                          </div>
+                        </div>
+                        <!-- OFFLINE CONTACT FORM END -->
+                      </div>                  
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col"></div>
+            </div>
+          </div>
+          <!-- SPACER -->
+          <div class="container-fluid card-1-bg">
+            <div class="row py-3"></div>
+          </div>
+          <!-- CARD 2 -->
+          <!-- SPACER -->
+          <!-- <div class="container-fluid card-2-bg">
+              <div class="row py-3">
+              </div>
+          </div> -->
+          <!-- CARD -->
+          <div class="container-fluid card-2-bg-img">
+            <div class="row">
+              <div class="col"></div>
+              <div class="col-12">
+                <div class="card bg-white max-view mx-auto my-4">
+                  <div class="card-body text-justify p-5">
+                    <h2 class="text-center">How we work</h2>
+                    <p>
+                      Many of the tutors that run and help <b>123 Help Me Study</b>
+                      have been tutoring for over 5 years. We pride ourselves
+                      on building strong lasting relationships with the families
+                      we help. We do this because we want our students to 
+                      succeed.
+                    </p>
+                    <p>
+                      This platform is designed to allow parents, students and 
+                      tutors to sign-up and manage their lessons effectively, 
+                      taking all the background work and admin away, leaving 
+                      students and tutors to focus on learning. <b>The best part is,
+                      the affordable price you see, is the price you pay!</b>
+                    </p>
+                    <p>
+                      On our system you will be able to view all tutors who 
+                      can help build your confidence in a subject you need. 
+                      Likewise, tutors can view posts of students who haven't 
+                      been paired with a subject-matter expert yet.
+                    </p>
+                    <p>
+                      You can view all your upcoming appointments and how
+                      much each appointment will cost you. You can at all times
+                      speak with as many tutors you wish, in order for you to
+                      find the perfect match for you. Should you not be able to
+                      find what you need, do not hesitate to call us, our team
+                      is always on hand to help.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col"></div>
+            </div>
+          </div>
+          <!-- SPACER -->
+          <!-- <div class="container-fluid card-2-bg">
+              <div class="row py-3">
+              </div>
+          </div> -->
+          <!-- SPACER -->
+          <div class="container-fluid card-1-bg">
+              <div class="row py-3">
+              </div>
+          </div>
+          <!-- CARD -->
+          <div class="container-fluid card-1-bg">
+            <div class="row">
+              <div class="col"></div>
+              <div class="col-12">
+                <div class="card bg-white max-view mx-auto">
+                  <div class="card-body text-center">
+                    <!--<a href="./information/about-us.html"><img class="img-fluid pb-3" alt="Meet our team of tutors" src="https://ik.imagekit.io/123helpmestudy/tr:h-200,w-200/123_Help_Me_Study/Website_Media/team-icon_og1TX1V14fv.png"></a>
+                    <h3 class="pb-5"><a href="./information/about-us.html" class="strip-link-black">Meet The Team<br>Behind<br>123 Help Me Study</a></h3>-->
+                    <div id="request-contact-form" class="mt-3">
+                      <div class="pd-5 card max-card mx-auto shadow">
+                        <div class="card-body">
+                          <h3 class="mb-3">
+                            Request a call back
+                          </h3>
+                          <div class="row pb-3">
+                            <div class="col">
+                              <input
+                                id="firstName"
+                                type="text"
+                                class="form-control"
+                                placeholder="First name"
+                              />
+                            </div>
+                            <div class="col">
+                              <input
+                                id="lastName"
+                                type="text"
+                                class="form-control"
+                                placeholder="Last name"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <input
+                              id="mobile"
+                              type="tel"
+                              class="form-control"
+                              placeholder="Mobile"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <input
+                              id="email"
+                              type="email"
+                              class="form-control"
+                              placeholder="Email"
+                            />
+                            <small
+                              class="pl-1 form-text text-muted text-left">
+                              We'll never share your details with anyone outside of our company.
+                            </small>
+                          </div>
+                          <div class="form-check mb-3 text-left">
+                            <input
+                              id="tickTermsAndConditions"
+                              type="checkbox"
+                              class="form-check-input"
+                            />
+                            <label class="form-check-label">
+                              Agree to our <a href="./terms-and-conditions.html">terms and conditions</a>
+                            </label>
+                          </div>
+                          <div class="form-check text-left mb-2">
+                            <input
+                              id="tickPrivacyPolicy"
+                              type="checkbox"
+                              class="form-check-input"
+                            />
+                            <label class="form-check-label">
+                              Agree to our <a href="./privacy-policy.html">privacy policy</a>
+                            </label>
+                          </div>
+                          <div
+                            id="check-validator"
+                            class="card pb-2 text-center hidden-el"
+                          >
+                            <p id="is-a-robot" class="hidden-el">yes</p>
+                            <p class="mt-2 mb-0 font-weight-bold">Are you a robot?</p>
+                            <div class="text-center">
+                              <img
+                                class="little-flag"
+                                src="./assets/images/robot_image.svg"
+                              />
+                            </div>
+                            <p id="find-country" class="my-2 font-weight-bold"></p>
+                            <div>
+                              <span id="validImg1"></span>
+                              <span id="validImg2"></span>
+                              <span id="validImg3"></span>
+                            </div>
+                            <div>
+                              <span id="validImg4"></span>
+                              <span id="validImg5"></span>
+                              <span id="validImg6"></span>
+                            </div>
+                            <div>
+                              <span id="validImg7"></span>
+                              <span id="validImg8"></span>
+                              <span id="validImg9"></span>
+                            </div>
+                            <p id="find-country-answer" class="hidden-el"></p>
+                          </div>
+                          <button
+                            id="submitForm"
+                            class="btn btn-success mt-2"
+                          >
+                            Submit
+                          </button>
+                          <div
+                            id="pending-send"
+                            class="text-center hidden-el"
+                          >
+                            <p class="text-secondary mb-1">Sending, please wait</p>
+                            <div class="spinner-border text-info" role="status"></div>
+                          </div>
+                          <div
+                            id="error-card"
+                            class="card mt-3 border border-danger warning-bg hidden-el"
+                          >
+                            <div class="card-body">
+                              <p id="error-response" class="text-center font-weight-bold m-0"></p>
+                            </div>
+                          </div>
+                          <div id="robot-error-card" class="card mt-3 border border-danger warning-bg hidden-el">
+                            <div class="card-body text-center">
+                              <img class="little-flag" src="./assets/images/robot_attack_image.svg">
+                              <p class="font-weight-bold m-0">
+                                We are under attack by robots! Save yourself!
+                              </p>
+                              <p class="font-weight-bold m-0">
+                                If you are a human, please reload the page to try again.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="success-card" class="pd-5 card max-card mx-auto hidden-el">
+                      <div class="card-body">
+                        <div class="card border border-success success-bg">
+                          <div class="card-body">
+                              <p class="text-center font-weight-bold m-0">
+                                Thank you for your request.
+                              </p>
+                              <p class="text-center font-weight-bold m-0">
+                                We aim to be in touch within the next 4 hours.
+                              </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <img class="my-3" alt="100 percent satisfaction guarantee" src="https://ik.imagekit.io/123helpmestudy/tr:h-150/123_Help_Me_Study/Website_Media/satisfaction_guarentee_4tuz06cY8Ga.png">
+                    <p>
+                      We are extremely proud of our five star reviews on Trustpilot! Head on over to see what others are saying about us.
+                    </p>
+                    <div class="mb-3">
+                      <a href="https://uk.trustpilot.com/review/123helpmestudy.droppages.com" rel="noreferrer noopener" target="_blank">
+                        <img alt="123 Help Me Study Trustpilot" src="https://ik.imagekit.io/123helpmestudy/tr:h-60/uc?export=view&amp;id=1dbJoi-DPX0qKdFkM_wcL2iVzJxiPgwOm">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col"></div>
+            </div>
+          </div>
+          <!-- SPACER -->
+          <div class="container-fluid card-1-bg">
+              <div class="row py-3">
+              </div>
+          </div>
+          <!-- FOOTER -->
+          <div id="page-footer"></div>
+      </div>
+    <script src="./assets/js/pages/index.js" type="module"></script>
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="./assets/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

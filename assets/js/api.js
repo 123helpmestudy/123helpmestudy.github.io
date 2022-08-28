@@ -1,5 +1,5 @@
-// var BASE_URL = 'http://127.0.0.1:8000';
-var BASE_URL = 'https://api.123helpmestudy.com';
+var BASE_URL = 'http://127.0.0.2:8000';
+// var BASE_URL = 'https://api.123helpmestudy.com';
 
 async function api_call(path, headers, method, payload) {
     var url = BASE_URL+path;
@@ -43,122 +43,6 @@ function validate_target(id) {
     return false;
 }
 
-async function index_page_test_api() {
-    var path = ('/api/status');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    /* For simplifying page */
-    try {
-        /* Execute API */
-        var response = await api_call(
-            path, 
-            headers, 
-            method,
-            payload
-        );
-        if (response['status'] == 200) {
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
-    } catch(e) {
-        //console.log(e);
-        document.getElementById('navigation-bar').style.display = 'none';
-        document.getElementById('getting-started-card').style.display = 'none';
-        document.getElementById('request-contact-form').style.display = 'none';
-        document.getElementById('api-fail-email-button').style.display = 'block';
-    }
-}
-
-async function index_page_load_page() {
-    var path = ('/api/salesorders/list_subjects');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    if (response['status'] == 200) {
-        var subjects = response['response']['data'];
-        var option_list;
-        for (var i = 0; i < subjects.length; i++) {
-            if (subjects[i]['lowest_price'] == 'Not available') {
-                continue;
-            }
-            var html = `
-            <option value=`+subjects[i]['subject_id']+`>`+subjects[i]['long_name']+`</option>
-            `;
-            option_list += html;
-        }
-        document.getElementById('subject-list').innerHTML = option_list;
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
-}
-
-async function index_page_submit_form() {
-    /* Validate user input */
-    var validate = false;
-    if (validate_target('first_name')) {validate = true;}
-    if (validate_target('last_name')) {validate = true;}
-    if (validate_target('mobile')) {validate = true;}
-    if (validate_target('email')) {validate = true;}
-    if (validate) {return false;}
-    /* Validate user agreement and t & c's */
-    if (
-        document.getElementById('tick-terms-and-conditions').checked == false
-        ||
-        document.getElementById('tick-privacy-policy').checked == false
-    ) {
-        // Failed to tick terms and conditions and privacy policy
-        document.getElementById('error-card').style.display = 'block';
-        document.getElementById('error-response').innerHTML = (
-            'To proceed, please read and agree to our terms '
-            +'and conditions, and our privacy policy.');
-            return false;
-    }
-    /* Validate user robot */
-    var robot_status = document.getElementById('is-a-robot').innerHTML;
-    if (robot_status == 'yes') {
-        document.getElementById('submit-form').style.display = 'none';
-        document.getElementById('check-validator').style.display = 'block';
-        return false;
-    }
-    /* Disable submit button */
-    document.getElementById('pending-send').style.display = 'block';
-    document.getElementById('submit-form').style.display = 'none';
-    /* Execute API */
-    var path = '/api/salesorders/create_sales_leads';
-    var headers = {
-        'Access-Token': '',
-    };
-    var method = 'POST';
-    var payload = {
-        'first_name': document.getElementById('first_name').value,
-        'last_name': document.getElementById('last_name').value,
-        'email': document.getElementById('email').value,
-        'mobile': document.getElementById('mobile').value,
-    };
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    if (response['status'] == 200) {
-        document.getElementById('pending-send').style.display = 'none';
-        document.getElementById('request-contact-form').style.display = 'none';
-        document.getElementById('success-card').style.display = 'block';
-    } else {
-        document.getElementById('error-card').style.display = 'block';
-        document.getElementById('error-response').innerHTML = "An error has occured, please call us. Thanks.";
-    }
-    //console.log(response['status']);
-    //console.log(response['response']);
-}
 
 async function validate_user_interaction_page_load() {
     var path = ('/api/validate_user_interaction');
@@ -185,9 +69,7 @@ async function validate_user_interaction_page_load() {
             +"?"
         );
         document.getElementById('find-country-answer').innerHTML = response['response']['find_country_number'];
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 function validate_user_check(id) {
@@ -268,8 +150,6 @@ async function login_page_submit_form() {
         document.getElementById('pending-login').style.display = 'none';
         document.getElementById('login-submit').style.display = 'block';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function login_page_reset_password_submit_form() {
@@ -308,8 +188,6 @@ async function login_page_reset_password_submit_form() {
         document.getElementById('for-forgot-password-login-submit').style.display = 'block';
         document.getElementById('pending-password-reset').style.display = 'none';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function sign_up_page_submit_form() {
@@ -364,8 +242,6 @@ async function sign_up_page_submit_form() {
         document.getElementById('pending-send').style.display = 'none';
         document.getElementById('sign-up-submit').style.display = 'block';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function email_verification_submit_form() {
@@ -392,8 +268,6 @@ async function email_verification_submit_form() {
         document.getElementById('error-card').style.display = 'block';
         document.getElementById('error-response').innerHTML = response['response']['message'];
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function home_page_submit_user_type_form(user_type) {
@@ -417,9 +291,7 @@ async function home_page_submit_user_type_form(user_type) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
     if (user_type == 'tutor') {
         document.getElementById('initialise-user-type').style.display = 'none';
         document.getElementById('first-tutor-walkthrough').style.display = 'block';
@@ -478,9 +350,7 @@ async function home_page_submit_parent_form() {
         } else if (response['status'] == 401) {
             var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
@@ -575,9 +445,7 @@ async function home_page_submit_tutor_form() {
         } else if (response['status'] == 401) {
             var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
@@ -706,6 +574,7 @@ async function home_page_load_page() {
                 document.getElementById('record-payment').style.display = 'block';
                 document.getElementById('remove-user').style.display = 'block';
                 document.getElementById('sensor-user-message').style.display = 'block';
+                document.getElementById('view-instant-messages').style.display = 'block';
                 document.getElementById('tutor-resources').style.display = 'block';
             }
         }
@@ -716,9 +585,7 @@ async function home_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function account_page_submit_form() {
@@ -833,9 +700,7 @@ async function account_page_submit_form() {
         } else if (response['status'] == 401) {
             let base = (window.location.pathname).toString().replace('/application/user/account.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     /* Update user password */
     if (update_password) {
@@ -884,9 +749,7 @@ async function account_page_submit_form() {
         } else if (response['status'] == 401) {
             let base = (window.location.pathname).toString().replace('/application/user/account.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
@@ -961,9 +824,7 @@ async function account_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/account.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function tutor_profile_page_load_page() {
@@ -1025,8 +886,6 @@ async function tutor_profile_page_load_page() {
             }
             if (attributes[i]['attribute'] == 'highest_qualification') {
                 document.getElementById('highest-qualification').value = attributes[i]['value'];
-                //console.log(attributes[i]['value']);
-                //console.log(document.getElementById('highest-qualification').value);
             }
             if (attributes[i]['attribute'] == 'qualification_support_document') {
                 if (attributes[i]['value'] == 'confirmed') {
@@ -1083,9 +942,7 @@ async function tutor_profile_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function tutor_profile_page_submit_form() {
@@ -1188,210 +1045,15 @@ async function tutor_profile_page_submit_form() {
         } else if (response['status'] == 401) {
             var base = (window.location.pathname).toString().replace('/application/user/tutor-profile.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
 
-async function tutor_subjects_load_page() {
-    var path = ('/api/salesorders/list_subjects');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    if (response['status'] == 200) {
-        var subjects = response['response']['data'];
-        var a = 1;
-        for (var i = 0; i < subjects.length; i++) {
-            // Handle cheapest tutor option / not available
-            if (subjects[i]['lowest_price'] == 'Not available') {
-                continue;
-                // cheapest_option = `<button class="btn btn-warning shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
-                //                         `+subjects[i]['lowest_price']+`
-                //                    </button>`;
-            } else {
-                cheapest_option = `<button class="btn btn-primary shadow" style="font-size: 13px;"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
-                                        `+'<b>From £'+subjects[i]['lowest_price']+'/hr</b>'+`
-                                   </button>`
-            }
-            // Handle the colour of the cards
-            var colour = 'light-blue-card';
-            if (a == 1) {
-                a = 2;
-            } else if (a == 2) {
-                a = 3;
-                colour = '';
-            } else if (a == 3) {
-                a = 4;
-                colour = 'light-green-card';
-            } else if (a == 4) {
-                a = 1;
-                colour = '';
-            }
-            var html = `
-            <div onclick="tutor_subject_display_tutors_load_page(`+subjects[i]['subject_id']+`);" class="card mb-1 `+colour+`">
-                <div class="card-body dashboard-button pt-1 px-0">
-                    <div class="text-right pr-1">
-                        `+cheapest_option+`
-                    </div>
-                    <div class="mt-3 px-3">
-                        <b style="font-size: 23px;">`+subjects[i]['long_name']+`</b><br><br>
-                    </div>
-                </div>
-            </div>
-            `;
-            document.getElementById('subject-list').innerHTML += html;
-        }
-        document.getElementById('loading-card').style.display = 'none';
-        document.getElementById('subject-view').style.display = 'block';
-    } else {}
-    // console.log(response['status']);
-    // console.log(response['response']);
-}
 
-function sort_tutors_to_display(tutors, method) {
-    var sort_by_button_text = 'Price (lowest to highest)';
-    if (method == 'price-low-to-high') {
-        sort_by_button_text = 'Price (lowest to highest)';
-        tutors.sort(function(a, b) {
-            return parseFloat(a['hourly_rate']) - parseFloat(b['hourly_rate']);
-        });
-    } else if (method == 'price-high-to-low') {
-        sort_by_button_text = 'Price (highest to lowest)';
-        tutors.sort(function(a, b) {
-            return parseFloat(b['hourly_rate']) - parseFloat(a['hourly_rate']);
-        });
-    } else if (method == 'hours-low-to-high') {
-        sort_by_button_text = 'Hours (lowest to highest)';
-        tutors.sort(function(a, b) {
-            return parseFloat(a['hours_taught']) - parseFloat(b['hours_taught']);
-        });
-    } else if (method == 'hours-high-to-low') {
-        sort_by_button_text = 'Hours (highest to lowest)';
-        tutors.sort(function(a, b) {
-            return parseFloat(b['hours_taught']) - parseFloat(a['hours_taught']);
-        });
-    }
-    return tutors, sort_by_button_text;
-}
 
-function render_tutors_page(method) {
-    var tutors = localStorage.getItem('all-tutors');
-    tutors = JSON.parse(tutors);
-    tutors, sort_by_button_text = sort_tutors_to_display(tutors, method);
-    document.getElementById('tutor-list').innerHTML = '';
-    document.getElementById('tutor-list').innerHTML += '<h3>Browse the tutors that cover your subject</h3>';
-    document.getElementById('tutor-list').innerHTML += `
-    <div class="mb-3 text-left dropdown">
-        <button 
-            id="tutor-sort-by-button" 
-            type="button" 
-            data-toggle="dropdown" 
-            class="btn btn-info dropdown-toggle"
-        >
-            Sort by: Price (lowest to highest)
-        </button>
-        <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton">
-            <a onclick="render_tutors_page('price-low-to-high');" class="hover-pointer dropdown-item bg-dark text-white">Price (lowest to highest)</a>
-            <a onclick="render_tutors_page('price-high-to-low');" class="hover-pointer dropdown-item bg-dark text-white">Price (highest to lowest)</a>
-            <a onclick="render_tutors_page('hours-low-to-high');" class="hover-pointer dropdown-item bg-dark text-white">Hours taught (lowest to highest)</a>
-            <a onclick="render_tutors_page('hours-high-to-low');" class="hover-pointer dropdown-item bg-dark text-white">Hours taught (highest to lowest)</a>
-        </div>
-    </div>
-    `;
-    document.getElementById('tutor-sort-by-button').innerHTML = 'Sort by: ' + sort_by_button_text;
-    for (var i = 0; i < tutors.length; i++) {
-        var miles_button = '';
-        if ('distance_miles' in tutors[i]) {
-            miles_button = `<button class="btn btn-success shadow"><b>`+tutors[i]['distance_miles']+` miles away</b></button>`;
-        }
-        var html = `
-        <div class="card mb-2 shadow">
-            <div onclick="go_to_tutor_profile(`+tutors[i]['profile_id']+`);" class="card-body dashboard-button">
-                <div class="text-right mb-2">
-                    `+miles_button+`
-                    <button class="btn btn-primary shadow"><!--style="width: 80px; height: 75px; padding-top: 1px; font-weight: 700; color: rgb(255, 255, 255);"-->
-                        <b>£`+tutors[i]['hourly_rate']+`/hr</b>
-                    </button>
-                </div>
-                <img class="circle-img-profile-list" src="`+tutors[i]['profile_photo']+`">
-                <p class="my-0">`+tutors[i]['first_name']+' '+tutors[i]['last_name_initial']+`</p>
-                <p class="my-0"><em>`+tutors[i]['profile_header']+`</em></p>
-                <p class="my-0">Hours Taught: <b>`+tutors[i]['hours_taught']+`</b></p>
-                <p class="my-0">Highest Qualification: <b>`+tutors[i]['highest_qualification']+`<b/></p>
-            </div>
-        </div>
-        `;
-        document.getElementById('tutor-list').innerHTML += html;
-    }
-}
 
-async function tutor_subject_display_tutors_load_page(id) {
-    var lesson_type = document.getElementById('lesson-location').value;
-    var post_zip_code = document.getElementById('post-zip-code').value;
-    if (lesson_type == 'face-to-face' && post_zip_code.length == 0) {
-        var class_list = document.getElementById('post-zip-code').className;
-        if (class_list.indexOf('is-invalid') == -1) {
-            document.getElementById('post-zip-code').className = (
-                class_list
-                +' is-invalid'
-            );
-        }
-        return false;
-    }
-    document.getElementById('subject-selected').innerHTML = id;
-    var path = (
-        '/api/salesorders/list_tutors_by_subject'
-        +'?subject='+id
-        +'&lesson_type='+lesson_type
-        +'&post_zip_code='+post_zip_code
-    );
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    if (response['status'] == 200) {
-        var tutors = response['response']['data'];
-        localStorage.setItem('all-tutors', JSON.stringify(
-            tutors
-        ));
-        
-        document.getElementById('tutor-list').innerHTML = '';
-        if (tutors.length == 0) {
-            document.getElementById('tutor-list').innerHTML = `
-            <br><br><br><br>
-            <p class="px-5 font-weight-bold font-italic">
-                Unfortunately, at this time, none of our registered tutors match your criteria. 
-                Please read our notice below so that we may assist you further.
-            </p>
-            <br><br><br><br>
-            `;
-        } else {
-            // Using a function to render the tutor cards    
-            render_tutors_page('price-low-to-high');
-        }
-        document.getElementById('subject-card').style.display = 'none';
-        document.getElementById('tutors-card').style.display = 'block';
-        document.getElementById('tutors-card-disclaimer').style.display = 'block';
-    } else if (response['status'] == 480) {
-        document.getElementById('error-card').style.display = 'block';
-        document.getElementById('error-response').innerHTML = response['response']['message'];
-    } else {}
-    // console.log(response['status']);
-    // console.log(response['response']);
-}
+
 
 async function profile_page_load_page(id) {
     var path = ('/api/salesorders/show_tutor?tutor='+id);
@@ -1471,9 +1133,7 @@ async function profile_page_load_page(id) {
         document.getElementById('disclaimer-card').style.display = 'block';
         document.getElementById('disclaimer-card-spacer').style.display = 'block';
         document.getElementById('loading-card').style.display = 'none';
-    } else {}
-    //console.log(response['status']);
-    // console.log(response['response']);
+    }
 }
 
 function contact_us_load_page() {
@@ -1554,72 +1214,7 @@ async function contact_us_page_submit() {
         document.getElementById('contact-us-form').style.display = 'none';
         document.getElementById('pending-send').style.display = 'none';
         document.getElementById('message-successfully-sent').style.display = 'block';
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
-}
-
-async function message_tutor_load_page(id) {
-    /* Load stored email address */
-    var email = localStorage.getItem('123helpmestudy-email');
-    if (email != null) {
-        document.getElementById('email').value = email;
     }
-    /* Load subject attributes */
-    var subject_id = document.getElementById('subject-selected').innerHTML;
-    var path = ('/api/salesorders/list_subjects');
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    var subject_request = '{subject}';
-    if (response['status'] == 200) {
-        var subjects = response['response']['data'];
-        for (var i = 0; i < subjects.length; i++) {
-            if (subjects[i]['subject_id'] == subject_id) {
-                //console.log(subjects[i]['long_name']);
-                subject_request = subjects[i]['long_name'];
-            }
-        }
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
-    /* Load tutor attributes */
-    var tutor_id = document.getElementById('tutor-selected').innerHTML;
-    var path = ('/api/salesorders/show_tutor?tutor='+tutor_id);
-    var headers = {};
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
-        path, 
-        headers, 
-        method,
-        payload
-    );
-    var tutor = '{tutor}';
-    if (response['status'] == 200) {
-        tutor = response['response']['data']['first_name'];
-        document.getElementById('profile-photo').src = response['response']['data']['profile_photo'];
-    } else {}
-    var html = (
-        "Hello "+tutor+",\n\n"
-        +"I am looking for help with "+subject_request+".\n"
-        +"I came across your profile and feel like you would be a great fit for me.\n"
-        +"Please could you let me know when you would be free for a first lesson.\n\n"
-        +"Thanks"
-    );
-    document.getElementById('message').value = html;
-    document.getElementById('message-str-len').innerHTML = (
-        html.length.toString()
-        +' / 500'
-    );
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function message_tutor_page_submit() {
@@ -1674,9 +1269,7 @@ async function message_tutor_page_submit() {
         document.getElementById('pending-send').style.display = 'none';
         document.getElementById('message').value = '';
         document.getElementById('message-sent-successfully').style.display = 'block';
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function remove_users_load_page() {
@@ -1721,9 +1314,7 @@ async function remove_users_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 function remove_users_validate(parameter, id, answer) {
@@ -1761,10 +1352,8 @@ async function remove_users_submit_page(id) {
         method,
         payload
     );
-    if (response['status'] == 200) {
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    // if (response['status'] == 200) {
+    // }
     window.location.reload();
 }
 
@@ -1830,9 +1419,7 @@ async function messages_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/messages.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    // console.log(response['response']);
+    }
 }
 
 async function messages_page_submit_page(id) {
@@ -1858,9 +1445,7 @@ async function messages_page_submit_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/message.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function message_thread_page_load_page(id) {
@@ -1890,7 +1475,7 @@ async function message_thread_page_load_page(id) {
                 var to = 'me';
             }
             var html = `
-            <div class="`+bubble_class+` rounded shadow mb-4 p-3">
+            <div class="${bubble_class} shadow mb-4 p-3">
                 <p class="mb-0">From: <i>`+from+`</i></p>
                 <p class="mb-0">To: <i>`+to+`</i></p>
                 <p class="mb-0">Date: <i>`+messages[i]['date']+`</i></p>
@@ -1938,9 +1523,7 @@ async function message_thread_page_load_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/message-thread.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function message_thread_send_message_page_submit_page() {
@@ -1992,8 +1575,6 @@ async function message_thread_send_message_page_submit_page() {
         document.getElementById('pending-send').style.display = 'none';
         document.getElementById('submit-new-message').style.display = 'block';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function message_thread_book_lesson_submit_page() {
@@ -2079,8 +1660,6 @@ async function message_thread_book_lesson_submit_page() {
         document.getElementById('submit-book-lesson').style.display = 'block';
         document.getElementById('error-response-2').innerHTML = response['response']['message'];
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 
@@ -2139,7 +1718,7 @@ async function lessons_page_load_page() {
                 }
             }
             var html = `
-            <div class="mb-1">                        
+            <div id="lesson-card-${lessons[i]['lesson_id']}" class="mb-1">                        
                 <div class="col p-0">
                     <div class="card shadow-sm">
                         <div class="card-body text-left">
@@ -2249,13 +1828,13 @@ async function lessons_page_load_page() {
             document.getElementById('historical-lessons-list').innerHTML += html;
         }
 
+        // Hide the loading section
+        document.getElementById('pending-load-page').style.display = 'none';
 
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/lessons.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    //console.log(response['status']);
-    console.log(response['response']);
 }
 
 async function lessons_page_cancel_order(id) {
@@ -2274,8 +1853,11 @@ async function lessons_page_cancel_order(id) {
         payload
     );
     if (response['status'] == 200) {
-        document.getElementById('success-response-cancel-'+id).innerHTML = response['message'];
+        document.getElementById('success-response-cancel-'+id).innerHTML = response.response.message;
         document.getElementById('success-card-cancel-'+id).style.display = 'block';
+        setTimeout(() => {
+            document.getElementById(`lesson-card-${id}`).style.display = 'none';
+        }, 5000);
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/lessons.html', '');
         window.location.assign(base+'/information/login.html');
@@ -2283,8 +1865,6 @@ async function lessons_page_cancel_order(id) {
         document.getElementById('error-response-cancel-'+id).innerHTML = response['message'];
         document.getElementById('error-card-cancel-'+id).style.display = 'block';
     }
-    //console.log(response['status']);
-    // console.log(response['response']);
 }
 
 async function lessons_page_change_date_time_on_order(id) {
@@ -2325,13 +1905,10 @@ async function lessons_page_change_date_time_on_order(id) {
         var base = (window.location.pathname).toString().replace('/application/user/lessons.html', '');
         window.location.assign(base+'/information/login.html');
     } else {
-        //console.log(response['response']);
         document.getElementById('error-card-date-time-'+id).style.display = 'block';
         document.getElementById('error-response-date-time-'+id).innerHTML = response['response']['message'];
         return false;
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
     window.location.reload();
 }
 
@@ -2357,8 +1934,6 @@ async function payment_options_change_payment_method_submit_form(id, payment_met
         var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function payment_options_create_stripe_payment_intent_submit_form() {
@@ -2384,8 +1959,6 @@ async function payment_options_create_stripe_payment_intent_submit_form() {
         var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function record_stripe_payment_submit_page(id, reference) {
@@ -2410,10 +1983,7 @@ async function record_stripe_payment_submit_page(id, reference) {
     } else if (response['status'] == 401) {
         //var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         //window.location.assign(base+'/information/login.html');
-    } else {
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
     //window.location.reload();
 }
 
@@ -2436,7 +2006,6 @@ async function payment_options_load_page(id) {
     );
     if (response['status'] == 200) {
         var order_details = response['response']['data'];
-        console.log(order_details);
         if (order_details['payment_received'] == 'complete') {
             var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
             window.location.assign(base+'/application/user/lessons.html');
@@ -2486,17 +2055,13 @@ async function payment_options_load_page(id) {
                 // Seems redundant to check it twice
                 //var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
                 //window.location.assign(base+'/information/login.html');
-            } else {}
-            //console.log(response['status']);
-            //console.log(response['response']);
+            }
             /* End New API call */
         }
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/payment-option.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function payment_options_bacs_evidence_page_submit_form() {
@@ -2532,9 +2097,7 @@ async function payment_options_bacs_evidence_page_submit_form() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function customer_profile_page_submit_form() {
@@ -2580,9 +2143,7 @@ async function customer_profile_page_submit_form() {
         } else if (response['status'] == 401) {
             var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
             window.location.assign(base+'/information/login.html');
-        } else {}
-        //console.log(response['status']);
-        //console.log(response['response']);
+        }
     }
     window.location.reload();
 }
@@ -2639,9 +2200,7 @@ async function customer_profile_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function sensor_user_messages_load_page() {
@@ -2691,9 +2250,7 @@ async function sensor_user_messages_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutor_profile.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function sensor_user_messages_submit_page(id) {
@@ -2715,9 +2272,7 @@ async function sensor_user_messages_submit_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/sensor-user-messages.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
     window.location.reload();
 }
 
@@ -2780,8 +2335,6 @@ async function record_payment_load_page() {
         var base = (window.location.pathname).toString().replace('/application/admin/record-payment.html', '');
         window.location.assign(base+'/information/login.html');
     } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function record_payment_submit_page(id) {
@@ -2804,9 +2357,7 @@ async function record_payment_submit_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/record-payment.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
     window.location.reload();
 }
 
@@ -2872,9 +2423,7 @@ async function validate_user_document_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/validate-user-document.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function validate_user_document_submit_page(id) {
@@ -2898,9 +2447,7 @@ async function validate_user_document_submit_page(id) {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/validate-user-document.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
     window.location.reload();
 }
 
@@ -2971,9 +2518,7 @@ async function tutoring_opportunities_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/tutoring-opportunities.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    //console.log(response['response']);
+    }
 }
 
 async function tutoring_opportunities_submit_page(id) {
@@ -3004,8 +2549,6 @@ async function tutoring_opportunities_submit_page(id) {
         document.getElementById('error-response-'+id).innerHTML = response['response']['message'];
         document.getElementById('error-card-'+id).style.display = 'block';
     }
-    //console.log(response['status']);
-    //console.log(response['response']);
 }
 
 async function students_page_load_page() {
@@ -3050,13 +2593,10 @@ async function students_page_load_page() {
             `;
             document.getElementById('students-list').innerHTML += html;
         }
-        // console.log(students);
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/user/students.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    //console.log(response['status']);
-    // console.log(response['response']);
+    }
 }
 
 async function all_tutors_page_load_page() {
@@ -3089,7 +2629,7 @@ async function all_tutors_page_load_page() {
             html = `
             <div class="card mt-2 shadow-sm">
                 <div class="card-body text-left px-5">
-                    <p class="mb-2">Tutor id: `+tutors[i]['tutor_id']+`</p>
+                    <p class="mb-2">Tutor id: ${tutors[i]['tutor_id']}</p>
                     <p class="mb-2">Name: `+tutors[i]['first_name']+` `+tutors[i]['last_name']+`</p>
                     <p class="mb-2">Email: `+tutors[i]['email']+`</p>
                     <div class="mb-2">
@@ -3127,23 +2667,21 @@ async function all_tutors_page_load_page() {
     } else if (response['status'] == 401) {
         var base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    // console.log(response['status']);
-    // console.log(response['response']);
+    }
 }
 
 async function all_tutors_page_submit_form(id, email, status) {
-    var path = '/api/users/update_user_attribute';
-    var headers = {
+    let path = '/api/users/update_user_attribute';
+    let headers = {
         'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
     };
-    var method = 'PUT';
-    var payload = {
+    let method = 'PUT';
+    let payload = {
         'email': email,
         'attribute': 'tutor_profile_status',
         'value': status
     };
-    var response = await api_call(
+    let response = await api_call(
         path,
         headers,
         method,
@@ -3159,9 +2697,312 @@ async function all_tutors_page_submit_form(id, email, status) {
             document.getElementById('inactive-dropdown-button-'+id).style.display = 'block';
         }
     } else if (response['status'] == 401) {
-        var base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
+        let base = (window.location.pathname).toString().replace('/application/admin/all-tutors.html', '');
         window.location.assign(base+'/information/login.html');
-    } else {}
-    console.log(response['status']);
-    console.log(response['response']);
+    } else {
+        console.error('Got an undesirable error code');
+    }
+}
+
+
+async function captureChatMessage() {
+    // Define session and user variables if not already populated
+    let sessionId = new Date();
+    sessionId = sessionId.getTime();
+    let localSessionId = localStorage.getItem('123helpmestudy-messenger-session-id');
+    if (localSessionId == null) {
+        localStorage.setItem('123helpmestudy-messenger-session-id', `${sessionId}`);
+        localSessionId = `${sessionId}`;
+    }
+    let localSenderId = localStorage.getItem('123helpmestudy-messenger-sender-id');
+    if (localSenderId == null) {
+        localStorage.setItem('123helpmestudy-messenger-sender-id', `${sessionId}`);
+        localSenderId = `${sessionId}`;
+    }
+    // Get stored secret
+    let localSecret = localStorage.getItem('123helpmestudy-messenger-secret');
+    if (localSecret == null) {
+        let random = Math.random().toString(16);
+        random = random.substring(2, 15);
+        localStorage.setItem('123helpmestudy-messenger-secret', `${random}`);
+        localSecret = `${random}`;
+    }
+    // Get chat area
+    let chatInput = document.getElementById('live-chat-input');
+    let chatValue = chatInput.value;
+    if (chatValue == "") {
+        chatInput.classList.add('is-invalid');
+        return null;
+    }
+    chatInput.value = '';
+    let html = `
+    <div
+        class="m-3 p-2 ml-5 text-left border border-success light-green-card"
+        style=""
+        id=${sessionId}
+    >
+        <p class="mb-0">
+            ${chatValue.replace('\n', '<br/>')}
+        </p>
+    </div>
+    `;
+    let instantMessages = document.getElementById('instant-messages');
+    instantMessages.innerHTML = instantMessages.innerHTML + html;
+    instantMessages.scrollTop = instantMessages.scrollHeight;
+
+    // Submit message to the API
+    let path = '/api/messenger/send';
+    let headers = {};
+    let method = 'POST';
+    let payload = {
+        'type': 'new',
+        'session_id': localSessionId,
+        'sender_id': localSenderId,
+        'secret': localSecret,
+        'body': chatValue
+    };
+    let response = await api_call(
+        path,
+        headers,
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        let newMessage = document.getElementById(`${sessionId}`);
+        newMessage.innerHTML = newMessage.innerHTML + `
+        <p class="text-right text-muted p-0 m-0" style="font-size: 10px;">
+            Sent
+        </p>
+        `;
+        // Show someone typing - randomly
+        html = `
+        <div
+            id="live-chat-typing-${sessionId}"
+            class="ml-4 font-italic"
+            style="
+                display: none;
+                font-size: 12px;
+            "
+        >
+            <span>Typing</span><span id="live-chat-typing-dots-${sessionId}"></span>
+        </div>
+        `;
+        await sleep(15000);
+        instantMessages.innerHTML = instantMessages.innerHTML + html;
+        for (let h = 0; h < 3; h++) {
+            document.getElementById(`live-chat-typing-${sessionId}`).style.display = 'block';
+            for (let i = 0; i < 10; i++) {
+                for (let j = 0; j < 3; j++) {
+                    document.getElementById(`live-chat-typing-dots-${sessionId}`).innerHTML += '.';
+                    await sleep(500);
+                }
+                document.getElementById(`live-chat-typing-dots-${sessionId}`).innerHTML = '';
+            }
+            document.getElementById(`live-chat-typing-${sessionId}`).style.display = 'none';
+            await sleep(8000);
+        }
+    } else {
+        alert('Failed to send instant message');
+    }
+}
+
+
+async function fetchAllChatMessages() {
+    // Submit message to the API
+    let path = '/api/messenger/fetch';
+    let headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    let method = 'POST';
+    let payload = {
+        'type': 'all',
+    };
+    let response = await api_call(
+        path,
+        headers,
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        let messageBox = document.getElementById('instant-messages-list');
+        let sessions = response['response']['messages'];
+        for (session in sessions) {
+            let firstMessage = sessions[session][0];
+            let secret = firstMessage['secret'];
+            url = `${window.location.origin}/application/admin/instant-messenger.html`;
+            params = `?sessionId=${session}&secret=${secret}`;
+            url = `${url}${params}`;
+            let html = `
+            <a href="${url}">
+                <div class="border shadow rounded m-3 p-3">
+                    <p class="m-0 p-0">${session}</p>
+                    <p class="m-0 p-0">${firstMessage['message']}</p>
+                </div>
+            </a>
+            `;
+            messageBox.innerHTML = messageBox.innerHTML + html;
+        }
+    }
+}
+
+async function fetchConversationAdmin(params) {
+    // Get admin ID
+    let adminId = await calculateAdminSenderId();
+    // Submit message to the API
+    let path = '/api/messenger/fetch';
+    let headers = {
+        'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+    };
+    let method = 'POST';
+    let payload = {
+        'type': 'conversation',
+        'session_id': params.sessionId,
+        'secret': params.secret
+    };
+    while (true) {
+        let response = await api_call(
+            path,
+            headers,
+            method,
+            payload
+        );
+        if (response['status'] == 200) {
+            let messageBox = document.getElementById('instant-messenger-messages-list');
+            messageBox.innerHTML = '';
+            let sessions = response['response']['messages'];
+            for (session in sessions) {
+                let messages = sessions[session];
+                for (let i = 0; i < messages.length; i++) {
+                    // Define the base style for the chat bubble
+                    let extraClass = "border-info light-blue-card ml-3 mr-5";
+                    // Determine if message is from admin
+                    if (messages[i].sender_id == adminId) {
+                        extraClass = "border-success light-green-card ml-5 mr-3";
+                    }
+                    // Make the html
+                    let html = `
+                    <div class=" my-3  p-2 text-left border ${extraClass}">
+                        <p
+                            class="m-0 p-0"
+                            style="
+                                font-size: 10px;
+                                color: grey;
+                            "
+                        >
+                            ${new Date(messages[i].created_at)}
+                        </p>
+                        <p class="m-0 p-0">${
+                            messages[i].message
+                                .replace('\r\n', '<br/>')
+                                .replace('\n', '<br/>')
+                        }</p>
+                    </div>
+                    `;
+                    messageBox.innerHTML = messageBox.innerHTML + html;
+                }
+            }
+        }
+        window.scrollTo(0, document.body.scrollHeight);
+        await sleep(5000);
+    }
+}
+
+async function calculateAdminSenderId() {
+    // Calculate the admin's send_id
+    let email = localStorage.getItem('123helpmestudy-email');
+    let senderId = '';
+    for (let i = 0; i < email.length; i++) {
+        senderId = senderId + `${email[i].charCodeAt(0)}`;
+    }
+    let senderIdNumber = parseFloat(senderId) / senderId.length;
+    while (senderIdNumber > 999999999) {
+        senderIdNumber = parseFloat(senderId) / senderId.length;
+        senderId = `${parseFloat(parseFloat(senderId) / senderId.length)}`;
+    }
+    senderId = `${parseInt(senderId)}`;
+    return senderId;
+}
+
+async function captureChatMessageAdmin() {
+    let get_params = {};
+    if (window.location.search) {
+        let get_string = (window
+                        .location
+                        .search
+                        .toString()
+                        .replace('?', '')
+                        .split('&'));
+        for (let a = 0; a < get_string.length; a++) {
+            let key_value = get_string[a].split('=');
+            get_params[key_value[0]] = key_value[1];
+        }
+    } else {
+        alert('No parameters found in url string');
+        return null;
+    }
+    if ('sessionId' in get_params){} else {
+        console.error(' Could not find "sessionId" in get_params');
+        return null;
+    }
+    if ('secret' in get_params){} else {
+        console.error(' Could not find "secret" in get_params');
+        return null;
+    }
+    // Get admin ID
+    let adminId = await calculateAdminSenderId();
+
+    // Define the message
+    let body = document.getElementById('admin-live-chat-input').value;
+    if (body == '') {
+        alert('Please enter some text!');
+        return null;
+    }
+
+    // Submit message to the AP
+    let path = '/api/messenger/send';
+    let headers = {};
+    let method = 'POST';
+    let payload = {
+        'type': 'responses',
+        'session_id': get_params['sessionId'],
+        'sender_id': adminId,
+        'secret': get_params['secret'],
+        'body': body
+    };
+    let response = await api_call(
+        path,
+        headers,
+        method,
+        payload
+    );
+    if (response['status'] == 200) {
+        let messageBox = document.getElementById('instant-messenger-messages-list');
+        let html = `
+        <div class="m-3 mr-5 p-2 text-left border border-success light-green-card">
+            <p
+                class="m-0 p-0"
+                style="
+                    font-size: 10px;
+                    color: grey;
+                "
+            >
+                ${new Date()}
+            </p>
+            <p class="m-0 p-0">${body}</p>
+            <p
+                class="m-0 p-0"
+                style="
+                    font-size: 10px;
+                    color: grey;
+                "
+            >
+                Sent
+            </p>
+        </div>
+        `;
+        messageBox.innerHTML = messageBox.innerHTML + html;
+        document.getElementById('admin-live-chat-input').value = '';
+    } else {
+        alert('Failed to send instant message');
+    }
 }
