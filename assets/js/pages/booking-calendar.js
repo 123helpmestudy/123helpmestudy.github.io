@@ -29,6 +29,7 @@ const calendarLoading = document.getElementById('pending-load-calendar');
 const availabilityPicker = document.getElementById('availability-picker');
 const backToTopBtn = document.getElementById('back-to-top');
 const noAccountLink = document.getElementById('login-no-account');
+let showCreateAccount = false;
 
 let isLoading = false;
 
@@ -59,6 +60,27 @@ const loginBtn = document.getElementById('login-submit');
 const loginPending = document.getElementById('pending-login');
 const loginErrorCard = document.getElementById('login-error-card');
 const loginErrorMessage = document.getElementById('login-error-response');
+
+// Account registration form
+const registrationSection = document.getElementById('registration-section');
+const registrationFirstName = document.getElementById('registration-first-name');
+const registrationLastName = document.getElementById('registration-last-name');
+const registrationEmail = document.getElementById('registration-email');
+const registrationPassword = document.getElementById('registration-password');
+const registrationConfirmPassword = document.getElementById('registration-confirm-password');
+const registrationBtn = document.getElementById('registration-submit');
+const registrationPending = document.getElementById('pending-registration');
+const registrationErrorCard = document.getElementById('registration-error-card');
+const registrationErrorMessage = document.getElementById('registration-error-response');
+const goToLoginBtn = document.getElementById('go-to-login');
+
+// Account validation section
+const accValidationSection = document.getElementById('registration-validation-section');
+const accValidationCode = document.getElementById('registration-validation-code');
+const accValidationBtn = document.getElementById('registration-validation-submit');
+const accValidationPending = document.getElementById('pending-registration-validation');
+const accValidationErrorCard = document.getElementById('registration-validation-error-card');
+const accValidationErrorMessage = document.getElementById('registration-validation-error-response');
 
 // Details form
 const formSection = document.getElementById('details-form');
@@ -116,14 +138,43 @@ function main() {
   formDiscountCodeBtn.addEventListener('click', () => {applyDiscountCode(false)});
   messageCounter('message', 'message-str-len');
 
-  // Set the no account link
-  noAccountLink.href = `${window.location.origin}/information/sign-up.html`;
+  // Add event listener to show the account registration page
+  noAccountLink.addEventListener('click', () => {
+    loginSection.style.display = 'none';
+    registrationSection.style.display = 'block';
+  });
 
   // Add event listener for login submit
-  loginBtn.addEventListener('click', submitLogin);
+  loginBtn.addEventListener('click', () => {
+    submitLogin(false);
+  });
   loginEmail.addEventListener('focus', resetInvalidInput);
   loginPassword.addEventListener('focus', resetInvalidInput);
   if (localStorage.getItem('123helpmestudy-email')) loginEmail.value = localStorage.getItem('123helpmestudy-email');
+
+  // Add event listener to go back to the login page
+  goToLoginBtn.addEventListener('click', () => {
+    registrationSection.style.display = 'none';
+    loginSection.style.display = 'block';
+  });
+
+  // Add event listeners to submit registration form
+  registrationBtn.addEventListener('click', submitRegistration);
+  registrationFirstName.addEventListener('focus', resetInvalidInput);
+  registrationFirstName.addEventListener('focus', () => { registrationErrorCard.style.display = 'none'; });
+  registrationLastName.addEventListener('focus', resetInvalidInput);
+  registrationLastName.addEventListener('focus', () => { registrationErrorCard.style.display = 'none'; });
+  registrationEmail.addEventListener('focus', resetInvalidInput);
+  registrationEmail.addEventListener('focus', () => { registrationErrorCard.style.display = 'none'; });
+  registrationPassword.addEventListener('focus', resetInvalidInput);
+  registrationPassword.addEventListener('focus', () => { registrationErrorCard.style.display = 'none'; });
+  registrationConfirmPassword.addEventListener('focus', resetInvalidInput);
+  registrationConfirmPassword.addEventListener('focus', () => { registrationErrorCard.style.display = 'none'; });
+
+  // Add event listeners for acccout validation form
+  accValidationBtn.addEventListener('click', submitAccountValidation);
+  accValidationCode.addEventListener('focus', resetInvalidInput);
+  accValidationCode.addEventListener('focus', () => { accValidationErrorCard.style.display = 'none'; });
 
   // Add event listener for screen width
   window.addEventListener('resize', (event) => {
@@ -692,7 +743,7 @@ const recordPayment = async (salesOrderId, stripeReference) => {
   }
 };
 
-const submitLogin = async () => {
+const submitLogin = async (newRegistration) => {
   /* Data validation */
   var validForm = true;
   if (validateTarget('login-email')) validForm = false;
@@ -723,6 +774,10 @@ const submitLogin = async () => {
     const data = response.response.data;
     localStorage.setItem('123helpmestudy-email', loginEmail.value);
     localStorage.setItem('123helpmestudy-access-token', data['access-token']);
+    // Register primrary attributes
+    if (newRegistration) await registerNewUserAttributes();
+    // Registration a new conversation between users
+    if (newRegistration) await createMessageForCalendarRequest();
     // Fetch customer ID
     const userAttributes = await fetchUserAttributes();
     // Get the customer ID from the attributes
@@ -736,15 +791,15 @@ const submitLogin = async () => {
       // Create the sales order
       salesOrderDetails = await createSalesOrder(customerId);
       // Apply discount code if it exists
-      if (discountCode) await applyDiscountCode(true);
+      if (salesOrderDetails && discountCode) await applyDiscountCode(true);
       // Create stripe payment intent
-      if (lessonFee > 0) clientSecret = await createStripePaymentIntent();
-      if (lessonFee > 0 && salesOrderDetails && clientSecret) {
+      if (salesOrderDetails && lessonFee > 0) clientSecret = await createStripePaymentIntent();
+      if (salesOrderDetails && lessonFee > 0 && salesOrderDetails && clientSecret) {
         // Hide loading section
         loginSection.style.display = 'none';
         // Show order details section
         formSection.style.display = 'block';
-      } else if (discountCode && lessonFee === 0 && salesOrderDetails) {
+      } else if (salesOrderDetails && discountCode && lessonFee === 0) {
         // Hide loading section
         loginSection.style.display = 'none';
         // Show order details section
@@ -898,4 +953,192 @@ const applyDiscountCode = async (automatic) => {
   formDiscountMsg.innerText = response.response.message;
   formDiscountMsg.style.color = '#dc3545'; // red
   formDiscountMsgSection.style.display = 'block';
+};
+
+
+const submitRegistration = async () => {
+  // Hide the error card
+  registrationErrorCard.style.display = 'none';
+
+  /* Data validation */
+  var validForm = true;
+  if (validateTarget('registration-first-name')) validForm = false;
+  if (validateTarget('registration-last-name')) validForm = false;
+  if (validateTarget('registration-email')) validForm = false;
+  if (validateTarget('registration-password')) validForm = false;
+  if (validateTarget('registration-confirm-password')) validForm = false;
+  if (!validForm) return;
+
+  // Validate passwords are equal
+  if (registrationPassword.value !== registrationConfirmPassword.value) {
+    registrationErrorCard.style.display = 'block';
+    registrationErrorMessage.innerText = 'Passwords do not match';
+    return;
+  }
+
+  // Deactivate login button and show pending
+  registrationBtn.style.display = 'none';
+  registrationPending.style.display = 'block';
+
+  // Submit new user request
+  const path = '/api/users/create';
+  const headers = {};
+  const method = 'POST';
+  const payload = {
+    email: registrationEmail.value,
+    password: registrationPassword.value
+  };
+  const response = await apiCall(
+    path,
+    headers,
+    method,
+    payload
+  );
+  if (response.status === 200) {
+    // Set the login email
+    loginEmail.value = registrationEmail.value;
+    // Set the login password
+    loginPassword.value = registrationPassword.value;
+    // Show the account validation section
+    registrationSection.style.display = 'none';
+    accValidationSection.style.display = 'block';
+    return;
+  }
+  registrationErrorCard.style.display = 'block';
+  registrationErrorMessage.innerText = response.response.message;
+  registrationBtn.style.display = 'inline';
+  registrationPending.style.display = 'none';
+};
+
+const submitAccountValidation = async () => {
+  // Hide the error card
+  accValidationErrorCard.style.display = 'none';
+
+  /* Data validation */
+  var validForm = true;
+  if (validateTarget('registration-validation-code')) validForm = false;
+  if (!validForm) return;
+
+  // Deactivate login button and show pending
+  accValidationBtn.style.display = 'none';
+  accValidationPending.style.display = 'block';
+
+  const path = '/api/users/validate';
+  const headers = {};
+  const method = 'PUT';
+  const payload = {
+    email: registrationEmail.value,
+    email_token: accValidationCode.value,
+  };
+  const response = await apiCall(
+    path, 
+    headers, 
+    method,
+    payload
+  );
+  if (response.status === 200) {
+    // Hide account validation section
+    accValidationSection.style.display = 'none';
+    // Show the login section
+    loginSection.style.display = 'block';
+    // Submit a login request
+    submitLogin(true);
+    return;
+  }
+  accValidationErrorCard.style.display = 'block';
+  accValidationErrorMessage.innerText = response.response.message;
+  accValidationBtn.style.display = 'inline';
+  accValidationPending.style.display = 'none';
+};
+
+
+const registerNewUserAttributes = async () => {
+  await updateUserType();
+  await updateUserFirstName();
+  await updateUserLastName();
+};
+
+/**
+ * Used to update a new users type
+ */
+const updateUserType = async () => {
+  const path = '/api/users/update_user_attribute';
+  const headers = {
+      'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+  };
+  const method = 'PUT';
+  const payload = {
+      email: loginEmail.value,
+      attribute: 'user_type',
+      value: 'parent'
+  };
+  const response = await apiCall(
+    path,
+    headers,
+    method,
+    payload
+  );
+};
+
+/**
+ * Used to update a new users first name
+ */
+ const updateUserLastName = async () => {
+  const path = '/api/users/update_user_attribute';
+  const headers = {
+      'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+  };
+  const method = 'PUT';
+  const payload = {
+      email: loginEmail.value,
+      attribute: 'first_name',
+      value: registrationFirstName.value
+  };
+  const response = await apiCall(
+    path,
+    headers,
+    method,
+    payload
+  );
+};
+
+/**
+ * Used to update a new users last name
+ */
+ const updateUserFirstName = async () => {
+  const path = '/api/users/update_user_attribute';
+  const headers = {
+      'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
+  };
+  const method = 'PUT';
+  const payload = {
+      email: loginEmail.value,
+      attribute: 'last_name',
+      value: registrationLastName.value
+  };
+  const response = await apiCall(
+    path,
+    headers,
+    method,
+    payload
+  );
+};
+
+const createMessageForCalendarRequest = async () => {
+  const path = '/api/salesorders/message_tutor';
+  const headers = {};
+  const method = 'POST';
+  const payload = {
+    email_from: loginEmail.value,
+    mobile_from: '07123456789',
+    subject_id: activeSubjectId,
+    tutor_id: tutorDetails.tutor_id,
+    message: 'I have booked a lesson through your calendar.'
+  };
+  const response = await apiCall(
+      path, 
+      headers, 
+      method,
+      payload
+  );
 };
