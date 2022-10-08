@@ -1,5 +1,5 @@
 // var BASE_URL = 'http://127.0.0.2:8000';
-var BASE_URL = 'https://api2.123helpmestudy.com';
+var BASE_URL = 'https://api.123helpmestudy.com';
 
 async function api_call(path, headers, method, payload) {
     var url = BASE_URL+path;
