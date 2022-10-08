@@ -451,140 +451,127 @@ async function home_page_submit_tutor_form() {
 }
 
 async function home_page_load_page() {
-    var path = ('/api/users/list_user_actions');
-    var headers = {
+    const path = ('/api/users/list_user_actions');
+    const headers = {
         'Access-Token': localStorage.getItem('123helpmestudy-access-token'),
     };
-    var method = 'GET';
-    var payload = {};
-    var response = await api_call(
+    const method = 'GET';
+    const payload = {};
+    const response = await api_call(
         path, 
         headers, 
         method,
         payload
     );
-    if (response['status'] == 200) {
-        var attributes = response['response']['data'];
-        var show_navigation_card = true;
-        for (var i = 0; i < attributes.length; i++) {
-            /* Attach alerts and notifications to page */
-            if (
-                attributes[i]['attribute'] == 'upcoming_lessons'
-                &&
-                attributes[i]['value'] > 0
-            ) {
-                document.getElementById('upcoming-lesson').innerHTML = (
-                    attributes[i]['value']+' upcoming lessons'
-                );
-            }
-            if (
-                attributes[i]['attribute'] == 'unread_messages'
-                &&
-                attributes[i]['value'] > 0
-            ) {
-                document.getElementById('unread-message').innerHTML = (
-                    attributes[i]['value']+' unread messages'
-                );
-            }
-            if (
-                attributes[i]['attribute'] == 'tutor_profile_missing_count'
-                &&
-                attributes[i]['value'] > 0
-            ) {
-                document.getElementById('missing-tutor-details').style.display = 'inline';
-                document.getElementById('tutor-profile-missing').innerHTML = (
-                    attributes[i]['value']+' missing details'
-                );
-            }
-            if (
-                attributes[i]['attribute'] == 'customer_profile_missing_count'
-                &&
-                attributes[i]['value'] > 0
-            ) {
-                document.getElementById('missing-customer-details').style.display = 'inline';
-                document.getElementById('customer-profile-missing').innerHTML = (
-                    attributes[i]['value']+' missing details'
-                );
-            }
-            if (
-                attributes[i]['attribute'] == 'account_details_missing_count'
-                &&
-                attributes[i]['value'] > 0
-            ) {
-                document.getElementById('missing-customer-details').style.display = 'inline';
-                document.getElementById('missing-tutor-details').style.display = 'inline';
-                document.getElementById('account-details-missing').innerHTML = (
-                    attributes[i]['value']+' missing details'
-                );
-            }
-            if (
-                attributes[i]['attribute'] == 'hours_taught'
-            ) {
-                document.getElementById('hours-taught').innerHTML += attributes[i]['value'];
-            }
-            if (
-                attributes[i]['attribute'] == 'earnings'
-            ) {
-                document.getElementById('earnings').innerHTML += attributes[i]['value'];
-            }
-            /* Show user specific cards */
-            if (attributes[i]['attribute'] == 'user_type') {
-                if (attributes[i]['value'] == 'new') {
-                    show_navigation_card = false;
-                    document.getElementById('initialise-user-type').style.display = 'block';
-                }
-                if (attributes[i]['value'] == 'tutor') {
-                    /* For all */
-                    document.getElementById('lessons-card').style.display = 'block';
-                    document.getElementById('messages-card').style.display = 'block';
-                    document.getElementById('account-card').style.display = 'block';
-                    /* Tutor specific */
-                    document.getElementById('students-card').style.display = 'block';
-                    document.getElementById('calendar-card').style.display = 'block';
-                    document.getElementById('tutor-blurb').style.display = 'block';
-                    document.getElementById('tutoring-opportunities').style.display = 'block';
-                    document.getElementById('tutor-profile').style.display = 'block';
-                    document.getElementById('tutor-resources').style.display = 'block';
-                }
-                if (
-                    attributes[i]['value'] == 'parent'
-                    ||
-                    attributes[i]['value'] == 'student'
-                ) {
-                    /* For all */
-                    document.getElementById('lessons-card').style.display = 'block';
-                    document.getElementById('messages-card').style.display = 'block';
-                    document.getElementById('account-card').style.display = 'block';
-                    /* Customer specific */
-                    document.getElementById('customer-blurb').style.display = 'block';
-                    document.getElementById('customer-profile').style.display = 'block';
-                }
-            }
-            /* Open super user cards */ 
-            if (
-                attributes[i]['attribute'] == 'permissions'
-                &&
-                attributes[i]['value'] == 'super'
-            ) {
-                document.getElementById('students-card').style.display = 'block';
-                document.getElementById('tutor-profile').style.display = 'block';
-                document.getElementById('customer-profile').style.display = 'block';
-                document.getElementById('all-tutors-list').style.display = 'block';
-                document.getElementById('validate-user-document').style.display = 'block';
-                document.getElementById('record-payment').style.display = 'block';
-                document.getElementById('remove-user').style.display = 'block';
-                document.getElementById('sensor-user-message').style.display = 'block';
-                document.getElementById('view-instant-messages').style.display = 'block';
-                document.getElementById('tutor-resources').style.display = 'block';
-            }
-        }
-        document.getElementById('pending-load-page').style.display = 'none';
-        if (show_navigation_card == true) {
-            document.getElementById('navigation-card').style.display = 'block';
-        }
-    } else if (response['status'] == 401) {
-        var base = (window.location.pathname).toString().replace('/application/home.html', '');
+    if (response.status !== 200) {
+        let base = (window.location.pathname).toString().replace('/application/home.html', '');
         window.location.assign(base+'/information/login.html');
+    }
+    const attributes = response.response.data;
+    var showNavigationCard = true;
+    // Map out attributes
+    let userType;
+    let permissions;
+    let upcomingLessons;
+    let hoursTaught;
+    let earnings;
+    let unreadMessages;
+    let tutorProfileMissingCount;
+    let customerProfileMissingCount;
+    let accountDetailsMissingCount;
+    let firstName;
+    let lastName;
+    attributes.forEach(attributeObj => {
+        if (attributeObj.attribute === 'user_type') userType = attributeObj.value;
+        if (attributeObj.attribute === 'permissions') permissions = attributeObj.value;
+        if (attributeObj.attribute === 'upcoming_lessons') upcomingLessons = attributeObj.value;
+        if (attributeObj.attribute === 'hours_taught') hoursTaught = attributeObj.value;
+        if (attributeObj.attribute === 'earnings') earnings = attributeObj.value;
+        if (attributeObj.attribute === 'unread_messages') unreadMessages = attributeObj.value;
+        if (attributeObj.attribute === 'tutor_profile_missing_count') tutorProfileMissingCount = attributeObj.value;
+        if (attributeObj.attribute === 'customer_profile_missing_count') customerProfileMissingCount = attributeObj.value;
+        if (attributeObj.attribute === 'account_details_missing_count') accountDetailsMissingCount = attributeObj.value;
+        if (attributeObj.attribute === 'first_name') firstName = attributeObj.value;
+        if (attributeObj.attribute === 'last_name') lastName = attributeObj.value;
+    });
+    // Attach notifications to the page
+    const missingCustomerDetailsEl = document.getElementById('missing-customer-details');
+    const missingTutorDetailsEl = document.getElementById('missing-tutor-details');
+    if (upcomingLessons > 0) {
+        const upcomingLessonsEl = document.getElementById('upcoming-lesson');
+        upcomingLessonsEl.innerText = `${upcomingLessons} upcoming lessons`;
+    }
+    if (unreadMessages > 0) {
+        const unreadMessagesEl = document.getElementById('unread-message');
+        unreadMessagesEl.innerText = `${unreadMessages} unread messages`;
+    }
+    if (tutorProfileMissingCount > 0) {
+        const tutorProfileMissingCountEl = document.getElementById('tutor-profile-missing');
+        tutorProfileMissingCountEl.innerText = `${tutorProfileMissingCount} missing details`;
+        missingTutorDetailsEl.style.display = 'inline';
+    }
+    if (customerProfileMissingCount > 0) {
+        const customerProfileMissingCountEl = document.getElementById('customer-profile-missing');
+        customerProfileMissingCountEl.innerText = `${customerProfileMissingCount} missing details`;
+        missingCustomerDetailsEl.style.display = 'inline';
+    }
+    if (accountDetailsMissingCount > 0) {
+        const accountDetailsMissingCountEl = document.getElementById('account-details-missing');
+        accountDetailsMissingCountEl.innerText = `${accountDetailsMissingCount} missing details`;
+        missingCustomerDetailsEl.style.display = 'inline';
+        missingTutorDetailsEl.style.display = 'inline';
+    }
+    if (hoursTaught) {
+        const hoursTaughtEl = document.getElementById('hours-taught');
+        hoursTaughtEl.innerText = hoursTaught;
+    }
+    if (earnings) {
+        const earningsEl = document.getElementById('earnings');
+        earningsEl.innerText = earnings;
+    }
+    console.log(userType);
+    if (userType === 'new' || !firstName || !lastName) {
+        showNavigationCard = false;
+        const initialiseUserType = document.getElementById('initialise-user-type');
+        initialiseUserType.style.display = 'block';
+    } else if (userType === 'tutor') {
+        /* For all */
+        document.getElementById('lessons-card').style.display = 'block';
+        document.getElementById('messages-card').style.display = 'block';
+        document.getElementById('account-card').style.display = 'block';
+        /* Tutor specific */
+        document.getElementById('students-card').style.display = 'block';
+        document.getElementById('calendar-card').style.display = 'block';
+        document.getElementById('tutor-blurb').style.display = 'block';
+        document.getElementById('tutoring-opportunities').style.display = 'block';
+        document.getElementById('tutor-profile').style.display = 'block';
+        document.getElementById('tutor-resources').style.display = 'block';
+    } else if (userType === 'parent' || userType === 'student') {
+        /* For all */
+        document.getElementById('lessons-card').style.display = 'block';
+        document.getElementById('messages-card').style.display = 'block';
+        document.getElementById('account-card').style.display = 'block';
+        /* Customer specific */
+        document.getElementById('customer-blurb').style.display = 'block';
+        document.getElementById('customer-profile').style.display = 'block';
+    }
+    // Expand all for a super user
+    if (permissions === 'super') {
+        document.getElementById('students-card').style.display = 'block';
+        document.getElementById('tutor-profile').style.display = 'block';
+        document.getElementById('customer-profile').style.display = 'block';
+        document.getElementById('all-tutors-list').style.display = 'block';
+        document.getElementById('validate-user-document').style.display = 'block';
+        document.getElementById('record-payment').style.display = 'block';
+        document.getElementById('remove-user').style.display = 'block';
+        document.getElementById('sensor-user-message').style.display = 'block';
+        document.getElementById('view-instant-messages').style.display = 'block';
+        document.getElementById('tutor-resources').style.display = 'block';
+    }
+    // Handle load and page display
+    document.getElementById('pending-load-page').style.display = 'none';
+    if (showNavigationCard == true) {
+        document.getElementById('navigation-card').style.display = 'block';
     }
 }
 
@@ -1686,7 +1673,8 @@ async function lessons_page_load_page() {
             // For customer payment button
             if (lessons[i]['user_type'] != 'tutor') {
                 if (lessons[i]['payment_received'] != 'complete') {
-                    var payment_activity = '<a href="../user/payment-option.html?id='+lessons[i]['lesson_id']+'"><button href="" class="btn btn-success">Pay now to confirm lesson</button></a>';
+                    // var payment_activity = '<a href="../user/payment-option.html?id='+lessons[i]['lesson_id']+'"><button href="" class="btn btn-success">Pay now to confirm lesson</button></a>';
+                    var payment_activity = `<a href="${window.location.origin}/pages/paymentOptions/paymentOptions.html?id=${lessons[i]['lesson_id']}"><button href="" class="btn btn-success">Pay now to confirm lesson</button></a>`;
                 } else {
                     var payment_activity = `
                     <div class="card border border-success success-bg">

@@ -118,7 +118,7 @@ const tutorSubjects = async () => {
 
       // Create the subject card
       let subjectCard = document.createElement('div');
-      subjectCard.className = `card mb-1 ${colour} rounded`;
+      subjectCard.className = `subject card mb-1 ${colour} rounded`;
       subjectCard.addEventListener('click', async () => {
         await displayTutors(subjects[i].subject_id);
       });
