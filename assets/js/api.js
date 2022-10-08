@@ -759,6 +759,11 @@ async function account_page_load_page() {
         document.getElementById('email').innerHTML += localStorage.getItem('123helpmestudy-email');
         var attributes = response['response']['data'];
         for (var i = 0; i < attributes.length; i++) {
+            if (attributes[i]['attribute'] == 'user_type') {
+                if (attributes[i]['value'] !== 'tutor') {
+                    document.getElementById('confirm-identity-card').style.display = 'none';
+                }
+            }
             if (attributes[i]['attribute'] == 'first_name') {
                 document.getElementById('first-name').value = attributes[i]['value'];
             }
@@ -789,10 +794,10 @@ async function account_page_load_page() {
             if (attributes[i]['attribute'] == 'country') {
                 document.getElementById('country').value = attributes[i]['value'];
             }
-            if (attributes[i]['attribute'] == 'password') {
-                document.getElementById('password').value = atob(attributes[i]['value']);
-                document.getElementById('confirm-password').value = atob(attributes[i]['value']);
-            }
+            // if (attributes[i]['attribute'] == 'password') {
+            //     document.getElementById('password').value = atob(attributes[i]['value']);
+            //     document.getElementById('confirm-password').value = atob(attributes[i]['value']);
+            // }
             if (
                 attributes[i]['attribute'] == 'user_identity_document'
                 &&
@@ -1666,6 +1671,7 @@ async function lessons_page_load_page() {
     if (response['status'] == 200) {
         /* Upcoming Lessons */
         var lessons = response['response']['data']['upcoming_lessons'];
+        console.log(lessons);
         if (lessons.length == 0) {
             document.getElementById('no-upcoming-lessons').style.display = 'block';
         }
