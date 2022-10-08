@@ -5,21 +5,43 @@ const navItems = [
     href: `${window.location.origin}/index.html`,
     target: 'parent',
     text: '<i class="bi-house"></i> Home',
+    authenticationRequired: false,
+  },
+  {
+    href: `${window.location.origin}/application/home.html`,
+    target: 'parent',
+    text: '<i class="bi-grid-3x3-gap"></i> Dashboard',
+    authenticationRequired: true,
   },
   {
     href: `${window.location.origin}/information/about-us.html`,
     target: 'parent',
     text: '<i class="bi-person"></i> About Us',
+    authenticationRequired: false,
   },
   {
     href: `${window.location.origin}/information/tutors.html`,
     target: 'parent',
     text: '<i class="bi-award"></i> Tutors',
+    authenticationRequired: false,
+  },
+  {
+    href: `${window.location.origin}/information/tutors.html`,
+    target: 'parent',
+    text: '<i class="bi-award"></i> Tutors',
+    authenticationRequired: true,
   },
   {
     href: `${window.location.origin}/information/contact-us.html`,
     target: 'parent',
     text: '<i class="bi-chat-right-text"></i> Contact Us',
+    authenticationRequired: false,
+  },
+  {
+    href: `${window.location.origin}/information/contact-us.html`,
+    target: 'parent',
+    text: '<i class="bi-chat-right-text"></i> Contact Us',
+    authenticationRequired: true,
   },
   // {
   //   href: `https://www.facebook.com/123helpmestudy`,
@@ -30,16 +52,25 @@ const navItems = [
     href: `${window.location.origin}/information/sign-up.html`,
     target: 'parent',
     text: '<i class="bi-person-plus"></i> Sign Up',
+    authenticationRequired: false,
   },
   {
     href: `${window.location.origin}/information/login.html`,
     target: 'parent',
     text: '<i class="bi-box-arrow-right"></i> Login',
+    authenticationRequired: false,
+  },
+  {
+    href: `${window.location.origin}/information/login.html`,
+    target: 'parent',
+    text: '<i class="bi-box-arrow-left"></i> Logout',
+    authenticationRequired: true,
   },
 ];
 
 
-function setNavigationBar() {
+function setNavigationBar(authenticated) {
+  if (!authenticated) authenticated = false;
   // Requires a div on the page with id: 'navigation-bar'
   const navBarSection = document.getElementById('navigation-bar');
   // Navigation element
@@ -77,6 +108,7 @@ function setNavigationBar() {
   
   // Iterate over nav items and add them to ul
   for (let i = 0; i < navItems.length; i++) {
+    if (navItems[i].authenticationRequired !== authenticated) continue;
     let li = document.createElement('li');
     li.classList.add('nav-item');
     // Span for nav item

@@ -15,9 +15,8 @@ function hasUniqueId() {
 }
 
 function resetError() {
-  if (document.getElementById('error-card') != null) {
-    document.getElementById('error-card').style.display = 'none';    
-  }
+  const errorCard = document.getElementById('error-card');
+  if (errorCard) errorCard.style.display = 'none';
 }
 
 /**
@@ -91,6 +90,24 @@ const messageCounter = (input_id, output_id) => {
   });
 };
 
+
+const setFile = (attribute, label, inputId, tickId) => {
+  const newFile = document.getElementById(inputId).files;
+  const output = document.getElementById(attribute);
+  const fileLabel = document.getElementById(label);
+  const tick = document.getElementById(tickId);
+  if (newFile.length === 0) return;
+  if (tickId) tick.style.display = 'inline';
+  fileLabel.innerText = newFile[0].name;
+  const fileToRead = newFile[0];
+  const fileReader = new FileReader();
+  fileReader.addEventListener('load', (event) => {
+    const base64 = event.target.result;
+    output.innerText = base64;
+  });
+  fileReader.readAsDataURL(fileToRead);
+};
+
 export {
   sleep,
   hasUniqueId,
@@ -98,5 +115,6 @@ export {
   resetInvalidInput,
   validateTarget,
   tutorSubjectToggle,
-  messageCounter
+  messageCounter,
+  setFile
 };

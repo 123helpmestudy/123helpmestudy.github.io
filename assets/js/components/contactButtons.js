@@ -3,8 +3,7 @@ import { captureChatMessage, fetchConversation } from './apiCalls/instantMesseng
 
 const chatBoxHeight = 600;
 const chatBoxWidth = 500;
-// For testing the chat box
-const chatWindowVisible = false;
+let chatWindowVisible = false;
 let chatBoxDisplay = 'block';
 let chatBoxViewHeight = `${chatBoxHeight}px`;
 let chatBoxViewWidth = `${chatBoxWidth}px`;
@@ -49,6 +48,7 @@ async function maximiseInstantMessengerBox() {
         instantMessageBox.style.width = `${currentWidth}px`;
         await sleep(5);
     }
+    chatWindowVisible = true;
 }
 
 async function minimiseInstantMessengerBox() {
@@ -67,6 +67,7 @@ async function minimiseInstantMessengerBox() {
         }
         await sleep(5);
     }
+    chatWindowVisible = false;
 }
 
 async function setContactButtons() {
@@ -189,6 +190,7 @@ async function setContactButtons() {
     const chatBotText = document.createElement('p');
     chatBotText.classList.add('mb-0');
     chatBotText.innerText = 'Hello, can I help you to find a tutor today?';
+    if (window.location.pathname.indexOf('payment') > -1) chatBotText.innerText = 'Hello, how can I help?';
     chatBotHelloBox.appendChild(chatBotText);
     instantMessagesBox.appendChild(chatBotHelloBox);
 
@@ -236,7 +238,7 @@ async function setContactButtons() {
 
     // Initiate chat fetch loop
     while (true) {
-        fetchConversation();
+        if (chatWindowVisible) fetchConversation();
         await sleep(5000);
     }
 }

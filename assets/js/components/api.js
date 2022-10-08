@@ -1,4 +1,4 @@
-import vars from '../vars.js';
+import vars from '/assets/js/vars.js';
 
 async function apiCall(path, headers, method, payload) {
   const url = `${vars.baseUrl}${path}`;

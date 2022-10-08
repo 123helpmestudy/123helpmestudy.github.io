@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Styling -->
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <!-- End Styling -->
+    <!-- SEO -->
+    <title>
+      123 Help Me Study | Payment options
+    </title>
+    <meta charset="UTF-8">
+    <meta name="author" content="123 Help Me Study">
+    <meta name="theme-color" content="#00AAFF" />
+    <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
+    <!-- End SEO -->
+    <!-- Javascript -->
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <div id="main">
+      <!-- NAVBAR -->
+      <div id="navigation-bar"></div>
+      <!-- EASY CONTACT BUTTONS -->
+      <div id="contact-buttons"></div>
+      <!-- CARD 2 -->
+      <!-- SPACER -->
+      <div class="container-fluid">
+        <div class="row py-5">
+        </div>
+      </div>
+      <!-- CARD 1 -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+          </div>
+          <div class="col-12">
+            <div id="page-title" class="max-card mx-auto mb-2 hidden-el">
+              <h4 class="pl-2">
+                Payment Method
+              </h4>
+            </div>
+            <div id="show-back-button" class="max-card mx-auto text-right mb-2 hidden-el">
+              <button
+                class="btn btn-primary"
+              >
+                Back
+              </button>
+            </div>
+            <!-- Card payment -->
+            <div
+              id="pay-by-card-card"
+              class="card shadow bg-white max-card mx-auto mb-2 hidden-el"
+            >
+              <div class="card-body text-center dashboard-button">
+                <p class="mb-2">
+                  Card Payment
+                </p>
+                <small>
+                  <p id="card-tutor-fee" class="mb-0 font-italic">
+                    Tutor fee: £0.00
+                  </p>
+                  <p id="card-admin-fee" class="mb-0 font-italic">
+                    Admin fee: £0.00
+                  </p>
+                </small>
+                <p id="card-total-fee" class="mb-0 font-weight-bold">
+                  Total charge: £0.00
+                </p>
+                <input id="card-total-fee-value" type="text" class="hidden-el">
+              </div>
+            </div>
+            <!-- Card payment form -->
+            <div id="card-payment-form" class="card shadow bg-white max-card mx-auto mb-2 hidden-el">
+              <div id="card-body-payment-form" class="card-body text-justify">
+                <p class="mt-2 mb-1">
+                  Please enter your card details below to secure your lesson.
+                </p>
+                <p class="mb-1">
+                  Your first lesson will be charged immediately, all
+                  subsequent lessons booked in by
+                  <b id="tutors-name-1">tutor's name here</b>
+                  will be charged at the time of the tutor's booking.
+                  Please note, we will charge this card for all future lessons.
+                </p>
+                <p class="mb-3">
+                  You and <b id="tutors-name-2">tutor's name here</b> will receive
+                  a confirmation email once payment for the lesson is cleared
+                  and the lesson can proceed as scheduled.
+                </p>
+                <div id="stripe-input-card" class="card shadow py-4 px-2">
+                  <!-- Stripe elements here -->
+                  <div id="card-element">
+                    <!-- Elements will create input elements here -->
+                  </div>
+                  <!-- We'll put the error messages in this element -->
+                  <div id="card-errors" role="alert" class="text-danger font-italic"></div>
+                  <!-- Stripe elements here -->
+                </div>
+                <div id="pay-now-button" class="mt-3 text-right">
+                  <button
+                    id="submit"
+                    class="btn btn-success"
+                  >
+                    Pay
+                  </button>
+                </div>
+                <div id="pending-card-payment" class="text-center mt-4 hidden-el">
+                  <p class="text-secondary mb-1">Processing payment</p>
+                  <div class="spinner-border text-info" role="status"></div>
+                  <small>
+                    <p class="text-secondary mt-3 mb-1">
+                      Please wait for a successful payment message
+                    </p>
+                  </small>
+                </div>
+                <div id="error-card-payment-card" class="card mt-3 border border-danger warning-bg hidden-el">
+                  <div class="card-body">
+                    <p id="error-response-card-payment" class="text-center font-weight-bold m-0"></p>
+                  </div>
+                </div>
+                <div id="success-card-payment-card" class="card mt-3 border border-success success-bg hidden-el">
+                  <div class="card-body">
+                    <p class="text-center font-weight-bold m-0">
+                      Your payment has been successfully processed.
+                    </p>
+                    <p id="success-response-card-payment" class="text-center m-0">
+                      <!-- Payment reference here -->
+                    </p>
+                  </div>
+                </div>
+                <p class="mt-3">
+                  Please use the live chat if anything goes wrong with processing your payment.
+                </p>
+              </div>
+            </div>
+            <!-- Bank transfer -->
+            <div
+              id="pay-by-bank-card"
+              class="card shadow bg-white max-card mx-auto mb-2 hidden-el"
+            >
+              <div class="card-body text-center dashboard-button">
+                <p class="mb-2 font-weight-bold">
+                  Bank Transfer
+                </p>
+                <small>
+                  <p id="BACS-tutor-fee" class="mb-0 font-italic">
+                    Tutor fee: £0.00
+                  </p>
+                  <p id="BACS-admin-fee" class="mb-0 font-italic">
+                    Admin fee: £0.00
+                  </p>
+                </small>
+                <p id="BACS-total-fee" class="mb-0 font-weight-bold">
+                  Total charge: £0.00
+                </p>
+              </div>
+            </div>
+            <!-- Bank transfer details -->
+            <div id="show-bank-details" class="card shadow bg-white max-card mx-auto mb-2 hidden-el">
+              <div id="card-body-bank-details" class="card-body text-left">
+                <p>
+                  Please use the below details to transfer
+                  the balance of <b id="BACS-charge-amount">£0.00</b> 
+                  to us within <b>2 hours</b> to secure the lesson, otherwise we must cancel
+                  the lesson to make space for other students. 
+                </p>
+                <p>
+                  Account Name: <b id="account-name">Account Name</b>
+                </p>
+                <p>
+                  Account Number: <b id="account-number">Account Number</b>
+                </p>
+                <p>
+                  Sort code: <b id="sort-code">Sort Code</b>
+                </p>
+                <p>
+                  Bank Name: <b id="bank-name">Bank Name</b>
+                </p>
+                <small>
+                  <p>
+                    To speed up the process, please feel free to upload evidence of your transfer here.
+                  </p>
+                </small>
+                <div class="custom-file mb-2">
+                  <input
+                    id="bacs-evidence-upload"
+                    type="file"
+                    class="custom-file-input hover-pointer"
+                  >
+                  <label id="bacs-evidence-label" class="custom-file-label">Choose file</label>
+                </div>
+                <div id="submit-bacs-evidence-file" class="mb-3">
+                  <button
+                    class="btn btn-primary">
+                    Submit file
+                  </button>
+                </div>
+                <div id="error-card" class="card mt-3 border border-danger warning-bg hidden-el">
+                  <div class="card-body">
+                    <p id="error-response" class="text-center font-weight-bold m-0">
+                      You have not selected a file to upload.
+                    </p>
+                  </div>
+                </div>
+                <div id="pending-send" class="text-center mb-3 hidden-el">
+                  <p class="text-secondary mb-1">Sending, please wait</p>
+                  <div class="spinner-border text-info" role="status"></div>
+                </div>
+                <small>
+                  <p>
+                    Note: You will receive an email confirmation as soon as we
+                    have added payment to your lesson.
+                  </p>
+                </small>
+                <span id="bacs-evidence-base64" class="hidden-el"></span>
+              </div>
+            </div>
+            <!-- Card end -->
+          </div>
+          <div class="col">
+          </div>
+        </div>
+      </div>
+      <!-- SPACER -->
+      <div class="container-fluid">
+        <div class="row py-5">
+        </div>
+      </div>
+    </div>
+    <script src="./paymentOptions.js" type="module"></script>
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="../../assets/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
