@@ -19,7 +19,7 @@ function set_navigation_bar(base) {
                 </li>
                 <li class="nav-item">
                     <span style="display: block;" class="nav-bar-menu-item-ext">
-                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/information/about-us.html"><i class="bi-person"></i> About Us</a>
+                        <a class="nav-bar-menu-item font-weight-bold px-3" href="`+base+`/pages/aboutUs/aboutUs.html"><i class="bi-person"></i> About Us</a>
                     </span>
                     <span style="display: block;" class="nav-underline"></span>
                 </li>
@@ -391,7 +391,6 @@ function set_tutor_page_subject_options() {
     <span id="subject-options-3">
     */
     html = `
-    <option>None</option>
     <option>Accounting</option>
     <option>Art and Design</option>
     <option>Bengali</option>
@@ -662,7 +661,7 @@ function main(arg, base) {
         if (base == '/') {base = ''}
         index_page(base);
     }
-    if (arg == '/information/about-us.html') {
+    if (arg == '/pages/aboutUs/aboutUs.html') {
         about_us_page(base);
     }
     if (arg == '/information/terms-and-conditions.html') {

@@ -14,7 +14,7 @@ const navItems = [
     authenticationRequired: true,
   },
   {
-    href: `${window.location.origin}/information/about-us.html`,
+    href: `${window.location.origin}/pages/aboutUs/aboutUs.html`,
     target: 'parent',
     text: '<i class="bi-person"></i> About Us',
     authenticationRequired: false,

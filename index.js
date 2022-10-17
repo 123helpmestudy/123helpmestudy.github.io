@@ -1,16 +1,17 @@
-import { setNavigationBar } from './../components/navigationBar.js';
-import { setPageHeader } from './../components/pageHeader.js';
-import { setPageFooter } from './../components/pageFooter.js';
-import { setContactButtons } from './../components/contactButtons.js';
-import { apiCall } from './../components/api.js';
-import { validateUserInteraction } from '../components/apiCalls/validateUserInteraction.js';
+import { setNavigationBar } from '/assets/js/components/navigationBar.js';
+import { setPageHeader } from '/assets/js/components/pageHeader.js';
+import { setPageFooter } from '/assets/js/components/pageFooter.js';
+import { setContactButtons } from '/assets/js/components/contactButtons.js';
+import { apiCall } from '/assets/js/components/api.js';
+import { validateUserInteraction } from '/assets/js/components/apiCalls/validateUserInteraction.js';
 import {
   resetInvalidInput,
   validateTarget,
   tutorSubjectToggle
-} from './../components/utils.js';
+} from '/assets/js/components/utils.js';
 
 // Lesson toggle elements
+const subjectList = document.getElementById('subject-list');
 const submitFindLesson = document.getElementById('submitFindLesson');
 const onlineLessonToggle = document.getElementById('checkOnline');
 const face2FaceLessonToggle = document.getElementById('checkFace2Face');
@@ -117,20 +118,21 @@ async function loadSubjectsSelector() {
     method,
     payload
   );
-  if (response.status == 200) {
-    let subjects = response.response.data;
-    let option_list;
-    for (let i = 0; i < subjects.length; i++) {
-      if (subjects[i]['lowest_price'] == 'Not available') {
-        continue;
-      }
-      let html = `
-      <option value=`+subjects[i]['subject_id']+`>`+subjects[i]['long_name']+`</option>
-      `;
-      option_list += html;
-    }
-    document.getElementById('subject-list').innerHTML = option_list;
-  }
+  if (response.status !== 200) return;
+  subjectList.innerHTML = '';
+  let subjects = response.response.data;
+  subjects.forEach(subject => {
+    if (subject.lowest_price === 'Not available') return;
+    const option = document.createElement('option');
+    option.value = subject.subject_id;
+    option.innerText = subject.long_name;
+    subjectList.appendChild(option);
+  });
+  // Check the inner node list of the subjects to display
+  if (subjectList.children.length > 0) return;
+  const option = document.createElement('option');
+  option.innerText = 'No subjects found';
+  subjectList.appendChild(option);
 }
 
 
@@ -139,7 +141,7 @@ function redirectIndexToTutor() {
   let base = window.location.pathname;
   if (base == '/') {base = ''}
   base = base.toString().replace(arg, '');
-  let subject = document.getElementById('subject-list').value;
+  let subject = subjectList.value;
   let lesson_type = document.getElementById('lessonLocation').value;
   let post_zip_code = document.getElementById('postZipCode').value;
   if (lesson_type == 'face-to-face' && post_zip_code.length == 0) {

@@ -22,7 +22,7 @@ let largeScreen = window.innerWidth < 625 ? false : true;
 
 const calendar = document.getElementById('build-calendar');
 const yearDisplay = document.getElementById('calendar-year');
-const monthisplay = document.getElementById('calendar-month');
+const monthDisplay = document.getElementById('calendar-month');
 const increaseMonthBtn = document.getElementById('increase-month');
 const decreaseMonthBtn = document.getElementById('decrease-month');
 const calendarLoading = document.getElementById('pending-load-calendar');
@@ -148,6 +148,9 @@ function main() {
   loginBtn.addEventListener('click', () => {
     submitLogin(false);
   });
+  loginPassword.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') submitLogin(false);
+  });
   loginEmail.addEventListener('focus', resetInvalidInput);
   loginPassword.addEventListener('focus', resetInvalidInput);
   if (localStorage.getItem('123helpmestudy-email')) loginEmail.value = localStorage.getItem('123helpmestudy-email');
@@ -270,7 +273,7 @@ const calculatePrevMonthYear = () => {
 };
 
 const setCalendarMonth = (month) => {
-  monthisplay.innerText = months[(month - 1)].name;
+  monthDisplay.innerText = months[(month - 1)].name;
 };
 
 const buildCalendar = (year, month) => {
@@ -551,12 +554,9 @@ const confirmTime = (event) => {
   availabilityPicker.style.display = 'none';
   backToTopBtn.style.display = 'none';
   yearDisplay.style.display = 'none';
-  monthisplay.style.display = 'none';
+  monthDisplay.style.display = 'none';
   increaseMonthBtn.style.display = 'none';
   decreaseMonthBtn.style.display = 'none';
-
-  // Show the login section
-  loginSection.style.display = 'block';
 
   // Set form date
   let strDayNumber = `${activeDay}`;
@@ -578,6 +578,11 @@ const confirmTime = (event) => {
     formDiscountCode.disabled = true;
     formDiscountCodeBtn.style.display = 'none';
   }
+
+  // Check if user is authenticated
+
+  // Show the login section
+  loginSection.style.display = 'block';
 };
 
 const submitForm = () => {
@@ -586,7 +591,6 @@ const submitForm = () => {
   if (validateTarget('email')) validForm = false;
   // if (validateTarget('message')) validForm = false;
   if (!validForm) return;
-
   makePayment(formEmail.value);
 };
 
@@ -1122,6 +1126,8 @@ const updateUserType = async () => {
     method,
     payload
   );
+  if (response.status === 200) return response.response;
+  return null;
 };
 
 const createMessageForCalendarRequest = async () => {
@@ -1141,4 +1147,6 @@ const createMessageForCalendarRequest = async () => {
       method,
       payload
   );
+  if (response.status === 200) return response.response;
+  return null;
 };

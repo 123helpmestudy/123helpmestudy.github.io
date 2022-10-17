@@ -3,7 +3,7 @@ import { setPageHeader } from '/assets/js/components/pageHeader.js';
 import { setPageFooter } from '/assets/js/components/pageFooter.js';
 import { setContactButtons } from '/assets/js/components/contactButtons.js';
 import { apiCall } from '/assets/js/components/api.js'
-import { home } from '/assets/js/components/routes.js';
+import { home, bookingCalendar } from '/assets/js/components/routes.js';
 import {
   resetInvalidInput,
   resetError,
@@ -28,12 +28,14 @@ const bookingName = document.getElementById('requester-name');
 const bookingDate = document.getElementById('requester-date');
 const bookingTime = document.getElementById('requester-time');
 const bookingDuration = document.getElementById('requester-duration');
+const bookingCode = document.getElementById('requester-code');
 const submitBtn = document.getElementById('request-button');
 const cancelOrderResponseSection = document.getElementById('cancel-order-card');
 const cancelOrderResponse = document.getElementById('cancel-order-card-response');
 
 let requestType;
 let salesOrderId;
+let username;
 let salesOrderDetails;
 
 window.addEventListener('DOMContentLoaded', main);
@@ -46,6 +48,9 @@ function main() {
   // Add event listener for login submit
   loginBtn.addEventListener('click', () => {
     submitLogin(false);
+  });
+  loginPassword.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') submitLogin(false);
   });
   loginEmail.addEventListener('focus', resetInvalidInput);
   loginPassword.addEventListener('focus', resetInvalidInput);
@@ -69,10 +74,12 @@ const unpackSearchParams = () => {
   }
   if (
     'id' in params &&
-    't' in params
+    'type' in params &&
+    'username' in params
   ) {
     salesOrderId = params.id;
-    requestType = params.t;
+    requestType = params.type;
+    username = params.username;
     constructPage();
   } else {
     alert('Invalid location criteria!');
@@ -158,17 +165,33 @@ const showChangeRequestForm = async () => {
   // Hide login section
   loginSection.style.display = 'none';
 
+  // Validate that the sales order is not empty
+  if (!salesOrderDetails) {
+    invalidSection.childNodes[1].innerText = 'Nothing to display...';
+    invalidSection.style.display = 'block';
+    return;
+  }
+
   // Add request form details
   requestTitle.innerText = requestTitles[requestType].title;
   bookingName.value = salesOrderDetails.customer_name;
   bookingDate.value = salesOrderDetails.booking_date;
   bookingTime.value = salesOrderDetails.start_time.substring(0, 5);
   bookingDuration.value = `${salesOrderDetails.lesson_duration} minutes`;
+  bookingCode.value = salesOrderDetails.discount_code;
   submitBtn.innerText = requestTitles[requestType].button;
   submitBtn.classList.add(requestTitles[requestType].buttonClass);
 
   // Add event listener to to submit button
-  if (requestType === 'update') submitBtn.addEventListener('click', () => {});
+  if (requestType === 'update') submitBtn.addEventListener('click', () => {
+    cancelOrder();
+    bookingCalendar(
+      salesOrderDetails.subject_id,
+      username,
+      salesOrderDetails.lesson_duration,
+      salesOrderDetails.discount_code
+    );
+  });
   if (requestType === 'cancel') submitBtn.addEventListener('click', cancelOrder);
 
   // Display form
