@@ -37,7 +37,9 @@ function main() {
    * Add event listener for  navigating to contact us
    * for the subject not found / on list card
    */
-  document.getElementById('go-to-contact-us').addEventListener('click', contactUs);
+  document.getElementById('go-to-contact-us').addEventListener('click', () => {
+    contactUs('Subject not listed');
+  });
 
   // Unpack search parameters locally
   unpackSearchParams();
@@ -293,12 +295,12 @@ const renderTutors = async (method) => {
     });
     // Mileage & price button section
     let btnSection = document.createElement('div');
-    btnSection.className = 'text-right mb-2';
+    btnSection.className = 'text-right mb-4';
     if ('distance_miles' in tutors[i]) {
       let milesBtn = document.createElement('button');
       milesBtn.className = 'btn btn-success shadow';
       milesBtn.style.marginRight = '5px';
-      milesBtn.innerText = `${tutors[i].distance_miles} miles away`;
+      milesBtn.innerText = tutors[i].distance_miles ? `${tutors[i].distance_miles} miles away` : 'Distance unknown';
       btnSection.appendChild(milesBtn);
     }
     let priceBtn = document.createElement('button');
@@ -311,7 +313,7 @@ const renderTutors = async (method) => {
     // Tutor image
     let tutorImage = document.createElement('img');
     tutorImage.className = 'circle-img-profile-list';
-    tutorImage.src = tutors[i].profile_photo;
+    tutorImage.src = tutors[i].profile_photo ? tutors[i].profile_photo : `${window.location.origin}/assets/images/profile_default_img.svg`;
     tutorNavCard.appendChild(tutorImage);
 
     // Tutor Name

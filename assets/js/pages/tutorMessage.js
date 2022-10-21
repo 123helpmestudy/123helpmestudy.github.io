@@ -87,16 +87,16 @@ const fetchMessageHelper = async () => {
   /* Load tutor attributes */
   const tutor = await fetchTutor(tutorSelected.innerText);
   if (!tutor) return;
-  photo.src = tutor.profile_photo;
-  const html = (
+  photo.src = tutor.profile_photo ? tutor.profile_photo : `${window.location.origin}/assets/images/profile_default_img.svg`;
+  const text = (
     `Hello ${tutor.first_name} ${tutor.last_name_initial},\n\n`
     + `I am looking for help with ${requestSubject}.\n`
     + 'I came across your profile and feel like you would be a great fit for me.\n'
     + 'Please could you let me know when you would be free for a first lesson.\n\n'
     + 'Thanks'
   );
-  messageBox.value = html;
-  messageLen.innerText = `${html.length} / 500`;
+  messageBox.value = text;
+  messageLen.innerText = `${text.length} / 500`;
 };
 
 const fetchSubjects = async () => {
