@@ -19,6 +19,7 @@
     <!-- End SEO -->
     <!-- Custom styling -->
     <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/pages/tutorProfile/tutorProfile.css">
   </head>
   <body>
     <div id="main">
@@ -78,6 +79,9 @@
                 </div>
                 <input id="tutor-profile-status" class="hidden-el">
                 <p id="email" class="mt-3">User Email: </p>
+                <div class="text-center">
+                  <h2>Profile details</h2>
+                </div>
                 <div class="row">
                   <div class="col">
                     <img id="profile-photo" onclick="tutor_profile_page_click_element_by_id('profile-photo-upload');"
@@ -85,8 +89,13 @@
                     <input id="profile-photo-upload"
                       onchange="set_picture_on_submit('profile-photo', 'profile-photo-upload');"
                       class="form-control-file mb-3 py-1 d-none" type="file" accept="image/png,image/jpeg">
-                    <input id="profile-header" class="form-control mb-3" type="text" value=""
-                      placeholder="Profile Header">
+                    <input
+                      id="profile-header"
+                      class="form-control mb-3"
+                      type="text"
+                      value=""
+                      placeholder="Profile Header"
+                    />
                     <div class="input-group mb-3">
                       <span class="input-group-text">£</span>
                       <input id="hourly-rate" class="form-control" type="number" value="" placeholder="Hourly Rate">
@@ -218,6 +227,45 @@
                       class="form-control-file py-1 hidden-el" type="file" accept="application/pdf">
                     <span id="teacher-status-document-store" class="hidden-el"></span>
                     <div class="py-3"></div>
+                    <div class="text-center">
+                      <h2>Tutor calendar</h2>
+                    </div>
+                    <div class="text-justify">
+                      <p>
+                        Below you can manage your live calendar so that students may book directly with you.
+                      </p>
+                    </div>
+                    <div>
+                      <input
+                        id="username"
+                        class="form-control mb-3"
+                        type="text"
+                        value=""
+                        placeholder="Your calendar profile username"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        id="external-calendar-link"
+                        class="form-control mb-3"
+                        type="text"
+                        value=""
+                        placeholder="External calendar link (in ICS format)"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        id="calendar-timezone-offset"
+                        class="form-control mb-3"
+                        type="number"
+                        value=""
+                        placeholder="Timezone offset (in minutes)"
+                      />
+                    </div>
+                    <div>
+                      <h3>Your availability</h3>
+                      <div id="calendar-availability"></div>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -3,6 +3,7 @@ import { setSubjects } from '/assets/js/components/subjectOptions.js';
 import { setContactButtons } from '/assets/js/components/contactButtons.js';
 import { resetInvalidInput, resetError, validateTarget, messageCounter } from '/assets/js/components/utils.js';
 import { apiCall } from '/assets/js/components/api.js';
+import { times, dayOfWeekMap } from './constants.js';
 
 
 window.addEventListener('DOMContentLoaded', main);
@@ -19,6 +20,7 @@ function main() {
 }
 
 // General tutor properties
+const email = document.getElementById('email');
 const profileHeader = document.getElementById('profile-header');
 const profileHourlyRate = document.getElementById('hourly-rate');
 let profileAboutPart1 = '';
@@ -39,9 +41,15 @@ const profileBackgroundCheckConfirmed = document.getElementById('background-chec
 const profileBackgroundCheckPending = document.getElementById('background-check-document-pending');
 const profileTeacherStatusConfirmed = document.getElementById('teacher-status-document-confirmed');
 const profileTeacherStatusPending = document.getElementById('teacher-status-document-pending');
+const profileUsername = document.getElementById('username');
+const profileExternalCalendar = document.getElementById('external-calendar-link');
+const profileTimezoneOffset = document.getElementById('calendar-timezone-offset');
 
 
 const constructTutorProfilePage = async () => {
+  // Set the registered email address
+  email.innerText = `User Email: ${localStorage.getItem('123helpmestudy-email')}`;
+  // Set tutor attributes
   const tutorAttributes = await fetchTutorDetails();
   tutorAttributes.forEach(pair => {
     const { attribute, value } = pair;
@@ -94,9 +102,24 @@ const constructTutorProfilePage = async () => {
         if (value === 'confirmed') profileTeacherStatusConfirmed.style.display = 'block';
         if (value !== 'confirmed' && value) profileTeacherStatusPending.style.display = 'block';
         break;
+      case 'username':
+        profileUsername.value = value;
+        break;
+      case 'schedule_ics_url':
+        profileExternalCalendar.value = value;
+        break;
+      case 'schedule_timezone_offset':
+        profileTimezoneOffset.value = value / 60;
+        break;
+      case 'availability':
+        manageAvailability(JSON.parse(value));
+        break;
+      case 'discount_codes':
+        manageDiscountCodes(JSON.parse(value));
+        break;
 
       default:
-        console.warn(`Nothing setup for ${attribute}`);
+        // console.warn(`Nothing setup for ${attribute}`);
     }
   });
 
@@ -158,5 +181,59 @@ const manageProfilePhoto = (value) => {
   if (value) {
     const [id, url] = value.toString().split(';');
     profilePhoto.src = url;
+  }
+};
+
+
+const profileAvailability = document.getElementById('calendar-availability');
+/**
+ * Handle the users availability
+ */
+const manageAvailability = (availability) => {
+  // Add column headers
+
+  // Add availability rows
+  for (let dayOfWeekIdx in availability) {
+    let dayName = dayOfWeekMap[dayOfWeekIdx];
+    let row = document.createElement('div');
+    row.classList.add('row');
+    row.classList.add('py-1');
+    profileAvailability.appendChild(row);
+    // Day of week col
+    let dayOfWeekCol = document.createElement('div');
+    dayOfWeekCol.classList.add('col');
+    row.appendChild(dayOfWeekCol);
+    dayOfWeekCol.innerText = dayName;
+    // Start time
+    let startTimeCol = document.createElement('div');
+    startTimeCol.classList.add('col');
+    row.appendChild(startTimeCol);
+    let startTimeInput = document.createElement('select');
+    startTimeInput.id = `start-time-${dayOfWeekIdx}`;
+    startTimeInput.className = 'form-control mb-3';
+    startTimeCol.appendChild(startTimeInput);
+    times.forEach(slot => {
+      const option = document.createElement('option');
+      option.innerText = slot;
+      startTimeInput.appendChild(option);
+    });
+    // End time
+    let endTimeCol = document.createElement('div');
+    endTimeCol.classList.add('col');
+    row.appendChild(endTimeCol);
+    let endTimeInput = document.createElement('select');
+    endTimeInput.id = `end-time-${dayOfWeekIdx}`;
+    endTimeInput.className = 'form-control mb-3';
+    endTimeCol.appendChild(endTimeInput);
+    times.forEach(slot => {
+      const option = document.createElement('option');
+      option.innerText = slot;
+      endTimeInput.appendChild(option);
+    });
+    if (availability[dayOfWeekIdx].length > 0) {
+      let [start, end] = availability[dayOfWeekIdx][0];
+      startTimeInput.value = start;
+      endTimeInput.value = end;
+    }
   }
 };
