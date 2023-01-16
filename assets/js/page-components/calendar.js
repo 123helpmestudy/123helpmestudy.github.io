@@ -9,7 +9,8 @@ async function calendar_page_load_page() {
   document.getElementById('calendar').style.height = (window.innerHeight * 0.7) + 'px';
   // Adjust the max width of the calendar card
   if (window.innerWidth > 900) {
-    document.getElementById('calendar-parent-card').style.maxWidth = (window.innerWidth * 0.75) + 'px';
+    // document.getElementById('calendar-parent-card').style.maxWidth = (window.innerWidth * 0.75) + 'px';
+    document.getElementById('calendar-parent-card').style.maxWidth = '100%';
   }
   // Fetch events array and load into calendar
   var path = ('/api/users/schedule?email='
@@ -108,7 +109,8 @@ window.addEventListener('resize', function () {
   document.getElementById('calendar').style.height = (window.innerHeight * 0.7) + 'px';
   // TODO: Adjust so that calendar is responsive across screen sizes
   if (window.innerWidth > 900) {
-    document.getElementById('calendar-parent-card').style.maxWidth = (window.innerWidth * 0.75) + 'px';
+    // document.getElementById('calendar-parent-card').style.maxWidth = (window.innerWidth * 0.75) + 'px';
+    document.getElementById('calendar-parent-card').style.maxWidth = '100%';
     // Render Calendar
     calendar_page_load_page();
   } else {

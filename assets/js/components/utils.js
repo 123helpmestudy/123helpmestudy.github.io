@@ -1,9 +1,9 @@
 
-function sleep(milliseconds) {
+export function sleep(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-function hasUniqueId() {
+export function hasUniqueId() {
   let unique = localStorage.getItem('123helpmestudy-unique');
   let now = new Date();
   if (unique == null) {
@@ -14,22 +14,24 @@ function hasUniqueId() {
   }
 }
 
-function resetError() {
+export function resetError() {
   const errorCard = document.getElementById('error-card');
   if (errorCard) errorCard.style.display = 'none';
 }
 
-/**
+/** 
+ * Reset Invalid Input
+ * 
  * Provides a way to reset the request a callback form
  * After user has not filled out the required fields
  */
-function resetInvalidInput() {
+export function resetInvalidInput() {
   const id = this.id;
   resetError();
   document.getElementById(id).classList.remove('is-invalid');
 }
 
-function validateTarget(id) {
+export function validateTarget(id) {
   const target = document.getElementById(id);
   const targetLength = target.value.length;
   if (targetLength == 0) {
@@ -39,8 +41,10 @@ function validateTarget(id) {
   return false;
 }
 
-// Allows the user to toggle between online and face-to-face sessions
-const tutorSubjectToggle = () => {
+/**
+ *  Allows the user to toggle between online and face-to-face sessions
+ */
+export const tutorSubjectToggle = () => {
   const lessonLocation = document.getElementById('lessonLocation');
   const postCode = document.getElementById('postZipCode');
   const onlineBtn = document.getElementById('checkOnline');
@@ -61,7 +65,7 @@ const tutorSubjectToggle = () => {
   }
 };
 
-const addActiveClasses = (btn) => {
+export const addActiveClasses = (btn) => {
   const classNames = [
     'col',
     'btn',
@@ -75,7 +79,7 @@ const addActiveClasses = (btn) => {
   }
 };
 
-const messageCounter = (input_id, output_id) => {
+export const messageCounter = (input_id, output_id) => {
   const input = document.getElementById(input_id);
   input.addEventListener("keyup", (event) => {
       let stringLength = input.value.length;
@@ -90,8 +94,7 @@ const messageCounter = (input_id, output_id) => {
   });
 };
 
-
-const setFile = (attribute, label, inputId, tickId) => {
+export const setFile = (attribute, label, inputId, tickId) => {
   const newFile = document.getElementById(inputId).files;
   const output = document.getElementById(attribute);
   const fileLabel = document.getElementById(label);
@@ -108,13 +111,3 @@ const setFile = (attribute, label, inputId, tickId) => {
   fileReader.readAsDataURL(fileToRead);
 };
 
-export {
-  sleep,
-  hasUniqueId,
-  resetError,
-  resetInvalidInput,
-  validateTarget,
-  tutorSubjectToggle,
-  messageCounter,
-  setFile
-};
