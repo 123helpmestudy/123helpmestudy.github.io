@@ -5,6 +5,8 @@ import { resetInvalidInput, resetError, validateTarget, messageCounter } from '/
 import { apiCall } from '/assets/js/components/api.js';
 import { times, dayOfWeekMap } from './constants.js';
 
+const addDiscountCodeBtn = document.getElementById('add-discount-code');
+const backToTopBtn = document.getElementById('back-to-top');
 
 window.addEventListener('DOMContentLoaded', main);
 function main() {
@@ -14,6 +16,14 @@ function main() {
   // Set max input length for text areas
   messageCounter('about-tutor', 'about-tutor-str-len');
   messageCounter('background-tutor', 'background-tutor-str-len');
+
+  // Add event listener for adding discount code
+  addDiscountCodeBtn.addEventListener('click', addDiscountCode);
+
+  // Add event listener to back to top button
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo(0, 0);
+  });
 
   // Construct page
   constructTutorProfilePage();
@@ -191,7 +201,25 @@ const profileAvailability = document.getElementById('calendar-availability');
  */
 const manageAvailability = (availability) => {
   // Add column headers
-
+  let row = document.createElement('div');
+  row.classList.add('row');
+  row.classList.add('py-1');
+  profileAvailability.appendChild(row);
+  const dayOfWeekHeader = document.createElement('col');
+  dayOfWeekHeader.classList.add('col');
+  dayOfWeekHeader.style.fontWeight = 600;
+  dayOfWeekHeader.innerText = 'Day';
+  row.appendChild(dayOfWeekHeader);
+  const startHeader = document.createElement('div');
+  startHeader.classList.add('col');
+  startHeader.style.fontWeight = 600;
+  startHeader.innerText = 'Start';
+  row.appendChild(startHeader);
+  const endHeader = document.createElement('div');
+  endHeader.classList.add('col');
+  endHeader.style.fontWeight = 600;
+  endHeader.innerText = 'End';
+  row.appendChild(endHeader);
   // Add availability rows
   for (let dayOfWeekIdx in availability) {
     let dayName = dayOfWeekMap[dayOfWeekIdx];
@@ -236,4 +264,85 @@ const manageAvailability = (availability) => {
       endTimeInput.value = end;
     }
   }
+};
+
+
+const profileDiscountCodes = document.getElementById('calendar-discount-codes');
+/**
+ * Handle the users discount codes
+ */
+const manageDiscountCodes = (codes) => {
+  // Add header
+  let row = document.createElement('div');
+  row.classList.add('row');
+  row.style.marginTop = '1rem';
+  profileDiscountCodes.appendChild(row);
+  const codeHeader = document.createElement('div');
+  codeHeader.classList.add('col');
+  codeHeader.style.fontWeight = 600;
+  codeHeader.innerText = 'Discount Code';
+  row.appendChild(codeHeader);
+  const amountHeader = document.createElement('div');
+  amountHeader.classList.add('col');
+  amountHeader.style.fontWeight = 600;
+  amountHeader.innerHTML = 'Amount';
+  row.appendChild(amountHeader);
+  // Create discount rows
+  codes.forEach((discount, idx) => {
+    const row = document.createElement('div');
+    row.classList.add('row');
+    row.classList.add('py-1');
+    const { code, amount } = discount;
+    const codeCol = document.createElement('div');
+    codeCol.classList.add('col');
+    row.appendChild(codeCol);
+    const codeInput = document.createElement('input');
+    codeInput.id = `discount-code-text-${idx}`;
+    codeInput.classList.add('form-control');
+    codeInput.type = 'text';
+    codeInput.value = code;
+    codeCol.appendChild(codeInput);
+    const amountCol = document.createElement('div');
+    amountCol.classList.add('col');
+    row.appendChild(amountCol);
+    const amountInput = document.createElement('input');
+    amountInput.id = `discount-code-amount-${idx}`;
+    amountInput.classList.add('form-control');
+    amountInput.type = 'number';
+    amountInput.value = amount;
+    amountCol.appendChild(amountInput);
+    profileDiscountCodes.appendChild(row);
+  });
+};
+
+
+const addDiscountCode = () => {
+  // Validate largest id for discount codes
+  let id = 0;
+  for (let i = 0; i < profileDiscountCodes.children.length; i++) {
+    let childEl = profileDiscountCodes.children[i];
+    id = childEl.firstChild.firstChild.id ? parseInt(childEl.firstChild.firstChild.id.replace('discount-code-text-', '')) : id;
+  }
+  id++;
+  // Add a new row for discount codes
+  const row = document.createElement('div');
+  row.classList.add('row');
+  row.classList.add('py-1');
+  const codeCol = document.createElement('div');
+  codeCol.classList.add('col');
+  row.appendChild(codeCol);
+  const codeInput = document.createElement('input');
+  codeInput.id = `discount-code-text-${id}`;
+  codeInput.classList.add('form-control');
+  codeInput.type = 'text';
+  codeCol.appendChild(codeInput);
+  const amountCol = document.createElement('div');
+  amountCol.classList.add('col');
+  row.appendChild(amountCol);
+  const amountInput = document.createElement('input');
+  amountInput.id = `discount-code-amount-${id}`;
+  amountInput.classList.add('form-control');
+  amountInput.type = 'number';
+  amountCol.appendChild(amountInput);
+  profileDiscountCodes.appendChild(row);
 };
