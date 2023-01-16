@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Styling -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" >
+    <!-- End Styling -->
+    <!-- SEO -->
+    <title>
+      123 Help Me Study | Email Verification
+    </title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="123 Help Me Study">
+    <meta name="theme-color" content="#00AAFF" />
+    <link rel="icon" href="https://ik.imagekit.io/123helpmestudy/123_Help_Me_Study_PNG_POJlOfmkb.png">
+    <!-- End SEO -->
+    <!-- Custom styling -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/pages/emailVerification/emailVerification.css"/>
+  </head>
+  <body>
+    <div id="main">
+      <!-- EASY CONTACT BUTTONS -->
+      <div id="contact-buttons"></div>
+      <!-- CARD 2 -->
+      <!-- SPACER -->
+      <div class="container-fluid">
+        <div class="row py-5"></div>
+      </div>
+      <!-- CARD 1 -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+          </div>
+          <div class="col-12">
+            <div
+              class="card shadow bg-white max-card mx-auto"
+              style="max-width: 800px;"
+            >
+              <div class="card-body text-left">
+                <h2>Email Verification</h2>
+                <p><i>Please check you email inbox for a confirmation token.</i></p>
+                <div class="form-group">
+                  <label>Email address</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Confirmation Token</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="token"
+                  />
+                </div>
+                <div
+                  id="faq-button"
+                  class="email-verification__faq-link"
+                >
+                  <p>Haven't received an email yet?</p>
+                </div>
+                <button
+                  id="submit-email-veri"
+                  class="btn btn-primary"
+                >
+                  Submit
+                </button>
+                <div
+                  id="error-card"
+                  class="card mt-3 border border-danger warning-bg"
+                  style="display: none;"
+                >
+                  <div class="card-body">
+                    <p
+                      id="error-response"
+                      class="text-center font-weight-bold m-0"
+                    >
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+          </div>
+        </div>
+      </div>
+      <!-- SPACER -->
+      <div class="container-fluid">
+        <div class="row py-5"></div>
+      </div>
+    </div>
+    <script src="/pages/emailVerification/emailVerification.js" type="module"></script>
+    <script src="/assets/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
