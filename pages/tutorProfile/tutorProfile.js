@@ -5,6 +5,7 @@ import { resetInvalidInput, resetError, validateTarget, messageCounter } from '/
 import { apiCall } from '/assets/js/components/api.js';
 import { times, dayOfWeekMap } from './constants.js';
 
+const pageSubmitBtn = document.getElementById('page-submit-button');
 const addDiscountCodeBtn = document.getElementById('add-discount-code');
 const backToTopBtn = document.getElementById('back-to-top');
 
@@ -24,6 +25,9 @@ function main() {
   backToTopBtn.addEventListener('click', () => {
     window.scrollTo(0, 0);
   });
+
+  // Add event listener to submit button
+  pageSubmitBtn.addEventListener('click', submitForm);
 
   // Construct page
   constructTutorProfilePage();
@@ -345,4 +349,150 @@ const addDiscountCode = () => {
   amountInput.type = 'number';
   amountCol.appendChild(amountInput);
   profileDiscountCodes.appendChild(row);
+};
+
+
+const saveBtnText = document.getElementById('save-button-text');
+const saveBtnLoading = document.getElementById('save-button-loading');
+/**
+ * Handle page submission to the backend
+ */
+const submitForm = () => {
+  // Show the button as submitting
+  saveBtnText.style.display = 'none';
+  saveBtnLoading.style.display = 'block';
+  // Create the attribute list
+  const attributes = [
+    {
+      name: 'Profile header',
+      attribute: 'profile_header',
+      element: profileHeader,
+      value: profileHeader.value,
+    },
+    {
+      name: 'Hourly rate',
+      attribute: 'hourly_rate',
+      element: profileHourlyRate,
+      value: profileHourlyRate.value
+    },
+    // {
+    //     'attribute': 'about_tutor_1',
+    //     'value': document.getElementById('about-tutor').value.toString().substring(0, 250)
+    // },
+    // {
+    //     'attribute': 'about_tutor_2',
+    //     'value': document.getElementById('about-tutor').value.toString().substring(250, 500)
+    // },
+    // {
+    //     'attribute': 'background_tutor_1',
+    //     'value': document.getElementById('background-tutor').value.toString().substring(0, 250)
+    // },
+    // {
+    //     'attribute': 'background_tutor_2',
+    //     'value': document.getElementById('background-tutor').value.toString().substring(250, 500)
+    // },
+    // {
+    //     'attribute': 'highest_qualification',
+    //     'value': document.getElementById('highest-qualification').value
+    // },
+    // {
+    //     'attribute': 'subject_options_1',
+    //     'value': document.getElementById('subject-options-1').value
+    // },
+    // {
+    //     'attribute': 'subject_options_2',
+    //     'value': document.getElementById('subject-options-2').value
+    // },
+    // {
+    //     'attribute': 'subject_options_3',
+    //     'value': document.getElementById('subject-options-3').value
+    // },
+    // {
+    //     'attribute': 'tutor_profile_status',
+    //     'value': document.getElementById('tutor-profile-status').value
+    // },
+  ];
+  // /* A base64 encoded image */
+  // if (document.getElementById('profile-photo').src.toString().includes('profile_default_img') == false) {
+  //     var profile_photo_base64 = document.getElementById('profile-photo').src;
+  //     attributes_list.push({
+  //         'attribute': 'profile_photo',
+  //         'value': profile_photo_base64
+  //     });
+  // }
+  // var qualification_document_store = document.getElementById('qualification-document-store').innerHTML;
+  // if (qualification_document_store.length > 0) {
+  //     attributes_list.push({
+  //         'attribute': 'qualification_support_document',
+  //         'value': qualification_document_store
+  //     });
+  // }
+  // var background_check_document_store = document.getElementById('background-check-document-store').innerHTML;
+  // if (background_check_document_store.length > 0) {
+  //     attributes_list.push({
+  //         'attribute': 'background_check_document',
+  //         'value': background_check_document_store
+  //     });
+  // }
+  // var teacher_status_document_store = document.getElementById('teacher-status-document-store').innerHTML;
+  // if (teacher_status_document_store.length > 0) {
+  //     attributes_list.push({
+  //         'attribute': 'teacher_status_document',
+  //         'value': teacher_status_document_store
+  //     });
+  // }
+  
+  attributes.forEach(async (attribute) => {
+    const response = await setUserAttribute(attribute);
+    if (attribute.element.parentElement.nodeName.toLowerCase() === 'div') {
+      const responseSection = document.createElement('div');
+      responseSection.style.height = '50px';
+      responseSection.style.backgroundColor = response ? `red` : `green`;
+      responseSection.style.position = 'absolute';
+      responseSection.style.top = '1px';
+      responseSection.style.right = '-165px';
+      responseSection.style.borderRadius = '10px';
+      responseSection.style.padding = '12px 10px';
+      if (response) {
+        console.warn(response);
+        responseSection.innerText = `Failed to updated ${attribute.name}`;
+      } else {
+        responseSection.innerText = `Successfully updated ${attribute.name}`;
+      }
+      attribute.element.parentElement.appendChild(responseSection);
+    } else {
+      console.log(`Parent el is ${
+        attribute.element.parentElement.nodeName.toLowerCase()
+      }`);
+    }
+    
+  });
+
+  // Show the button as finished
+  saveBtnLoading.style.display = 'none';
+  saveBtnText.style.display = 'block';
+};
+
+const setUserAttribute = async ({ name, attribute, element, value }) => {
+  const email = localStorage.getItem('123helpmestudy-email');
+  const token = localStorage.getItem('123helpmestudy-access-token')
+  const path = '/api/users/update_user_attribute';
+  const headers = {
+    'Access-Token': token,
+  };
+  const method = 'PUT';
+  const payload = {
+    email: email,
+    attribute: attribute,
+    value: value,
+  };
+  const response = await apiCall(
+    path,
+    headers,
+    method,
+    payload
+  );
+  if (response.status === 401) window.location.assign(`${window.location.origin}/information/login.html`)
+  if (response.status === 200) return null;
+  return response.response;
 };
