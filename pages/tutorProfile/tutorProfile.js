@@ -4,6 +4,7 @@ import { setContactButtons } from '/assets/js/components/contactButtons.js';
 import { resetInvalidInput, resetError, validateTarget, messageCounter } from '/assets/js/components/utils.js';
 import { apiCall } from '/assets/js/components/api.js';
 import { times, dayOfWeekMap } from './constants.js';
+import toasts from '/pages/common/toast.js';
 
 const pageSubmitBtn = document.getElementById('page-submit-button');
 const addDiscountCodeBtn = document.getElementById('add-discount-code');
@@ -209,7 +210,7 @@ const manageAvailability = (availability) => {
   row.classList.add('row');
   row.classList.add('py-1');
   profileAvailability.appendChild(row);
-  const dayOfWeekHeader = document.createElement('col');
+  const dayOfWeekHeader = document.createElement('div');
   dayOfWeekHeader.classList.add('col');
   dayOfWeekHeader.style.fontWeight = 600;
   dayOfWeekHeader.innerText = 'Day';
@@ -366,52 +367,96 @@ const submitForm = () => {
     {
       name: 'Profile header',
       attribute: 'profile_header',
-      element: profileHeader,
       value: profileHeader.value,
     },
     {
       name: 'Hourly rate',
       attribute: 'hourly_rate',
-      element: profileHourlyRate,
-      value: profileHourlyRate.value
+      value: profileHourlyRate.value,
     },
-    // {
-    //     'attribute': 'about_tutor_1',
-    //     'value': document.getElementById('about-tutor').value.toString().substring(0, 250)
-    // },
-    // {
-    //     'attribute': 'about_tutor_2',
-    //     'value': document.getElementById('about-tutor').value.toString().substring(250, 500)
-    // },
-    // {
-    //     'attribute': 'background_tutor_1',
-    //     'value': document.getElementById('background-tutor').value.toString().substring(0, 250)
-    // },
-    // {
-    //     'attribute': 'background_tutor_2',
-    //     'value': document.getElementById('background-tutor').value.toString().substring(250, 500)
-    // },
-    // {
-    //     'attribute': 'highest_qualification',
-    //     'value': document.getElementById('highest-qualification').value
-    // },
-    // {
-    //     'attribute': 'subject_options_1',
-    //     'value': document.getElementById('subject-options-1').value
-    // },
-    // {
-    //     'attribute': 'subject_options_2',
-    //     'value': document.getElementById('subject-options-2').value
-    // },
-    // {
-    //     'attribute': 'subject_options_3',
-    //     'value': document.getElementById('subject-options-3').value
-    // },
-    // {
-    //     'attribute': 'tutor_profile_status',
-    //     'value': document.getElementById('tutor-profile-status').value
-    // },
+    {
+      name: 'About tutor: part one',
+      attribute: 'about_tutor_1',
+      value: profileAbout.value.toString().substring(0, 250),
+    },
+    {
+      name: 'About tutor: part two',
+      attribute: 'about_tutor_2',
+      value: profileAbout.value.toString().substring(250, 500),
+    },
+    {
+      name: 'Background: part one',
+      attribute: 'background_tutor_1',
+      value: profileBackground.value.toString().substring(0, 250),
+    },
+    {
+      name: 'Background: part two',
+      attribute: 'background_tutor_2',
+      value: profileBackground.value.toString().substring(250, 500)
+    },
+    {
+      name: 'Highest qualification',
+      attribute: 'highest_qualification',
+      value: profileHighestQualification.value,
+    },
+    {
+      name: 'Subject option one',
+      attribute: 'subject_options_1',
+      value: profileSubject1.value,
+    },
+    {
+      name: 'Subject option two',
+      attribute: 'subject_options_2',
+      value: profileSubject2.value,
+    },
+    {
+      name: 'Subject option three',
+      attribute: 'subject_options_3',
+      value: profileSubject3.value,
+    },
+    {
+      name: 'Profile status',
+      attribute: 'tutor_profile_status',
+      value: profileStatus.value,
+    },
+    {
+      name: 'Calendar username',
+      attribute: 'username',
+      value: profileUsername.value,
+    },
+    {
+      name: 'Calendar timezone offset',
+      attribute: 'schedule_timezone_offset',
+      value: profileTimezoneOffset.value * 60,
+    },
   ];
+
+  /* Add custom attributes to list */
+  // Build availability list
+  /*
+  "{\"1\":[],\"2\":[],\"3\":[],\"4\":[],\"5\":[],\"6\":[],\"7\":[[\"18:00\",\"21:00\"]]}"
+  */
+  let availability = {};
+  for (let i = 0; i < profileAvailability.children.length; i++) {
+    let startTimeEl = profileAvailability.children[i].children[1];
+    let endTimeEl = profileAvailability.children[i].children[2];
+    if (!startTimeEl.firstChild.id) continue;
+    // Create day of week availability object
+    let dayOfWeekIdx = parseInt(startTimeEl.firstChild.id.replace('start-time-', ''));
+    let slot = [];
+    if (startTimeEl.firstChild.value !== endTimeEl.firstChild.value) {
+      slot = [[
+        startTimeEl.firstChild.value, endTimeEl.firstChild.value
+      ]];
+    }
+    availability[dayOfWeekIdx] = slot;
+  }
+  attributes.push({
+    name: 'Availability',
+    attribute: 'availability',
+    value: JSON.stringify(availability),
+  });
+
   // /* A base64 encoded image */
   // if (document.getElementById('profile-photo').src.toString().includes('profile_default_img') == false) {
   //     var profile_photo_base64 = document.getElementById('profile-photo').src;
@@ -444,28 +489,15 @@ const submitForm = () => {
   
   attributes.forEach(async (attribute) => {
     const response = await setUserAttribute(attribute);
-    if (attribute.element.parentElement.nodeName.toLowerCase() === 'div') {
-      const responseSection = document.createElement('div');
-      responseSection.style.height = '50px';
-      responseSection.style.backgroundColor = response ? `red` : `green`;
-      responseSection.style.position = 'absolute';
-      responseSection.style.top = '1px';
-      responseSection.style.right = '-165px';
-      responseSection.style.borderRadius = '10px';
-      responseSection.style.padding = '12px 10px';
-      if (response) {
-        console.warn(response);
-        responseSection.innerText = `Failed to updated ${attribute.name}`;
-      } else {
-        responseSection.innerText = `Successfully updated ${attribute.name}`;
-      }
-      attribute.element.parentElement.appendChild(responseSection);
-    } else {
-      console.log(`Parent el is ${
-        attribute.element.parentElement.nodeName.toLowerCase()
-      }`);
-    }
-    
+    const toastType = response ? 'error' : 'success';
+    const toastText = response ? `Failed to updated '${attribute.name}'` : `Successfully updated '${attribute.name}'`;
+    toasts({
+      name: attribute.name,
+      duration: 10, // seconds
+      header: response ? 'Error' : 'Success',
+      text: toastText,
+      type: toastType,
+    });
   });
 
   // Show the button as finished

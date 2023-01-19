@@ -2,7 +2,7 @@
  * This component defines the FAQ modal that can appear on both desktop and mobile devices over the page
  */
 
-import { sleep } from "/assets/js/components/utils.js";
+import { sleep } from '/assets/js/components/utils.js';
 
 const body = document.querySelector('body');
 const showFaqBtn = document.getElementById('faq-button');
