@@ -142,7 +142,8 @@ async function login_page_submit_form() {
     } else if (response['status'] == 480) {
         var base = (window.location.pathname).toString().replace('/information/login.html', '');
         var parameters = '?email='+payload['email']+'&email_token='
-        window.location.assign(base+'/application/sign-up/email-verification.html'+parameters);
+        // window.location.assign(base+'/application/sign-up/email-verification.html'+parameters);
+        window.location.assign(`${base}/pages/emailVerification/emailVerification.html${parameters}`);
     } else {
         document.getElementById('error-card').style.display = 'block';
         document.getElementById('error-response').innerHTML = response['response']['message'];
@@ -235,7 +236,8 @@ async function sign_up_page_submit_form() {
     if (response['status'] == 200) {
         var base = (window.location.pathname).toString().replace('/information/sign-up.html', '');
         var parameters = '?email='+payload['email']+'&email_token='
-        window.location.assign(base+'/application/sign-up/email-verification.html'+parameters);
+        // window.location.assign(base+'/application/sign-up/email-verification.html'+parameters);
+        window.location.assign(`${base}/pages/emailVerification/emailVerification.html${parameters}`);
     } else {
         document.getElementById('error-card').style.display = 'block';
         document.getElementById('error-response').innerHTML = response['response']['message'];
@@ -261,9 +263,11 @@ async function email_verification_submit_form() {
         payload
     );
     if (response['status'] == 200) {
-        var base = (window.location.pathname).toString().replace('/application/sign-up/email-verification.html', '');
+        // var base = (window.location.pathname).toString().replace('/application/sign-up/email-verification.html', '');
+        // window.location.assign(`${base}/pages/emailVerification/emailVerification.html${parameters}`);
         var parameters = '?email='+payload['email']
-        window.location.assign(base+'/information/login.html'+parameters);
+        // window.location.assign(base+'/information/login.html'+parameters);
+        window.location.assign(`${window.location.origin}/information/login.html${parameters}`);
     } else {
         document.getElementById('error-card').style.display = 'block';
         document.getElementById('error-response').innerHTML = response['response']['message'];

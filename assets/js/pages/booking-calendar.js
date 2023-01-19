@@ -9,6 +9,7 @@ import { setPageFooter } from './../components/pageFooter.js';
 import { setContactButtons } from './../components/contactButtons.js';
 import { apiCall } from '../components/api.js';
 import { home } from '../components/routes.js';
+import { setFaqModal } from '/assets/js/components/faqModal.js';
 import {
   resetInvalidInput,
   resetError,
@@ -114,6 +115,7 @@ function main() {
   setPageHeader();
   setPageFooter();
   setContactButtons();
+  setFaqModal({ show: false });
 
   // Set calendar month
   const now = new Date();
@@ -508,7 +510,7 @@ const checkForNextSlot = (start, end, slots) => {
 };
 
 const showConfirmTime = (event) => {
-  const parentEl = event.path[1];
+  const parentEl = event.path ? event.path[1] : event.composedPath()[1];
   activeSlot = parentEl.innerText;
   // Remove the confirm button if it exists
   if (parentEl.children.length === 2) {
@@ -774,7 +776,13 @@ const submitLogin = async (newRegistration) => {
     method,
     payload
   );
-  if (response.status === 200) {
+  if (response.status === 480) {
+    // Show the account validation section
+    registrationEmail.value = loginEmail.value;
+    loginSection.style.display = 'none';
+    accValidationSection.style.display = 'block';
+    return;
+  } else if (response.status === 200) {
     const data = response.response.data;
     localStorage.setItem('123helpmestudy-email', loginEmail.value);
     localStorage.setItem('123helpmestudy-access-token', data['access-token']);
@@ -782,8 +790,26 @@ const submitLogin = async (newRegistration) => {
     if (newRegistration) await registerNewUserAttributes();
     // Registration a new conversation between users
     if (newRegistration) await createMessageForCalendarRequest();
-    // Fetch customer ID
-    const userAttributes = await fetchUserAttributes();
+    // Fetch customer ID - user attributes
+    let userAttributes = await fetchUserAttributes();
+    for (let i = 0; i < userAttributes.length; i++) {
+      if (
+        (userAttributes[i].attribute === 'user_type' && userAttributes[i].value === '') ||
+        (userAttributes[i].attribute === 'user_type' && userAttributes[i].value === 'new')
+      ) {
+        await updateUserType();
+      }
+      if (userAttributes[i].attribute === 'first_name' && userAttributes[i].value === '') {
+        registrationFirstName.value = prompt(`Something's gone wrong! Please enter your first name.`);
+        await updateUserFirstName();
+      }
+      if (userAttributes[i].attribute === 'last_name' && userAttributes[i].value === '') {
+        registrationLastName.value = prompt(`Something's gone wrong! Please enter your last name.`);
+        await updateUserLastName();
+      }
+    }
+    // Fetch customer ID - user attributes
+    userAttributes = await fetchUserAttributes();
     // Get the customer ID from the attributes
     for (let i = 0; i < userAttributes.length; i++) {
       if (userAttributes[i].attribute === 'user_id') customerId = userAttributes[i].value;
@@ -868,6 +894,11 @@ const createSalesOrder = async (customerId) => {
     payload
   );
   if (response.status === 200) return response.response;
+  if (response.response.message === 'Not a valid booking thread.') {
+    await createMessageForCalendarRequest();
+    createSalesOrder(customerId);
+    return;
+  }
   loginErrorCard.style.display = 'block';
   loginErrorMessage.innerText = response.response.message;
   return;
@@ -1082,6 +1113,8 @@ const updateUserType = async () => {
     method,
     payload
   );
+  if (response.status === 200) return response.response;
+  return null;
 };
 
 /**
@@ -1095,8 +1128,8 @@ const updateUserType = async () => {
   const method = 'PUT';
   const payload = {
       email: loginEmail.value,
-      attribute: 'first_name',
-      value: registrationFirstName.value
+      attribute: 'last_name',
+      value: registrationLastName.value
   };
   const response = await apiCall(
     path,
@@ -1104,6 +1137,8 @@ const updateUserType = async () => {
     method,
     payload
   );
+  if (response.status === 200) return response.response;
+  return null;
 };
 
 /**
@@ -1117,8 +1152,8 @@ const updateUserType = async () => {
   const method = 'PUT';
   const payload = {
       email: loginEmail.value,
-      attribute: 'last_name',
-      value: registrationLastName.value
+      attribute: 'first_name',
+      value: registrationFirstName.value
   };
   const response = await apiCall(
     path,
