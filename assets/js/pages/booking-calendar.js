@@ -521,7 +521,7 @@ const showConfirmTime = (event) => {
     // Add the confirm button to the page
     const btn = document.createElement('button');
     btn.className = 'btn btn-success';
-    btn.innerText = 'Confirm';
+    btn.innerText = 'Continue';
     btn.style.padding = '15px';
     btn.style.marginLeft = '10px';
     btn.addEventListener('click', confirmTime);
