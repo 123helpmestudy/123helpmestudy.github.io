@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /account
+Disallow: /rt
+Disallow: /rt/*
+Disallow: /redirect
+Disallow: /calendar/*
